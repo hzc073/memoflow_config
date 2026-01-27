@@ -1,0 +1,36 @@
+{
+  "version_info": {
+    "latest_version": "1.0.6",
+    "is_force": false,
+    "download_url": "https://github.com/xxx/releases/tag/v1.0.6"
+  },
+  "announcement": {
+    "id": 20260201,
+    "title": "版本更新公告",
+    "contents": {
+      "zh": [
+        "新增 自动上传图床功能",
+        "新增 自定义主题（本功能由**青**赞赏加速实现）",
+        "新增 笔记提醒",
+        "优化 图片编辑和查看",
+        "优化 同步方式",
+        "修复 搜索时输入法闪退",
+        "修复 笔记图床渲染"
+      ],
+      "en": [
+        "Added auto image-bed upload",
+        "Added custom themes (accelerated by **Qing**'s sponsorship)",
+        "Added memo reminders",
+        "Improved image editing and preview",
+        "Improved sync strategy",
+        "Fixed IME crash during search",
+        "Fixed image-bed rendering in memos"
+      ]
+    },
+    "new_donor_ids": ["qing", "yang"]
+  },
+  "donors": [
+    { "id": "qing", "name": "青", "avatar": "https://example.com/20260127 111528_qing.webp" },
+    { "id": "yang", "name": "洋", "avatar": "https://example.com/20260127 111601_yang.webp" }
+  ]
+}
