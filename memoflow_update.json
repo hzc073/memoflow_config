@@ -1,7 +1,7 @@
 {
   "version_info": {
     "latest_version": "1.0.6",
-    "is_force": true,
+    "is_force": false,
     "download_url": "https://github.com/hzc073/memoflow/releases/tag/v1.0.6"
   },
   "announcement": {
