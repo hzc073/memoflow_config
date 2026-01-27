@@ -10,7 +10,7 @@
     "contents": {
       "zh": [
         "新增 自动上传图床功能",
-        "新增 自定义主题（本功能由**青**赞赏加速实现）",
+        "新增 自定义主题（本功能由【青】赞赏加速实现）",
         "新增 笔记提醒",
         "优化 图片编辑和查看",
         "优化 同步方式",
@@ -19,7 +19,7 @@
       ],
       "en": [
         "Added auto image-bed upload",
-        "Added custom themes (accelerated by **Qing**'s sponsorship)",
+        "Added custom themes (accelerated by 【Qing】's sponsorship)",
         "Added memo reminders",
         "Improved image editing and preview",
         "Improved sync strategy",
@@ -29,6 +29,63 @@
     },
     "new_donor_ids": ["qing", "yang"]
   },
+  "release_notes": [
+    {
+      "version": "1.0.6",
+      "date": "2024-05-20",
+      "items": [
+        {
+          "category": "新增",
+          "contents": [
+            "自动上传图床功能",
+            "自定义主题（本功能由【青】赞赏加速实现）",
+            "笔记提醒"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "图片编辑和查看",
+            "同步方式"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "搜索时输入法闪退",
+            "笔记图床渲染"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.0.5",
+      "date": "2024-05-20",
+      "items": [
+        {
+          "category": "新增",
+          "contents": [
+            "第三方分享接入",
+            "功能组件和赞赏"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "编辑时图片无法加载",
+            "链接过长无法渲染"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "进入笔记详情自动展开",
+            "AI 设置持久化保存本地"
+          ]
+        }
+      ]
+    }
+  ],
   "donors": [
     { "id": "qing", "name": "青", "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111528_qing.webp" },
     { "id": "yang", "name": "洋", "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111601_yang.webp" }
