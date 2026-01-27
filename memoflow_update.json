@@ -30,7 +30,7 @@
     "new_donor_ids": ["qing", "yang"]
   },
   "donors": [
-    { "id": "qing", "name": "青", "avatar": "https://example.com/20260127 111528_qing.webp" },
-    { "id": "yang", "name": "洋", "avatar": "https://example.com/20260127 111601_yang.webp" }
+    { "id": "qing", "name": "青", "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111528_qing.webp" },
+    { "id": "yang", "name": "洋", "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111601_yang.webp" }
   ]
 }
