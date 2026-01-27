@@ -5,7 +5,7 @@
     "download_url": "https://github.com/hzc073/memoflow/releases/tag/v1.0.6"
   },
   "announcement": {
-    "id": 20260201,
+    "id": 20260127,
     "title": "版本更新公告",
     "contents": {
       "zh": [
@@ -32,7 +32,7 @@
   "release_notes": [
     {
       "version": "1.0.6",
-      "date": "2024-05-20",
+      "date": "2026-01-27",
       "items": [
         {
           "category": "新增",
@@ -60,7 +60,7 @@
     },
     {
       "version": "1.0.5",
-      "date": "2024-05-20",
+      "date": "2026-01-26",
       "items": [
         {
           "category": "新增",
