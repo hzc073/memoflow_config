@@ -2,7 +2,23 @@
   "version_info": {
     "latest_version": "1.0.6",
     "is_force": false,
-    "download_url": "https://github.com/hzc073/memoflow/releases/tag/v1.0.6"
+    "download_url": "https://github.com/hzc073/memoflow/releases/tag/v1.0.6",
+    "debug_version": "999.0"
+  },
+  "debug_announcement_source": "debug",
+  "debug_announcement": {
+    "id": 999000,
+    "title": "Debug Announcement",
+    "contents": {
+      "zh": [
+        "Debug announcement line 1",
+        "Debug announcement line 2"
+      ],
+      "en": [
+        "Debug announcement line 1",
+        "Debug announcement line 2"
+      ]
+    }
   },
   "announcement": {
     "id": 20260127,
@@ -27,7 +43,7 @@
         "Fixed image-bed rendering in memos"
       ]
     },
-    "new_donor_ids": ["qing", "yang"]
+    "new_donor_ids": ["Mashiro_Sorata"]
   },
   "release_notes": [
     {
@@ -88,6 +104,7 @@
   ],
   "donors": [
     { "id": "qing", "name": "青", "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111528_qing.webp" },
-    { "id": "yang", "name": "洋", "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111601_yang.webp" }
+    { "id": "yang", "name": "洋", "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111601_yang.webp" },
+    { "id":"Mashiro_Sorata","name":"Mashiro_Sorata","avatar":"https://memoflowconfig.gemmm.top/assets/20260127235921_Mashiro_Sorata.webp"}
   ]
 }
