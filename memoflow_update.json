@@ -1,8 +1,8 @@
 {
   "version_info": {
-    "latest_version": "1.0.7",
+    "latest_version": "1.0.8",
     "is_force": false,
-    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.7/MemoFlow_v1.0.7-release.apk",
+    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.8/MemoFlow_v1.0.8-release.apk",
     "debug_version": "999.0",
     "skip_update_version": ""
   },
@@ -49,6 +49,38 @@
     ]
   },
   "release_notes": [
+    {
+      "version": "1.0.8",
+      "date": "2026-01-31",
+      "items": [
+        {
+          "category": "新增",
+          "contents": [
+            "定位功能",
+            "归档入口",
+            "排序功能"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "搜索支持全文搜索",
+            "定位显示位置",
+            "笔记布局",
+            "语音笔记发送方式"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "语言选择不会保存",
+            "双链无法编辑",
+            "热力图渲染错误",
+            "搜索界面无法修改待办事项"
+          ]
+        }
+      ]
+    },
     {
       "version": "1.0.7",
       "date": "2026-01-29",
