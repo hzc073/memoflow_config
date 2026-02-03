@@ -45,7 +45,7 @@
       ]
     },
     "new_donor_ids": [
-      "Mashiro_Sorata"
+      "tian"
     ]
   },
   "release_notes": [
@@ -200,18 +200,23 @@
   "donors": [
     {
       "id": "qing",
-      "name": "青",
+      "name": "**青",
       "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111528_qing.webp"
     },
     {
       "id": "yang",
-      "name": "洋",
+      "name": "**洋",
       "avatar": "https://memoflowconfig.gemmm.top/assets/20260127%20111601_yang.webp"
     },
     {
       "id": "Mashiro_Sorata",
       "name": "Mashiro_Sorata",
       "avatar": "https://memoflowconfig.gemmm.top/assets/20260127235921_Mashiro_Sorata.webp"
+    }
+    {
+      "id": "tian",
+      "name": "**天",
+      "avatar": "https://memoflowconfig.gemmm.top/assets/20260203100512_tian.webp"
     }
   ]
 }
