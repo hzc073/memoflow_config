@@ -45,7 +45,7 @@
       ]
     },
     "new_donor_ids": [
-      "tian"
+      "lin"
     ]
   },
   "release_notes": [
@@ -217,6 +217,10 @@
       "id": "tian",
       "name": "**天",
       "avatar": "https://memoflowconfig.gemmm.top/assets/20260203100512_tian.webp"
+    },
+    { "id": "lin",
+      "name": "**林",
+      "avatar": "https://memoflowconfig.gemmm.top/assets/20260201124540_lin.webp"
     }
   ]
 }
