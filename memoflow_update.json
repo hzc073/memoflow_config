@@ -44,9 +44,7 @@
         "Fixed image-bed rendering in memos"
       ]
     },
-    "new_donor_ids": [
-      
-        ]
+    "new_donor_ids": ["jun"]
   },
   "release_notes": [
     {
@@ -272,6 +270,11 @@
       "id": "lin",
       "name": "**林",
       "avatar": "https://memoflowconfig.gemmm.top/assets/20260201124540_lin.webp"
+    },
+    {
+      "id": "jun",
+      "name": "**军",
+      "avatar": "https://memoflowconfig.gemmm.top/assets/20260209170152_jun.webp"
     }
   ]
 }
