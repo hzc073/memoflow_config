@@ -1,8 +1,8 @@
 {
   "version_info": {
-    "latest_version": "1.0.11",
+    "latest_version": "1.0.12",
     "is_force": false,
-    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.11/MemoFlow_v1.0.11-release.apk",
+    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.12/MemoFlow_v1.0.12-release.apk",
     "debug_version": "999.0",
     "skip_update_version": ""
   },
@@ -44,11 +44,40 @@
         "Fixed image-bed rendering in memos"
       ]
     },
-    "new_donor_ids": [
-      
-        ]
+    "new_donor_ids": []
   },
   "release_notes": [
+    {
+      "version": "1.0.12",
+      "date": "2026-02-09",
+      "items": [
+        {
+          "category": "新增",
+          "contents": [
+            "手势动作-列表界面右滑打开侧边栏"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "文字与图片之间的间距",
+            "图片与图片之间的间距",
+            "通知样式",
+            "统一通知样式和位置",
+            "API路由选择"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "密码错误无法复位",
+            "探索界面点赞和评论错误",
+            "语言选择界面偶尔多次提出",
+            "0.21.0无法正确使用api"
+          ]
+        }
+      ]
+    },
     {
       "version": "1.0.11",
       "date": "2026-02-08",
