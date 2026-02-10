@@ -44,11 +44,7 @@
         "Fixed image-bed rendering in memos"
       ]
     },
-<<<<<<< HEAD
     "new_donor_ids": ["jun"]
-=======
-    "new_donor_ids": []
->>>>>>> 8f22fec39e0407561b0195d198ac16aa6af9ac26
   },
   "release_notes": [
     {
