@@ -1,8 +1,8 @@
 {
   "version_info": {
-    "latest_version": "1.0.12",
+    "latest_version": "1.0.13",
     "is_force": false,
-    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.12/MemoFlow_v1.0.12-release.apk",
+    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.13/MemoFlow_v1.0.13-release.apk",
     "debug_version": "999.0",
     "skip_update_version": ""
   },
@@ -44,9 +44,47 @@
         "Fixed image-bed rendering in memos"
       ]
     },
-    "new_donor_ids": ["jun"]
+    "new_donor_ids": [
+      "jun"
+    ]
   },
   "release_notes": [
+    {
+      "version": "1.0.13",
+      "date": "2026-02-11",
+      "items": [
+        {
+          "category": "新增",
+          "contents": [
+            "视频预览和播放",
+            "语言中国台湾、德语、日语",
+            "GitHub blob 转换",
+            "memo 旧接口回退门控与日志",
+            "SVG 渲染分支",
+            "偏好设置-全部笔记点赞评论显示开关"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "视频缩略图",
+            "语言选择",
+            "图片渲染日志"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "html渲染错误",
+            "应用锁错误",
+            "侧面栏展开时掉帧",
+            "图文混合附件切换避免滑动在视频节点中断",
+            "md语法渲染错误",
+            "搜索结果不全并增强兼容性"
+          ]
+        }
+      ]
+    },
     {
       "version": "1.0.12",
       "date": "2026-02-09",
