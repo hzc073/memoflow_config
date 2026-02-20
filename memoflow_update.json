@@ -45,7 +45,7 @@
       ]
     },
     "new_donor_ids": [
-      "jun"
+      "kai"
     ]
   },
   "release_notes": [
@@ -384,6 +384,11 @@
       "id": "jun",
       "name": "**军",
       "avatar": "https://memoflowconfig.gemmm.top/assets/20260209170152_jun.webp"
+    },
+    {
+      "id": "kai",
+      "name": "**凯",
+      "avatar": "https://memoflowconfig.gemmm.top/assets/20260219182803_kai.webp"
     }
   ]
 }
