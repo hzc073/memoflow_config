@@ -45,7 +45,7 @@
       ]
     },
     "new_donor_ids": [
-      "kai"
+      "kai","guang"
     ]
   },
   "release_notes": [
@@ -387,8 +387,13 @@
     },
     {
       "id": "kai",
-      "name": "**凯",
+      "name": "*凯",
       "avatar": "https://memoflowconfig.gemmm.top/assets/20260219182803_kai.webp"
+    },
+    {
+      "id": "guang",
+      "name": "**光",
+      "avatar": "https://memoflowconfig.gemmm.top/assets/20260221183428_guang.webp"
     }
   ]
 }
