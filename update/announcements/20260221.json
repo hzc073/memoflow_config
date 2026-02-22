@@ -1,0 +1,103 @@
+{
+  "id": "20260221",
+  "release_tag": "v1.0.15",
+  "version": "1.0.15",
+  "date": "2026-02-21",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "新增 Windows 桌面客户端与安装包构建能力。",
+      "新增模板变量、多地图定位、快捷搜索、Ob 同步与 WebDAV 备份增强。",
+      "修复首页/编辑器/统计交互与 AI 总结按钮渲染溢出，并提升桌面端唤醒与设置响应速度。"
+    ],
+    "en": [
+      "Added Windows desktop client support with installer build pipeline.",
+      "Added template variables, multi-map location, quick search, Ob sync, and enhanced WebDAV backup flows.",
+      "Fixed interaction issues on Home/Editor/Stats and AI summary button overflow, while improving desktop wake-up and settings responsiveness."
+    ]
+  },
+  "new_donor_ids": [
+    "kai",
+    "guang"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "新增 Windows 端代码",
+          "模板变量与多地图定位",
+          "Windows 安装包构建",
+          "Windows 桌面客户端",
+          "Ob 同步功能",
+          "关于页面更新",
+          "快捷搜索",
+          "WebDAV 备份密码找回",
+          "服务器模式下的 WebDAV 备份",
+          "回收站与笔记历史版本",
+          "F-Droid 构建",
+          "CI/CD 自动化检测",
+          "Debug 模式增加截图功能",
+          "增加模板",
+          "增加 Windows 端部署资源"
+        ],
+        "en": [
+          "Added Windows-side codebase.",
+          "Added template variables and multi-map location support.",
+          "Added Windows installer packaging build.",
+          "Added Windows desktop client.",
+          "Added Obsidian sync support.",
+          "Updated the About page.",
+          "Added quick search.",
+          "Added WebDAV backup password recovery.",
+          "Added WebDAV backup in server mode.",
+          "Added recycle bin and memo history versions.",
+          "Added F-Droid build support.",
+          "Added CI/CD automated checks.",
+          "Added screenshot capture in debug mode.",
+          "Added new templates.",
+          "Added Windows deployment resources."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "桌面端设置界面优化",
+          "预热并复用桌面子窗口，提升设置与快速输入唤醒速度",
+          "同步更新多语言文案",
+          "日志收集并增强位置隐私脱敏",
+          "更新 README 文档",
+          "更新公告推送方式"
+        ],
+        "en": [
+          "Optimized the desktop settings page.",
+          "Warmed and reused desktop child windows to speed up settings and quick-input wake-up.",
+          "Updated multilingual copy in sync.",
+          "Enhanced log collection with location privacy masking.",
+          "Updated README documentation.",
+          "Improved announcement delivery workflow."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复首页/编辑器/统计等页面交互问题",
+          "修复若干错误",
+          "修复 AI 总结按钮组件渲染溢出",
+          "更新 bug 模板"
+        ],
+        "en": [
+          "Fixed interaction issues on Home/Editor/Stats pages.",
+          "Fixed several bugs.",
+          "Fixed overflow in the AI summary button component.",
+          "Updated bug templates."
+        ]
+      }
+    }
+  ]
+}

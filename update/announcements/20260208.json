@@ -1,0 +1,53 @@
+{
+  "id": "20260208",
+  "release_tag": "v1.0.11",
+  "version": "1.0.11",
+  "date": "2026-02-08",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {},
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "新增",
+      "contents": {
+        "zh": [
+          "LaTeX公式渲染",
+          "本地模式，支持webdav加密备份",
+          "自动分页查询"
+        ],
+        "en": [
+          "LaTeX公式渲染",
+          "本地模式，支持webdav加密备份",
+          "自动分页查询"
+        ]
+      }
+    },
+    {
+      "category": "优化",
+      "contents": {
+        "zh": [
+          "笔记更多菜单弹出时间",
+          "webdav可记住密码"
+        ],
+        "en": [
+          "笔记更多菜单弹出时间",
+          "webdav可记住密码"
+        ]
+      }
+    },
+    {
+      "category": "修复",
+      "contents": {
+        "zh": [
+          "用户名密码登录错误",
+          "添加本地库错误"
+        ],
+        "en": [
+          "用户名密码登录错误",
+          "添加本地库错误"
+        ]
+      }
+    }
+  ]
+}

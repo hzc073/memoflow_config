@@ -1,0 +1,75 @@
+{
+  "id": "20260127",
+  "release_tag": "v1.0.6",
+  "version": "1.0.6",
+  "date": "2026-01-27",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "新增 自动上传图床功能",
+      "新增 自定义主题（本功能由【青】赞赏加速实现）",
+      "新增 笔记提醒",
+      "优化 图片编辑和查看",
+      "优化 同步方式",
+      "修复 搜索时输入法闪退",
+      "修复 笔记图床渲染"
+    ],
+    "en": [
+      "Added auto image-bed upload",
+      "Added custom themes (accelerated by ãQingã's sponsorship)",
+      "Added memo reminders",
+      "Improved image editing and preview",
+      "Improved sync strategy",
+      "Fixed IME crash during search",
+      "Fixed image-bed rendering in memos"
+    ]
+  },
+  "new_donor_ids": [
+    "kai",
+    "guang"
+  ],
+  "items": [
+    {
+      "category": "新增",
+      "contents": {
+        "zh": [
+          "自动上传图床功能",
+          "自定义主题（本功能由【青】赞赏加速实现）",
+          "笔记提醒"
+        ],
+        "en": [
+          "自动上传图床功能",
+          "自定义主题（本功能由【青】赞赏加速实现）",
+          "笔记提醒"
+        ]
+      }
+    },
+    {
+      "category": "优化",
+      "contents": {
+        "zh": [
+          "图片编辑和查看",
+          "同步方式"
+        ],
+        "en": [
+          "图片编辑和查看",
+          "同步方式"
+        ]
+      }
+    },
+    {
+      "category": "修复",
+      "contents": {
+        "zh": [
+          "搜索时输入法闪退",
+          "笔记图床渲染"
+        ],
+        "en": [
+          "搜索时输入法闪退",
+          "笔记图床渲染"
+        ]
+      }
+    }
+  ]
+}
