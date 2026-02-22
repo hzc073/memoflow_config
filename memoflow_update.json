@@ -1,6 +1,7 @@
 {
   "schema_version": 2,
   "version_info": {
+<<<<<<< HEAD
     "android": {
       "latest_version": "1.0.15",
       "force_update": false,
@@ -21,6 +22,27 @@
       "update_source": "windows_installer",
       "url": "",
       "publish_at": "2026-02-21T00:00:00Z"
+=======
+    "latest_version": "1.0.15",
+    "is_force": false,
+    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.15/MemoFlow_v1.0.15-release.apk",
+    "debug_version": "999.0",
+    "skip_update_version": ""
+  },
+  "debug_announcement_source": "debug",
+  "debug_announcement": {
+    "id": 999000,
+    "title": "Debug Announcement",
+    "contents": {
+      "zh": [
+        "Debug announcement line 1",
+        "Debug announcement line 2"
+      ],
+      "en": [
+        "Debug announcement line 1",
+        "Debug announcement line 2"
+      ]
+>>>>>>> 108b3f2f51acf9d3aa7b2e0d565eb6dc9d2d44b6
     }
   },
   "notice_enabled": false,
@@ -96,6 +118,7 @@
       "date": "2026-02-21",
       "items": [
         {
+<<<<<<< HEAD
           "category": "feature",
           "contents": {
             "zh": [
@@ -171,6 +194,38 @@
               "Updated bug templates."
             ]
           }
+=======
+          "category": "新增",
+          "contents": [
+            "CI/CD 自动化检测",
+            "回收站&笔记历史版本",
+            "服务器模式下的webdav备份",
+            "webdav 备份密码找回",
+            "快捷搜索",
+            "关于页面更新",
+            "ob同步功能",
+            "windows桌面客户端",
+            "Windows安装包构建",
+            "模板变量与多地图定位"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "日志收集并增强位置隐私脱敏",
+            "预热并复用桌面子窗口，提升设置与快速输入唤醒速度",
+            "桌面端设置界面",
+            "更新公告推送方式"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "ai总结按钮组件渲染溢出",
+            "若干错误",
+            "首页/编辑器/统计等页面交互"
+          ]
+>>>>>>> 108b3f2f51acf9d3aa7b2e0d565eb6dc9d2d44b6
         }
       ]
     },
