@@ -1,0 +1,136 @@
+﻿{
+  "id": "20260307",
+  "release_tag": "v1.0.16",
+  "version": "1.0.16",
+  "date": "2026-03-07",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "新增 Windows 托盘、翻页快捷键、图片压缩、Flomo 导入、日志管理与多项桌面功能页面。",
+      "重构 Windows 架构与启动流程，优化 WebDAV、标签系统、本地导入、分页浏览、日志导出和多语言界面体验。",
+      "修复若干通用错误，以及本地导入、渲染溢出、跨窗口同步、WebDAV 首次同步和桌面会话稳定性等问题。"
+    ],
+    "en": [
+      "Added Windows tray support, page-turn shortcuts, image compression, Flomo import, log management, and several new desktop feature pages.",
+      "Refactored the Windows architecture and startup flow while improving WebDAV, tags, local import, paged browsing, zip log export, and multilingual UI experience.",
+      "Fixed various general issues, plus problems with local import, rendering overflow, cross-window sync, first-time WebDAV sync, and desktop session stability."
+    ]
+  },
+  "new_donor_ids": ["gao", "da"],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "Windows 端托盘功能",
+          "Windows 端翻页快捷键",
+          "图片压缩",
+          "Flomo 导入能力",
+          "日志清空功能",
+          "日志上报/提交日志能力",
+          "调试工具页",
+          "登录页",
+          "账号安全页",
+          "同步队列页",
+          "语言选择页",
+          "实验室页面",
+          "WebDAV 备份服务",
+          "App Sync Orchestrator"
+        ],
+        "en": [
+          "Added Windows tray support.",
+          "Added page-turn shortcuts on Windows.",
+          "Added image compression.",
+          "Added Flomo import support.",
+          "Added log clearing.",
+          "Added log reporting and submission.",
+          "Added a debug tools page.",
+          "Added a login page.",
+          "Added an account security page.",
+          "Added a sync queue page.",
+          "Added a language selection page.",
+          "Added a Labs page.",
+          "Added WebDAV backup service.",
+          "Added App Sync Orchestrator."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "仓库整理与部分文案维护",
+          "App 文件解耦与多轮架构调整",
+          "Windows 架构重构",
+          "Windows 端 UI 和交互体验优化",
+          "允许使用系统字体",
+          "增加分页提升浏览流畅度",
+          "本地导入流程优化",
+          "统计界面数据卡片优化",
+          "第三方分享格式放宽",
+          "启动流程重构",
+          "启动页动画与界面统一",
+          "日志输出完善并改用 zip 导出",
+          "WebDAV 同步逻辑优化",
+          "标签系统优化",
+          "桌面及 UI 文案本地化"
+        ],
+        "en": [
+          "Tidied the repository and maintained selected copy.",
+          "Decoupled app files and completed multiple architecture adjustments.",
+          "Refactored the Windows architecture.",
+          "Optimized the Windows UI and interaction experience.",
+          "Allowed the use of system fonts.",
+          "Added pagination to improve browsing smoothness.",
+          "Optimized the local import flow.",
+          "Optimized data cards on the statistics page.",
+          "Relaxed third-party sharing formats.",
+          "Refactored the startup flow.",
+          "Unified the splash animation and startup UI.",
+          "Improved log output and switched to zip export.",
+          "Optimized WebDAV sync logic.",
+          "Optimized the tag system.",
+          "Localized desktop and UI copy."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "若干通用错误",
+          "Debug 模式保存问题",
+          "本地模式无法导入",
+          "空白行渲染问题",
+          "渲染溢出问题",
+          "同步笔记不生效",
+          "从设置返回主页偶发模糊",
+          "跨窗口同步错误",
+          "本地库无法 WebDAV 同步",
+          "WebDAV 首次需手动同步问题",
+          "桌面会话稳定性问题",
+          "WebDAV 备份数据库上下文绑定问题",
+          "同步与 API 兼容性问题"
+        ],
+        "en": [
+          "Fixed several general issues.",
+          "Fixed saving issues in debug mode.",
+          "Fixed local mode import failures.",
+          "Fixed blank-line rendering issues.",
+          "Fixed rendering overflow issues.",
+          "Fixed notes not syncing correctly.",
+          "Fixed occasional blur when returning to Home from Settings.",
+          "Fixed cross-window sync errors.",
+          "Fixed local libraries failing to sync through WebDAV.",
+          "Fixed the issue where first-time WebDAV sync required manual triggering.",
+          "Fixed desktop session stability issues.",
+          "Fixed database context binding issues in WebDAV backup.",
+          "Fixed sync and API compatibility issues."
+        ]
+      }
+    }
+  ]
+}
+
+
