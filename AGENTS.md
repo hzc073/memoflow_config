@@ -18,6 +18,7 @@
   - `announcement_tag_index`
   - `announcement_ids`
   - `latest_announcement_id`
+- 任何面向客户端的版本列表，尤其 `release_notes`，都必须按“最新版本在最上面”的顺序输出。
 - `items[].category` 应保持稳定，默认使用 `feature`、`improvement`、`fix`，不要随意改成展示文案。
 - 修改配置前，先参考 `README.md`、`update/README.md` 与现有 JSON 结构，避免臆造字段。
 

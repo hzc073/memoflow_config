@@ -225,8 +225,13 @@ def compile_update_config(root: pathlib.Path) -> Tuple[Dict[str, Any], Dict[str,
             raise ConfigError(f"manifest.donors_file not found: {donors_path}")
 
     active = announcements[latest_announcement_id]
+    release_note_ids = sorted(
+        announcement_ids,
+        key=lambda ann_id: (ann_id == latest_announcement_id, int(ann_id)),
+        reverse=True,
+    )
     release_notes: List[Dict[str, Any]] = []
-    for ann_id in announcement_ids:
+    for ann_id in release_note_ids:
         note = _build_release_note(announcements[ann_id])
         if note is not None:
             release_notes.append(note)

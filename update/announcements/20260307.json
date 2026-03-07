@@ -17,42 +17,23 @@
       "Fixed various general issues, plus problems with local import, rendering overflow, cross-window sync, first-time WebDAV sync, and desktop session stability."
     ]
   },
-  "new_donor_ids": ["gao", "da"],
+  "new_donor_ids": [
+    "gao",
+    "da"
+  ],
   "items": [
     {
       "category": "feature",
       "contents": {
         "zh": [
           "Windows 端托盘功能",
-          "Windows 端翻页快捷键",
           "图片压缩",
-          "Flomo 导入能力",
-          "日志清空功能",
-          "日志上报/提交日志能力",
-          "调试工具页",
-          "登录页",
-          "账号安全页",
-          "同步队列页",
-          "语言选择页",
-          "实验室页面",
-          "WebDAV 备份服务",
-          "App Sync Orchestrator"
+          "提交日志能力"
         ],
         "en": [
           "Added Windows tray support.",
-          "Added page-turn shortcuts on Windows.",
           "Added image compression.",
-          "Added Flomo import support.",
-          "Added log clearing.",
-          "Added log reporting and submission.",
-          "Added a debug tools page.",
-          "Added a login page.",
-          "Added an account security page.",
-          "Added a sync queue page.",
-          "Added a language selection page.",
-          "Added a Labs page.",
-          "Added WebDAV backup service.",
-          "Added App Sync Orchestrator."
+          "Added log submission support."
         ]
       }
     },
@@ -132,5 +113,3 @@
     }
   ]
 }
-
-
