@@ -1,8 +1,8 @@
 {
   "version_info": {
-    "latest_version": "1.0.15",
+    "latest_version": "1.0.16",
     "is_force": false,
-    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.15/MemoFlow_v1.0.15-release.apk",
+    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.16/MemoFlow_v1.0.16-release.apk",
     "debug_version": "999.0",
     "skip_update_version": ""
   },
@@ -23,10 +23,10 @@
   },
   "announcement": {
     "id": 20260221,
-    "title": "\u7248\u672c\u66f4\u65b0\u516c\u544a",
+    "title": "版本更新公告",
     "contents": {
       "zh": [
-        "\u53d1\u73b0\u65b0\u7248\u672c\uff0c\u8bf7\u53ca\u65f6\u66f4\u65b0\u3002"
+        "发现新版本，请及时更新。"
       ],
       "en": [
         "A new version is available."
@@ -36,13 +36,60 @@
   },
   "release_notes": [
     {
+      "version": "1.0.16",
+      "date": "2026-03-07",
+      "items": [
+        {
+          "category": "新增",
+          "contents": [
+            "Windows端翻页快捷键",
+            "搜索词高亮",
+            "日志清空功能",
+            "图片压缩",
+            "标签系统优化",
+            "localize desktop and UI surfaces"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "增加分页，增强浏览时的流畅感",
+            "统计界面数据卡片",
+            "第三方分享不限制格式",
+            "webdav同步逻辑",
+            "Windows端UI优化",
+            "完善日志输出，改用zip进行导出",
+            "Windows使用体验，允许使用系统字体",
+            "启动流程重构",
+            "启动页动画"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "本地模式无法导入",
+            "空白行跳过渲染",
+            "同步笔记不生效",
+            "win端从设置返回主页，偶发显示主页模糊",
+            "本地库无法webdav同步",
+            "Windows 优化",
+            "修复若干错误",
+            "improve desktop session stability",
+            "harden sync and API compatibility",
+            "bind webdav backup database context",
+            "Windows安装首次运行报错"
+          ]
+        }
+      ]
+    },
+    {
       "version": "1.0.15",
       "date": "2026-02-21",
       "items": [
         {
-          "category": "\u66f4\u65b0",
+          "category": "更新",
           "contents": [
-            "\u53d1\u73b0\u65b0\u7248\u672c\uff0c\u8bf7\u53ca\u65f6\u66f4\u65b0\u3002"
+            "发现新版本，请及时更新。"
           ]
         }
       ]
