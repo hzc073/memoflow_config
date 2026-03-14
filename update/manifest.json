@@ -2,11 +2,11 @@
   "schema_version": 2,
   "version_info": {
     "android": {
-      "latest_version": "1.0.16",
+      "latest_version": "1.0.17",
       "force_update": false,
       "update_source": "google_play",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.16/MemoFlow_v1.0.16-release.apk",
-      "publish_at": "2026-03-07T04:25:03.855Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.17/MemoFlow_v1.0.17-arm64-v8a.apk",
+      "publish_at": "2026-03-14T13:20:43.993Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -20,7 +20,7 @@
       "force_update": false,
       "update_source": "windows_installer",
       "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.17/MemoFlow_v1.0.17_windows_x64_setup.exe",
-      "publish_at": "2026-03-14T13:18:52.341Z"
+      "publish_at": "2026-03-14T13:20:43.993Z"
     }
   },
   "notice_enabled": false,
