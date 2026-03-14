@@ -1,0 +1,82 @@
+{
+  "id": "20260314",
+  "release_tag": "v1.0.17",
+  "version": "1.0.17",
+  "date": "2026-03-14",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "优化登录界面，支持快速填写服务地址，并可一键切换 HTTP / HTTPS 协议；新增自定义工具栏，支持工具排序与隐藏。",
+      "重构 AI 总结与 AI 设置，新增 9 个总结模板，支持多 AI 服务商与自定义模型；同时加入场景微引导、桌面快捷键与多媒体浏览翻页增强。",
+      "完善 Windows 窗口拉伸、定位、侧边栏与全部标签页体验，修复启动流程、登录探测、随机漫步与离线笔记上传时创建时间被重置等问题。"
+    ],
+    "en": [
+      "Refined the login screen with quicker server address entry, one-tap HTTP/HTTPS switching, and a customizable toolbar with sorting and hiding.",
+      "Reworked AI summaries and AI settings with nine new summary templates, multi-provider support, custom model settings, plus scenario onboarding and stronger desktop/media browsing shortcuts.",
+      "Improved window resizing on Windows, location tools, sidebar and tag layouts, and fixed startup flow, login detection, random walk rendering, and offline note upload timestamps."
+    ]
+  },
+  "new_donor_ids": [
+    "liang"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "登录页支持快速填写地址，并可切换 HTTP / HTTPS 协议",
+          "新增自定义工具栏，支持工具排序与隐藏",
+          "新增场景微引导",
+          "桌面快捷键与多媒体浏览翻页增强",
+          "AI 总结新增 9 个模板，AI 设置支持多服务商与自定义模型"
+        ],
+        "en": [
+          "Login screen now supports quicker server address entry and HTTP/HTTPS switching.",
+          "Added a customizable toolbar with tool sorting and hiding.",
+          "Added scenario micro-guidance.",
+          "Enhanced desktop shortcuts and page turning for media browsing.",
+          "Added nine AI summary templates and support for multiple providers with custom model settings."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "优化登录界面交互",
+          "重构 AI 总结与 AI 设置模块",
+          "Windows 端支持窗口拉伸",
+          "完善定位功能",
+          "优化侧边栏与全部标签页布局",
+          "标签补充最近使用时间并支持排序"
+        ],
+        "en": [
+          "Refined the login screen interaction.",
+          "Refactored the AI summary and AI settings modules.",
+          "Added resizable Windows desktop support.",
+          "Improved location features.",
+          "Optimized the sidebar and all-tags layouts.",
+          "Added last-used timestamps for tags and enabled sorting."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复若干已知问题与稳定性问题",
+          "修复启动流程、登录探测与任务列表显示问题",
+          "修复随机漫步渲染错误，并优化筛选弹窗",
+          "修复离线笔记上传服务器时创建时间被重置的问题"
+        ],
+        "en": [
+          "Fixed several known issues and stability problems.",
+          "Fixed the startup flow, login detection, and task list display.",
+          "Fixed random walk rendering issues and improved the filter dialog.",
+          "Fixed the issue where uploading offline notes to the server reset created timestamps."
+        ]
+      }
+    }
+  ]
+}
