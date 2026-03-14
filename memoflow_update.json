@@ -1,8 +1,8 @@
 {
   "version_info": {
-    "latest_version": "1.0.16",
+    "latest_version": "1.0.17",
     "is_force": false,
-    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.16/MemoFlow_v1.0.16-release.apk",
+    "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.17/MemoFlow_v1.0.17-release.apk",
     "debug_version": "999.0",
     "skip_update_version": ""
   },
@@ -32,9 +32,49 @@
         "A new version is available."
       ]
     },
-    "new_donor_ids": ["gao", "da"]
+    "new_donor_ids": [
+      "gao",
+      "da"
+    ]
   },
   "release_notes": [
+    {
+      "version": "1.0.17",
+      "date": "2026-03-14",
+      "items": [
+        {
+          "category": "新增",
+          "contents": [
+            "桌面快捷键、多媒体浏览翻页增强",
+            "场景微引导",
+            "自定义工具栏"
+          ]
+        },
+        {
+          "category": "优化",
+          "contents": [
+            "版本更新公告修改为本版本不再提醒，避免多次弹出影响体验",
+            "重构随机漫步",
+            "重构ai总结",
+            "标签补充最近使用时间并支持排序",
+            "优化侧边栏与全部标签页布局",
+            "完善定位功能 #89",
+            "Windows端支持窗口拉伸 #78",
+            "重构 AI 总结与 AI 设置模块",
+            "登录页地址填写"
+          ]
+        },
+        {
+          "category": "修复",
+          "contents": [
+            "修复启动流程、登录探测与任务列表显示",
+            "忽略本地 tree.txt 文件",
+            "修复随机漫步渲染错误并优化筛选弹窗",
+            "修复若干问题"
+          ]
+        }
+      ]
+    },
     {
       "version": "1.0.16",
       "date": "2026-03-07",
