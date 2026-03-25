@@ -37,7 +37,8 @@
       ]
     },
     "new_donor_ids": [
-      "liang"
+      "liang",
+      "3653_yao"
     ]
   },
   "release_notes": [
@@ -137,5 +138,76 @@
       ]
     }
   ],
-  "donors": []
+  "donors": [
+    {
+      "id": "qing",
+      "name": "**青",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260127%20111528_qing.webp"
+    },
+    {
+      "id": "yang",
+      "name": "**洋",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260127%20111601_yang.webp"
+    },
+    {
+      "id": "Mashiro_Sorata",
+      "name": "Mashiro_Sorata",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260127235921_Mashiro_Sorata.webp"
+    },
+    {
+      "id": "tian",
+      "name": "**天",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260203100512_tian.webp"
+    },
+    {
+      "id": "lin",
+      "name": "**林",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260201124540_lin.webp"
+    },
+    {
+      "id": "jun",
+      "name": "**军",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260209170152_jun.webp"
+    },
+    {
+      "id": "kai",
+      "name": "*凯",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260219182803_kai.webp"
+    },
+    {
+      "id": "guang",
+      "name": "**光",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260221183428_guang.webp"
+    },
+    {
+      "id": "gao",
+      "name": "**高",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260304002228_gao.webp"
+    },
+    {
+      "id": "da",
+      "name": "**达",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260304175258_da.webp"
+    },
+    {
+      "id": "jie",
+      "name": "*杰",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260308225729_jie.webp"
+    },
+    {
+      "id": "liang",
+      "name": "*亮",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260312142046_liang.webp"
+    },
+    {
+      "id": "1334_liu",
+      "name": "*欢",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260321151334_liu.webp"
+    },
+    {
+      "id": "3653_yao",
+      "name": "**遥",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260323013653_yao.webp"
+    }
+  ]
 }
