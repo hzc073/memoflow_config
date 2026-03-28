@@ -38,7 +38,9 @@
     },
     "new_donor_ids": [
       "liang",
-      "3653_yao"
+      "3653_yao",
+      "3106_chen",
+      "4000_xiong"
     ]
   },
   "release_notes": [
@@ -208,6 +210,16 @@
       "id": "3653_yao",
       "name": "**遥",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260323013653_yao.webp"
+    },
+    {
+      "id": "3106_chen",
+      "name": "\u002a\u6668",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260327163106_chen.webp"
+    },
+    {
+      "id": "4000_xiong",
+      "name": "\u002a\u002a\u96c4",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260327214000_xiong.webp"
     }
   ]
 }
