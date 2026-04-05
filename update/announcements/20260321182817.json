@@ -1,0 +1,55 @@
+{
+  "id": "20260321182817",
+  "release_tag": "v1.0.19",
+  "version": "1.0.19",
+  "date": "2026-03-21",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "新增 Windows 端图片压缩能力，附件发送前可更灵活地控制图片体积。",
+      "附件查看、渲染与分享流程继续优化：移动端在启用压缩时也可选择发送原图，第三方分享可自动抓取标题并按 Markdown 填入编辑框。",
+      "补充多语言内容，增强 Android 小组件与网络握手回退逻辑，整体体验更稳定。"
+    ],
+    "en": [
+      "Added image compression support on Windows so attachments can be resized before upload.",
+      "Continued refining attachment viewing, rendering, and sharing: mobile can now keep original images even when compression is enabled, and share intents can capture titles into Markdown automatically.",
+      "Expanded localized content and improved Android widgets plus handshake fallback behavior for better overall stability."
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "Windows 端支持图片压缩"
+        ],
+        "en": [
+          "Added image compression support on Windows."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "移动端启用压缩时也可选择发送原图",
+          "附件查看界面支持按类型分类",
+          "首次握手失败时支持回退到 HTTP 重试",
+          "渲染模块解耦并补足空白行渲染",
+          "优化 Android 小组件并补充多语言支持",
+          "第三方分享可自动抓取标题并按 Markdown 填入编辑框"
+        ],
+        "en": [
+          "Mobile can now keep the original image even when compression is enabled.",
+          "Attachment viewing now supports type-based grouping.",
+          "The first failed handshake can now retry over HTTP.",
+          "Rendering has been decoupled and blank-line rendering is more complete.",
+          "Improved Android widgets and expanded localization support.",
+          "Shared content can now capture page titles and insert them as Markdown automatically."
+        ]
+      }
+    }
+  ]
+}

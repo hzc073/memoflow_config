@@ -1,0 +1,45 @@
+{
+  "id": "20260405112008",
+  "release_tag": "v1.0.24",
+  "version": "1.0.24",
+  "date": "2026-04-05",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "统一相册与拍照附件选择流程，梳理编辑器、快捷输入与列表内联编辑的媒体添加逻辑。",
+      "修复 #141 相关的附件选择与添加问题，减少多入口下的异常表现。"
+    ],
+    "en": [
+      "Unified gallery and camera attachment picking across the editor, quick input, and inline compose flows.",
+      "Fixed the attachment selection and add flow behind issue #141 to reduce multi-entry inconsistencies."
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "统一编辑器、快捷输入与内联编辑的附件选择流程",
+          "抽离相机附件捕获逻辑并补足缺失文件提示"
+        ],
+        "en": [
+          "Unified attachment picking across the editor, quick input, and inline compose.",
+          "Extracted camera attachment capture logic and improved missing-file handling."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复 #141 相关的媒体选择与添加问题"
+        ],
+        "en": [
+          "Fixed the media picking and attachment add flow behind issue #141."
+        ]
+      }
+    }
+  ]
+}

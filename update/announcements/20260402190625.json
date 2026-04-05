@@ -1,0 +1,72 @@
+{
+  "id": "20260402190625",
+  "release_tag": "v1.0.22",
+  "version": "1.0.22",
+  "date": "2026-04-02",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "新增快捷语音输入与草稿箱快捷入口，本地库名称也支持直接修改。",
+      "持续调整 UI 与语音输入体验，优化录音路由、队列同步与通知提醒表现。",
+      "修复附件导出异常、文件锁冲突，并保留仅本地备忘录状态，同时取消标签统一小写限制。"
+    ],
+    "en": [
+      "Added quick voice input and a faster draft-box entry point, and local libraries can now be renamed directly.",
+      "Continued refining the UI and voice-input flow with better recording routing, sync queue behavior, and notification indicators.",
+      "Fixed attachment export failures, file-lock conflicts, and local-only memo state retention, while also removing the forced lowercase tag rule."
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "新增快捷语音输入",
+          "草稿箱支持从工具栏快速进入",
+          "本地库名称支持修改",
+          "新增通知菜单与抽屉提醒角标"
+        ],
+        "en": [
+          "Added quick voice input.",
+          "Drafts can now be opened directly from the toolbar.",
+          "Local library names can now be edited.",
+          "Added a notification menu and drawer badge reminders."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "UI 细节持续调整",
+          "优化快捷语音与语音输入界面",
+          "优化录音路由与队列同步",
+          "取消标签统一小写规范，保留原始大小写"
+        ],
+        "en": [
+          "Continued refining UI details.",
+          "Improved quick voice and voice input screens.",
+          "Optimized recording routing and sync queue behavior.",
+          "Removed the forced lowercase tag rule to preserve original casing."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复附件导出异常",
+          "修复文件锁冲突",
+          "修复仅本地备忘录状态容易丢失的问题"
+        ],
+        "en": [
+          "Fixed attachment export failures.",
+          "Fixed file-lock conflicts.",
+          "Fixed local-only memo state getting lost."
+        ]
+      }
+    }
+  ]
+}

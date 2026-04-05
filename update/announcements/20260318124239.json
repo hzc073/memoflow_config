@@ -1,0 +1,66 @@
+{
+  "id": "20260318124239",
+  "release_tag": "v1.0.18",
+  "version": "1.0.18",
+  "date": "2026-03-18",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "重构随机漫步，新增探索笔记与 AI 总结入口，并在 AI 设置中加入代理配置。",
+      "优化 AI 总结与附件预览体验：Chat 模型改为必选、向量模型可选，预览分辨率上限调整为 1080 像素，自动同步成功提示默认关闭。",
+      "修复 Memos 0.26.2 在 MySQL 下时间字段兼容问题，以及 Android 10 无法构建数据库的问题。"
+    ],
+    "en": [
+      "Refactored Random Walk with new exploration notes and AI summary entry points, and added proxy settings for AI services.",
+      "Improved AI summary and attachment preview flows: chat models are now required, vector models optional, previews are capped at 1080px, and auto-sync success toasts stay quieter by default.",
+      "Fixed the MySQL timestamp compatibility issue with Memos 0.26.2 and the Android 10 database initialization failure."
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "随机漫步重构后支持探索笔记与 AI 总结",
+          "AI 设置新增代理配置"
+        ],
+        "en": [
+          "Random Walk now supports exploration notes and AI summaries.",
+          "Added proxy configuration in AI settings."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "AI 总结配置调整为 Chat 模型必选、向量模型可选",
+          "图片预览分辨率上限调整为 1080 像素",
+          "自动同步成功提示默认关闭",
+          "日志脱敏与文件保存路径进一步优化"
+        ],
+        "en": [
+          "AI summaries now require a chat model while keeping the vector model optional.",
+          "Image previews are capped at 1080px.",
+          "Auto-sync success toasts are now disabled by default.",
+          "Further improved log redaction and private app storage paths."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "兼容 Memos 0.26.2 在 MySQL 下时间字段处理不一致的问题",
+          "修复 Android 10 无法构建数据库的错误"
+        ],
+        "en": [
+          "Fixed inconsistent MySQL timestamp handling with Memos 0.26.2.",
+          "Fixed the database creation failure on Android 10."
+        ]
+      }
+    }
+  ]
+}

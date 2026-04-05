@@ -1,0 +1,68 @@
+{
+  "id": "20260328224543",
+  "release_tag": "v1.0.21",
+  "version": "1.0.21",
+  "date": "2026-03-28",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "新增局域网同步能力，并补充启动方式与偏好设置。",
+      "搜索能力增强，支持按附件、定位、双链和时间筛选，WebDAV 体验与坚果云兼容性同步优化。",
+      "修复列表工具栏插入异常，并继续优化附件上传、桌面端退出行为与实验室布局。"
+    ],
+    "en": [
+      "Added LAN sync support plus new startup-mode and preference options.",
+      "Search is now stronger with filters for attachments, location, backlinks, and time, while WebDAV flows and Nutstore compatibility were also improved.",
+      "Fixed toolbar insertion issues in lists and kept polishing attachment uploads, desktop exit behavior, and the lab layout."
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "新增局域网同步功能",
+          "搜索支持附件、定位、双链、时间筛选",
+          "新增启动方式与偏好设置"
+        ],
+        "en": [
+          "Added LAN sync.",
+          "Search now supports filtering by attachments, location, backlinks, and time.",
+          "Added startup mode and preference options."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "优化 WebDAV 界面与同步逻辑",
+          "适配坚果云 WebDAV",
+          "优化附件上传逻辑与附件分类",
+          "调整实验室布局",
+          "优化桌面端退出程序体验"
+        ],
+        "en": [
+          "Improved the WebDAV UI and sync flow.",
+          "Added Nutstore WebDAV compatibility.",
+          "Optimized attachment upload logic and attachment categorization.",
+          "Adjusted the lab layout.",
+          "Refined the desktop exit experience."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复无序列表、有序列表、待办事项工具栏无法正常插入的问题"
+        ],
+        "en": [
+          "Fixed the toolbar insertion issue for unordered lists, ordered lists, and todo items."
+        ]
+      }
+    }
+  ]
+}

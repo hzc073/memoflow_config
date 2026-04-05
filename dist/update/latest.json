@@ -45,7 +45,10 @@
     },
     "new_donor_ids": [
       "liang",
-      "3653_yao"
+      "3653_yao",
+      "3106_chen",
+      "4000_xiong",
+      "5505_yu"
     ]
   },
   "donors": [
@@ -118,9 +121,377 @@
       "id": "3653_yao",
       "name": "**遥",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260323013653_yao.webp"
+    },
+    {
+      "id": "3106_chen",
+      "name": "*晨",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260327163106_chen.webp"
+    },
+    {
+      "id": "4000_xiong",
+      "name": "**雄",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260327214000_xiong.webp"
+    },
+    {
+      "id": "5505_yu",
+      "name": "**宇",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260403025505_yu.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.26",
+      "date": "2026-04-05",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "相册选图支持原图选择"
+            ],
+            "en": [
+              "Gallery picking now supports original-image selection."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "提升 AI 服务兼容性"
+            ],
+            "en": [
+              "Improved AI service compatibility."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.24",
+      "date": "2026-04-05",
+      "items": [
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "统一编辑器、快捷输入与内联编辑的附件选择流程",
+              "抽离相机附件捕获逻辑并补足缺失文件提示"
+            ],
+            "en": [
+              "Unified attachment picking across the editor, quick input, and inline compose.",
+              "Extracted camera attachment capture logic and improved missing-file handling."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "修复 #141 相关的媒体选择与添加问题"
+            ],
+            "en": [
+              "Fixed the media picking and attachment add flow behind issue #141."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.23",
+      "date": "2026-04-05",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "抽屉菜单新增提醒角标"
+            ],
+            "en": [
+              "Added reminder badges to the drawer menu."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "草稿箱图片增加分辨率上限",
+              "导出与本地库同步流程继续补强"
+            ],
+            "en": [
+              "Added resolution caps for draft images.",
+              "Further strengthened export and local-library sync flows."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "修复导出不带位置信息的错误",
+              "修复备忘录关系元数据和本地关系片段未保留的问题",
+              "修复桌面子窗口同步与数据库写入问题"
+            ],
+            "en": [
+              "Fixed exports missing location information.",
+              "Fixed memo relation metadata and local relation fragments not being preserved.",
+              "Fixed desktop child-window sync and database write issues."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.22",
+      "date": "2026-04-02",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "新增快捷语音输入",
+              "草稿箱支持从工具栏快速进入",
+              "本地库名称支持修改",
+              "新增通知菜单与抽屉提醒角标"
+            ],
+            "en": [
+              "Added quick voice input.",
+              "Drafts can now be opened directly from the toolbar.",
+              "Local library names can now be edited.",
+              "Added a notification menu and drawer badge reminders."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "UI 细节持续调整",
+              "优化快捷语音与语音输入界面",
+              "优化录音路由与队列同步",
+              "取消标签统一小写规范，保留原始大小写"
+            ],
+            "en": [
+              "Continued refining UI details.",
+              "Improved quick voice and voice input screens.",
+              "Optimized recording routing and sync queue behavior.",
+              "Removed the forced lowercase tag rule to preserve original casing."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "修复附件导出异常",
+              "修复文件锁冲突",
+              "修复仅本地备忘录状态容易丢失的问题"
+            ],
+            "en": [
+              "Fixed attachment export failures.",
+              "Fixed file-lock conflicts.",
+              "Fixed local-only memo state getting lost."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.21",
+      "date": "2026-03-28",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "新增局域网同步功能",
+              "搜索支持附件、定位、双链、时间筛选",
+              "新增启动方式与偏好设置"
+            ],
+            "en": [
+              "Added LAN sync.",
+              "Search now supports filtering by attachments, location, backlinks, and time.",
+              "Added startup mode and preference options."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "优化 WebDAV 界面与同步逻辑",
+              "适配坚果云 WebDAV",
+              "优化附件上传逻辑与附件分类",
+              "调整实验室布局",
+              "优化桌面端退出程序体验"
+            ],
+            "en": [
+              "Improved the WebDAV UI and sync flow.",
+              "Added Nutstore WebDAV compatibility.",
+              "Optimized attachment upload logic and attachment categorization.",
+              "Adjusted the lab layout.",
+              "Refined the desktop exit experience."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "修复无序列表、有序列表、待办事项工具栏无法正常插入的问题"
+            ],
+            "en": [
+              "Fixed the toolbar insertion issue for unordered lists, ordered lists, and todo items."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.20",
+      "date": "2026-03-25",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "第三方分享支持直接剪藏内容",
+              "新增小红书视频剪藏",
+              "增强第三方分享剪藏，并支持清洗公众号文章",
+              "工具栏新增更多选项",
+              "笔记详情页支持双击进入编辑"
+            ],
+            "en": [
+              "Third-party sharing now supports direct content clipping.",
+              "Added Xiaohongshu video clipping.",
+              "Enhanced share clipping and article cleanup for WeChat content.",
+              "Added more toolbar options.",
+              "Double-tap note details to enter editing."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "随机漫步补充位置信息",
+              "继续完善公众号文章清洗",
+              "优化长文阅读体验"
+            ],
+            "en": [
+              "Random Walk now carries location information.",
+              "Further improved article cleanup for public account content.",
+              "Optimized long-form reading."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "修复图片预览黑屏故障",
+              "修复探索界面输入框无法显示的问题",
+              "防止 AI 摘要在未对齐的嵌入 blob 上崩溃",
+              "修复附件同步问题"
+            ],
+            "en": [
+              "Fixed the image preview black screen.",
+              "Fixed the missing input field on the Explore screen.",
+              "Prevented AI summary crashes on misaligned embedded blobs.",
+              "Fixed attachment sync issues."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.19",
+      "date": "2026-03-21",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "Windows 端支持图片压缩"
+            ],
+            "en": [
+              "Added image compression support on Windows."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "移动端启用压缩时也可选择发送原图",
+              "附件查看界面支持按类型分类",
+              "首次握手失败时支持回退到 HTTP 重试",
+              "渲染模块解耦并补足空白行渲染",
+              "优化 Android 小组件并补充多语言支持",
+              "第三方分享可自动抓取标题并按 Markdown 填入编辑框"
+            ],
+            "en": [
+              "Mobile can now keep the original image even when compression is enabled.",
+              "Attachment viewing now supports type-based grouping.",
+              "The first failed handshake can now retry over HTTP.",
+              "Rendering has been decoupled and blank-line rendering is more complete.",
+              "Improved Android widgets and expanded localization support.",
+              "Shared content can now capture page titles and insert them as Markdown automatically."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.18",
+      "date": "2026-03-18",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "随机漫步重构后支持探索笔记与 AI 总结",
+              "AI 设置新增代理配置"
+            ],
+            "en": [
+              "Random Walk now supports exploration notes and AI summaries.",
+              "Added proxy configuration in AI settings."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "AI 总结配置调整为 Chat 模型必选、向量模型可选",
+              "图片预览分辨率上限调整为 1080 像素",
+              "自动同步成功提示默认关闭",
+              "日志脱敏与文件保存路径进一步优化"
+            ],
+            "en": [
+              "AI summaries now require a chat model while keeping the vector model optional.",
+              "Image previews are capped at 1080px.",
+              "Auto-sync success toasts are now disabled by default.",
+              "Further improved log redaction and private app storage paths."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "兼容 Memos 0.26.2 在 MySQL 下时间字段处理不一致的问题",
+              "修复 Android 10 无法构建数据库的错误"
+            ],
+            "en": [
+              "Fixed inconsistent MySQL timestamp handling with Memos 0.26.2.",
+              "Fixed the database creation failure on Android 10."
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.17",
       "date": "2026-03-14",

@@ -227,7 +227,7 @@ def compile_update_config(root: pathlib.Path) -> Tuple[Dict[str, Any], Dict[str,
     active = announcements[latest_announcement_id]
     release_note_ids = sorted(
         announcement_ids,
-        key=lambda ann_id: (ann_id == latest_announcement_id, int(ann_id)),
+        key=lambda ann_id: int(ann_id),
         reverse=True,
     )
     release_notes: List[Dict[str, Any]] = []

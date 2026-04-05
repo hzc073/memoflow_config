@@ -1,0 +1,43 @@
+{
+  "id": "20260405171830",
+  "release_tag": "v1.0.26",
+  "version": "1.0.26",
+  "date": "2026-04-05",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "相册选图新增原图选择能力，可按需跳过压缩直接发送。",
+      "增强 AI 服务兼容性，改善不同服务商与 OpenAI 兼容接口的接入表现。"
+    ],
+    "en": [
+      "Gallery picking now supports selecting original images so compression can be skipped when needed.",
+      "Improved AI service compatibility across providers and OpenAI-compatible endpoints."
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "相册选图支持原图选择"
+        ],
+        "en": [
+          "Gallery picking now supports original-image selection."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "提升 AI 服务兼容性"
+        ],
+        "en": [
+          "Improved AI service compatibility."
+        ]
+      }
+    }
+  ]
+}

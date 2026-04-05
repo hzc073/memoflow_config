@@ -1,0 +1,74 @@
+{
+  "id": "20260325220846",
+  "release_tag": "v1.0.20",
+  "version": "1.0.20",
+  "date": "2026-03-25",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "第三方分享剪藏能力增强，支持直接剪藏内容、小红书视频与公众号文章。",
+      "笔记详情页支持双击进入编辑，长文阅读、随机漫步定位信息与工具栏选项继续完善。",
+      "修复图片预览黑屏、探索界面输入框显示异常、AI 摘要崩溃与附件同步等问题。"
+    ],
+    "en": [
+      "Expanded share clipping so content, Xiaohongshu videos, and WeChat articles can be captured more directly.",
+      "Note details now support double-tap editing, with more polish for long-form reading, location info in Random Walk, and toolbar options.",
+      "Fixed the image preview black screen, the missing Explore input field, AI summary crashes, and several attachment sync issues."
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "第三方分享支持直接剪藏内容",
+          "新增小红书视频剪藏",
+          "增强第三方分享剪藏，并支持清洗公众号文章",
+          "工具栏新增更多选项",
+          "笔记详情页支持双击进入编辑"
+        ],
+        "en": [
+          "Third-party sharing now supports direct content clipping.",
+          "Added Xiaohongshu video clipping.",
+          "Enhanced share clipping and article cleanup for WeChat content.",
+          "Added more toolbar options.",
+          "Double-tap note details to enter editing."
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "随机漫步补充位置信息",
+          "继续完善公众号文章清洗",
+          "优化长文阅读体验"
+        ],
+        "en": [
+          "Random Walk now carries location information.",
+          "Further improved article cleanup for public account content.",
+          "Optimized long-form reading."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复图片预览黑屏故障",
+          "修复探索界面输入框无法显示的问题",
+          "防止 AI 摘要在未对齐的嵌入 blob 上崩溃",
+          "修复附件同步问题"
+        ],
+        "en": [
+          "Fixed the image preview black screen.",
+          "Fixed the missing input field on the Explore screen.",
+          "Prevented AI summary crashes on misaligned embedded blobs.",
+          "Fixed attachment sync issues."
+        ]
+      }
+    }
+  ]
+}
