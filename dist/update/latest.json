@@ -48,7 +48,9 @@
       "3653_yao",
       "3106_chen",
       "4000_xiong",
-      "5505_yu"
+      "5505_yu",
+      "5932_lin",
+      "5401_tao"
     ]
   },
   "donors": [
@@ -136,6 +138,21 @@
       "id": "5505_yu",
       "name": "**宇",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260403025505_yu.webp"
+    },
+    {
+      "id": "5932_lin",
+      "name": "**琳",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260406095932_lin.webp"
+    },
+    {
+      "id": "5401_tao",
+      "name": "*滔",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260406215401_tao.webp"
+    },
+    {
+      "id": "0348_yi",
+      "name": "**屹",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260411140348_yi.webp"
     }
   ],
   "release_notes": [
