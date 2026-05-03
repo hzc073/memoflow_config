@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.28",
+      "latest_version": "1.0.31",
       "force_update": false,
       "update_source": "windows_installer",
-      "url": "https://memoflow.hzc073.com/download",
-      "publish_at": "2026-04-22T13:11:42.283Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.31/MemoFlow_v1.0.31_windows_x64_setup.exe",
+      "publish_at": "2026-05-03T13:11:30.688Z"
     }
   },
   "notice_enabled": false,
@@ -50,7 +50,8 @@
     "v1.0.15": "20260221",
     "v1.0.16": "20260307",
     "v1.0.17": "20260314",
-    "v1.0.28": "20260422081516699"
+    "v1.0.28": "20260422081516699",
+    "v1.0.31": "20260503131125723"
   },
   "announcement_ids": [
     "20260405171830",
@@ -74,7 +75,8 @@
     "20260129",
     "20260127",
     "20260126",
-    "20260422081516699"
+    "20260422081516699",
+    "20260503131125723"
   ],
-  "latest_announcement_id": "20260422081516699"
+  "latest_announcement_id": "20260503131125723"
 }
