@@ -6,17 +6,77 @@
   "title": "v1.0.31",
   "show_when_up_to_date": false,
   "contents": {
+    "zh": [
+      "新增 AI 语义搜索，带来更智能的内容查找体验。",
+      "修复导航栏模式、本地剪藏图片查看、缩略图、AI 总结、标签获取、搜索结果等问题。",
+      "优化 Logo 素材、桌面端 UI、动效、AI 界面和 AI 总结模板体验。"
+    ],
     "en": [
-      "Update available."
+      "Added AI semantic search for a smarter content discovery experience.",
+      "Fixed issues with navigation bar mode, local clipping image preview, thumbnail distortion, AI summaries, tag fetching, search results, and more.",
+      "Improved logo assets, desktop UI, animations, AI screens, and AI summary templates."
     ]
   },
   "new_donor_ids": [],
   "items": [
     {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "新增 AI 语义搜索。"
+        ],
+        "en": [
+          "Added AI semantic search."
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复导航栏模式会意外退出的错误。",
+          "修复本地模式剪藏无法内联查看图片的问题。",
+          "修复缩略图变形的错误。",
+          "修复 AI 总结容易未响应的错误。",
+          "修复 0.27 版本可能无法获取标签的错误。",
+          "重构图片压缩流程。",
+          "修复搜索按钮渲染错误。",
+          "剪藏图片增加懒加载。",
+          "修复搜索结果不可靠的问题。",
+          "修复启动页问题。"
+        ],
+        "en": [
+          "Fixed an issue where navigation bar mode could exit unexpectedly.",
+          "Fixed local mode clipping images not being viewable inline.",
+          "Fixed thumbnail distortion.",
+          "Fixed AI summaries sometimes becoming unresponsive.",
+          "Fixed a possible tag fetching issue in version 0.27.",
+          "Refactored the image compression flow.",
+          "Fixed search button rendering issues.",
+          "Added lazy loading for clipped images.",
+          "Fixed unreliable search results.",
+          "Fixed startup screen issues."
+        ]
+      }
+    },
+    {
       "category": "improvement",
       "contents": {
+        "zh": [
+          "细节优化。",
+          "更换 Logo 素材。",
+          "桌面端 UI 优化。",
+          "优化动效。",
+          "优化 AI 界面，避免回归。",
+          "优化 AI 总结界面，增加自定义模板数量。"
+        ],
         "en": [
-          "Update available."
+          "Polished details across the app.",
+          "Replaced logo assets.",
+          "Improved the desktop UI.",
+          "Improved animations.",
+          "Optimized AI screens to avoid regressions.",
+          "Improved the AI summary screen and increased the number of custom templates."
         ]
       }
     }
