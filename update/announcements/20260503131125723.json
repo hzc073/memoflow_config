@@ -7,12 +7,12 @@
   "show_when_up_to_date": false,
   "contents": {
     "zh": [
-      "新增 AI 语义搜索，带来更智能的内容查找体验。",
+      "新增 AI 语义搜索和巴西葡萄牙语支持，带来更智能、更友好的使用体验。",
       "修复导航栏模式、本地剪藏图片查看、缩略图、AI 总结、标签获取、搜索结果等问题。",
       "优化 Logo 素材、桌面端 UI、动效、AI 界面和 AI 总结模板体验。"
     ],
     "en": [
-      "Added AI semantic search for a smarter content discovery experience.",
+      "Added AI semantic search and Brazilian Portuguese language support for a smarter, more accessible experience.",
       "Fixed issues with navigation bar mode, local clipping image preview, thumbnail distortion, AI summaries, tag fetching, search results, and more.",
       "Improved logo assets, desktop UI, animations, AI screens, and AI summary templates."
     ]
@@ -23,10 +23,12 @@
       "category": "feature",
       "contents": {
         "zh": [
-          "新增 AI 语义搜索。"
+          "新增 AI 语义搜索。",
+          "新增巴西葡萄牙语支持。"
         ],
         "en": [
-          "Added AI semantic search."
+          "Added AI semantic search.",
+          "Added Brazilian Portuguese language support."
         ]
       }
     },
