@@ -1,5 +1,14 @@
 {
   "latest": "latest.json",
-  "generated_at": "2026-05-10T08:05:43Z",
-  "source_run_id": "25623615864"
+  "localized_latest": {
+    "zh-Hans": "latest.zh-Hans.json",
+    "zh-Hant-TW": "latest.zh-Hant-TW.json",
+    "en": "latest.en.json",
+    "ja": "latest.ja.json",
+    "de": "latest.de.json",
+    "pt-BR": "latest.pt-BR.json",
+    "ko": "latest.ko.json"
+  },
+  "generated_at": "2026-05-11T14:11:50Z",
+  "source_run_id": "25675464581"
 }
