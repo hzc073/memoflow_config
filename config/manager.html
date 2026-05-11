@@ -87,6 +87,38 @@
             <section class="field-panel">
               <div class="field-head">
                 <div>
+                  <p class="eyebrow">Git 提交识别</p>
+                  <h4>从提交范围生成更新内容</h4>
+                </div>
+                <div class="inline-actions">
+                  <button type="button" id="refreshCommitRangesBtn" class="secondary">加载全部提交</button>
+                  <button type="button" id="generateFromCommitsBtn">识别生成</button>
+                </div>
+              </div>
+              <div class="form-grid">
+                <label class="wide">Git 仓库 <input id="commitRepoPath" data-transient="true" placeholder="默认读取相邻 memos 仓库" /></label>
+                <label class="wide">提交范围 <select id="commitRangePreset" data-transient="true"></select></label>
+                <label class="wide">起点提交 <select id="commitFromSelect" data-transient="true"></select></label>
+                <label class="wide">终点提交 <select id="commitToSelect" data-transient="true"></select></label>
+                <label>最多读取 <input id="commitLimit" data-transient="true" type="number" min="1" max="300" value="80" /></label>
+                <label class="check-row">
+                  <input id="commitAppendMode" data-transient="true" type="checkbox" checked />
+                  <span>追加到当前分组</span>
+                </label>
+              </div>
+              <details class="advanced-options">
+                <summary>高级：手动填写 ref</summary>
+                <div class="form-grid">
+                  <label>起点 ref <input id="commitFromRef" data-transient="true" placeholder="v1.0.31 或 commit hash" /></label>
+                  <label>终点 ref <input id="commitToRef" data-transient="true" placeholder="HEAD 或 commit hash" /></label>
+                </div>
+              </details>
+              <div id="commitRangeSummary" class="refs">正在读取 Git 范围...</div>
+              <div id="commitGenerateSummary" class="refs"></div>
+            </section>
+            <section class="field-panel">
+              <div class="field-head">
+                <div>
                   <p class="eyebrow">可视化编辑</p>
                   <h4>更新内容分组</h4>
                 </div>

@@ -712,6 +712,24 @@ pre {
   font-size: 13px;
 }
 
+.advanced-options {
+  padding: 10px 12px;
+  border: 1px dashed var(--line);
+  border-radius: 7px;
+  background: white;
+}
+
+.advanced-options summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.advanced-options .form-grid {
+  margin-top: 12px;
+}
+
 .commit-list {
   display: grid;
   gap: 6px;

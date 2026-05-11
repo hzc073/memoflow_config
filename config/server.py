@@ -761,6 +761,160 @@ class ConfigRepository:
         except ApiError:
             return ""
 
+    def recent_git_tags(self, repo_path: pathlib.Path, limit: int = 12) -> list[dict[str, str]]:
+        limit = max(1, min(limit, 50))
+        raw = self.run_git(
+            repo_path,
+            [
+                "for-each-ref",
+                f"--count={limit}",
+                "--sort=-v:refname",
+                "--format=%(refname:short)",
+                "refs/tags",
+            ],
+        )
+        tags: list[dict[str, str]] = []
+        for line in raw.splitlines():
+            name = _string(line)
+            if not name:
+                continue
+            tags.append(
+                {
+                    "name": name,
+                    "date": "",
+                }
+            )
+        return tags
+
+    def git_commit_range_options(self, payload: dict[str, Any]) -> dict[str, Any]:
+        repo_path = self.resolve_git_repo_path(payload.get("repoPath") or payload.get("repo_path"))
+        try:
+            tag_limit = int(payload.get("tagLimit") or payload.get("tag_limit") or 12)
+        except (TypeError, ValueError):
+            tag_limit = 12
+        tags = self.recent_git_tags(repo_path, tag_limit)
+        seen: set[str] = set()
+        options: list[dict[str, Any]] = []
+
+        def add_option(
+            *,
+            label: str,
+            from_ref: str,
+            to_ref: str,
+            limit: int,
+            kind: str,
+            description: str = "",
+        ) -> None:
+            safe_from = _safe_git_ref(from_ref)
+            safe_to = _safe_git_ref(to_ref) or "HEAD"
+            revision = f"{safe_from}..{safe_to}" if safe_from else safe_to
+            normalized_limit = max(1, min(int(limit or 80), 300))
+            value = revision if safe_from else f"{revision}#last-{normalized_limit}"
+            if value in seen:
+                return
+            seen.add(value)
+            options.append(
+                {
+                    "value": value,
+                    "label": label,
+                    "fromRef": safe_from,
+                    "toRef": safe_to,
+                    "limit": normalized_limit,
+                    "range": revision,
+                    "kind": kind,
+                    "description": description,
+                }
+            )
+
+        latest_tag = tags[0]["name"] if tags else self.latest_git_tag(repo_path)
+        if latest_tag:
+            add_option(
+                label=f"{latest_tag} -> HEAD",
+                from_ref=latest_tag,
+                to_ref="HEAD",
+                limit=80,
+                kind="latest_to_head",
+                description="最新标签之后的提交，适合准备下一版公告。",
+            )
+
+        add_option(
+            label="最近 20 次提交",
+            from_ref="",
+            to_ref="HEAD",
+            limit=20,
+            kind="recent_commits",
+            description="不依赖标签，直接读取 HEAD 之前的最近提交。",
+        )
+        add_option(
+            label="最近 50 次提交",
+            from_ref="",
+            to_ref="HEAD",
+            limit=50,
+            kind="recent_commits",
+            description="范围较宽，适合标签缺失或批量整理。",
+        )
+
+        for index in range(len(tags) - 1):
+            current = tags[index]["name"]
+            previous = tags[index + 1]["name"]
+            add_option(
+                label=f"{previous} -> {current}",
+                from_ref=previous,
+                to_ref=current,
+                limit=120,
+                kind="tag_pair",
+                description="两个相邻标签之间的提交，适合回溯某个已发布版本。",
+            )
+
+        return {
+            "repoPath": str(repo_path),
+            "tags": tags,
+            "defaultValue": options[0]["value"] if options else "",
+            "options": options,
+        }
+
+    def git_commit_options(self, payload: dict[str, Any]) -> dict[str, Any]:
+        repo_path = self.resolve_git_repo_path(payload.get("repoPath") or payload.get("repo_path"))
+        raw_limit = _string(payload.get("limit"))
+        try:
+            limit = 0 if raw_limit.lower() == "all" else int(raw_limit or 0)
+        except (TypeError, ValueError):
+            limit = 0
+        if limit > 0:
+            limit = max(1, min(limit, 5000))
+        log_args = [
+            "log",
+            "--date=short",
+            "--pretty=format:%H%x1f%h%x1f%s%x1f%ad%x1f%D",
+        ]
+        if limit > 0:
+            log_args.insert(1, f"--max-count={limit}")
+        log_args.append("HEAD")
+        raw = self.run_git(
+            repo_path,
+            log_args,
+        )
+        commits: list[dict[str, str]] = []
+        for line in raw.splitlines():
+            parts = line.split("\x1f")
+            if len(parts) != 5:
+                continue
+            full_hash, short_hash, subject, date_label, refs = parts
+            commits.append(
+                {
+                    "hash": full_hash,
+                    "short": short_hash,
+                    "subject": subject,
+                    "date": date_label,
+                    "refs": refs,
+                }
+            )
+        return {
+            "repoPath": str(repo_path),
+            "limit": limit,
+            "commits": commits,
+        }
+
     def git_defaults(self) -> dict[str, str]:
         repo_path = self.default_git_repo_path()
         return {
@@ -1560,6 +1714,26 @@ class ManagerHandler(BaseHTTPRequestHandler):
                 data = self.repo.localized_editor_payload(
                     (params.get("id") or [""])[0],
                     (params.get("locale") or [""])[0],
+                )
+                self._send_json({"ok": True, "data": data})
+                return
+            if parsed.path == "/api/git/commit-ranges":
+                params = parse_qs(parsed.query)
+                data = self.repo.git_commit_range_options(
+                    {
+                        "repoPath": (params.get("repoPath") or params.get("repo_path") or [""])[0],
+                        "tagLimit": (params.get("tagLimit") or params.get("tag_limit") or ["12"])[0],
+                    }
+                )
+                self._send_json({"ok": True, "data": data})
+                return
+            if parsed.path == "/api/git/commits":
+                params = parse_qs(parsed.query)
+                data = self.repo.git_commit_options(
+                    {
+                        "repoPath": (params.get("repoPath") or params.get("repo_path") or [""])[0],
+                        "limit": (params.get("limit") or ["all"])[0],
+                    }
                 )
                 self._send_json({"ok": True, "data": data})
                 return

@@ -8,6 +8,9 @@ const state = {
   selectedLocalizationLocale: "en",
   localizedEditor: null,
   lastAiTranslation: null,
+  commitRanges: [],
+  commitChoices: [],
+  selectedCommitRange: "",
   selectedNotice: 0,
   selectedUpdate: 0,
   selectedDonor: 0,
@@ -174,7 +177,11 @@ async function api(path, body) {
   const response = await fetch(path, options);
   const payload = await response.json().catch(() => ({}));
   if (!response.ok || payload.ok === false) {
-    const error = new Error(typeof payload.error === "string" ? payload.error : "请求失败");
+    let message = typeof payload.error === "string" ? payload.error : "请求失败";
+    if (response.status === 404 && String(path).startsWith("/api/git/")) {
+      message = "Git 提交接口不存在，请重启本地配置管理器服务后刷新页面。";
+    }
+    const error = new Error(message);
     error.status = response.status;
     error.payload = payload.error;
     throw error;
@@ -250,6 +257,11 @@ async function loadConfig() {
   $("repoRoot").textContent = data.repoRoot;
   renderAll();
   setDirty(false);
+  loadGitSelectors({ applyDefault: true }).catch((error) => {
+    console.warn(error);
+    const box = $("commitRangeSummary");
+    if (box) box.textContent = `无法读取 Git 范围：${error.message}`;
+  });
 }
 
 function renderAll() {
@@ -277,7 +289,187 @@ function renderGitDefaults() {
   if ($("commitRepoPath") && !$("commitRepoPath").value) $("commitRepoPath").value = defaults.repoPath || "";
   if ($("commitFromRef") && !$("commitFromRef").value) $("commitFromRef").value = defaults.fromRef || "";
   if ($("commitToRef") && !$("commitToRef").value) $("commitToRef").value = defaults.toRef || "HEAD";
+  if ($("commitLimit") && !$("commitLimit").value) $("commitLimit").value = "80";
+  renderCommitRangeSelect();
+  renderCommitSelects();
   if ($("aiTargetLocales") && !$("aiTargetLocales").value) $("aiTargetLocales").value = localizedAnnouncementLocales.join(", ");
+}
+
+function commitMatchesRef(commit, ref) {
+  const text = String(ref || "").trim();
+  if (!text || !commit) return false;
+  const refs = String(commit.refs || "")
+    .split(",")
+    .map((item) => item.trim())
+    .flatMap((item) => {
+      const withoutTag = item.replace(/^tag:\s*/, "");
+      const withoutHead = item.replace(/^HEAD\s*->\s*/, "");
+      return [item, withoutTag, withoutHead];
+    });
+  return commit.hash === text
+    || commit.short === text
+    || commit.hash.startsWith(text)
+    || refs.includes(text);
+}
+
+function commitForRef(ref) {
+  return (state.commitChoices || []).find((commit) => commitMatchesRef(commit, ref)) || null;
+}
+
+function commitOptionLabel(commit) {
+  const refs = commit.refs ? ` · ${commit.refs}` : "";
+  return `${commit.short} · ${commit.date || ""} · ${commit.subject || ""}${refs}`;
+}
+
+function commitLabelForRef(ref) {
+  const commit = commitForRef(ref);
+  if (!commit) return ref || "";
+  return `${commit.short} · ${commit.subject || ""}`;
+}
+
+function renderCommitSelects() {
+  const fromSelect = $("commitFromSelect");
+  const toSelect = $("commitToSelect");
+  if (!fromSelect || !toSelect) return;
+  const commits = state.commitChoices || [];
+  const render = (select, currentRef, label) => {
+    const matched = commitForRef(currentRef);
+    select.innerHTML = [
+      commits.length
+        ? `<option value="__manual__">${escapeHtml(label)}：${escapeHtml(commitLabelForRef(currentRef) || "未选择")}</option>`
+        : `<option value="__manual__">正在加载提交列表...</option>`,
+      ...commits.map((commit) => `<option value="${escapeHtml(commit.hash)}">${escapeHtml(commitOptionLabel(commit))}</option>`),
+    ].join("");
+    select.value = matched ? matched.hash : "__manual__";
+  };
+  render(fromSelect, $("commitFromRef")?.value.trim(), "使用当前起点");
+  render(toSelect, $("commitToRef")?.value.trim(), "使用当前终点");
+}
+
+function selectedCommitRangeOption() {
+  const selected = $("commitRangePreset")?.value || state.selectedCommitRange || "";
+  return (state.commitRanges || []).find((option) => String(option.value) === String(selected)) || null;
+}
+
+function renderCommitRangeSelect() {
+  const select = $("commitRangePreset");
+  if (!select) return;
+  const ranges = state.commitRanges || [];
+  const selected = state.selectedCommitRange || ranges[0]?.value || "__custom__";
+  select.innerHTML = [
+    `<option value="__custom__">自定义范围</option>`,
+    ...ranges.map((option) => {
+      const meta = option.range && option.limit ? ` · ${option.range} · ${option.limit}` : "";
+      return `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label || option.value)}${escapeHtml(meta)}</option>`;
+    }),
+  ].join("");
+  select.value = ranges.some((option) => String(option.value) === String(selected)) ? selected : "__custom__";
+  state.selectedCommitRange = select.value;
+  renderCommitRangeSummary();
+}
+
+function renderCommitRangeSummary() {
+  const box = $("commitRangeSummary");
+  if (!box) return;
+  const option = selectedCommitRangeOption();
+  if (!option) {
+    const fromRef = $("commitFromRef")?.value.trim() || "";
+    const toRef = $("commitToRef")?.value.trim() || "HEAD";
+    const range = fromRef ? `${commitLabelForRef(fromRef)} -> ${commitLabelForRef(toRef) || toRef}` : commitLabelForRef(toRef) || toRef;
+    box.innerHTML = `
+      <strong>${escapeHtml(range)}</strong>
+      <span>当前使用自定义提交范围。</span>
+      <span>已加载 ${escapeHtml((state.commitChoices || []).length)} 条提交可选。</span>
+    `;
+    return;
+  }
+  box.innerHTML = `
+    <strong>${escapeHtml(option.range || option.value)}</strong>
+    <span>最多读取 ${escapeHtml(option.limit || 80)} 条提交。</span>
+    <span>已加载 ${escapeHtml((state.commitChoices || []).length)} 条提交可选。</span>
+    ${option.description ? `<span>${escapeHtml(option.description)}</span>` : ""}
+  `;
+}
+
+function applyCommitRangeOption(option) {
+  if (!option) return;
+  $("commitFromRef").value = option.fromRef || "";
+  $("commitToRef").value = option.toRef || "HEAD";
+  $("commitLimit").value = option.limit || 80;
+  state.selectedCommitRange = option.value || "__custom__";
+  renderCommitRangeSelect();
+  renderCommitSelects();
+}
+
+async function loadCommitRanges({ applyDefault = false } = {}) {
+  if (!$("commitRangePreset")) return null;
+  const repoPath = $("commitRepoPath")?.value.trim() || state.data?.gitDefaults?.repoPath || "";
+  const params = new URLSearchParams();
+  if (repoPath) params.set("repoPath", repoPath);
+  const data = await api(`/api/git/commit-ranges?${params.toString()}`);
+  state.commitRanges = data.options || [];
+  if ($("commitRepoPath") && data.repoPath) $("commitRepoPath").value = data.repoPath;
+  if (applyDefault || !selectedCommitRangeOption()) {
+    const option = state.commitRanges.find((item) => item.value === data.defaultValue) || state.commitRanges[0];
+    if (option) applyCommitRangeOption(option);
+  } else {
+    renderCommitRangeSelect();
+  }
+  return data;
+}
+
+async function loadCommitChoices({ all = true } = {}) {
+  if (!$("commitFromSelect") || !$("commitToSelect")) return null;
+  const repoPath = $("commitRepoPath")?.value.trim() || state.data?.gitDefaults?.repoPath || "";
+  const params = new URLSearchParams({ limit: all ? "all" : "500" });
+  if (repoPath) params.set("repoPath", repoPath);
+  const data = await api(`/api/git/commits?${params.toString()}`);
+  state.commitChoices = data.commits || [];
+  if ($("commitRepoPath") && data.repoPath) $("commitRepoPath").value = data.repoPath;
+  renderCommitSelects();
+  renderCommitRangeSummary();
+  return data;
+}
+
+async function loadGitSelectors(options = {}) {
+  let rangeError = null;
+  try {
+    await loadCommitRanges(options);
+  } catch (error) {
+    rangeError = error;
+    state.commitRanges = [];
+    renderCommitRangeSelect();
+  }
+  try {
+    await loadCommitChoices({ all: true });
+  } catch (error) {
+    if (rangeError) throw rangeError;
+    throw error;
+  }
+  if (rangeError) {
+    const box = $("commitRangeSummary");
+    if (box) {
+      box.innerHTML = `
+        <strong>已加载 ${escapeHtml((state.commitChoices || []).length)} 条提交。</strong>
+        <span>范围预设读取失败：${escapeHtml(rangeError.message)}</span>
+      `;
+    }
+  }
+}
+
+function applyCommitSelect(kind, value) {
+  if (value === "__manual__") return;
+  const commit = (state.commitChoices || []).find((item) => item.hash === value);
+  if (!commit) return;
+  if (kind === "from") {
+    $("commitFromRef").value = commit.hash;
+  } else {
+    $("commitToRef").value = commit.hash;
+  }
+  state.selectedCommitRange = "__custom__";
+  if ($("commitRangePreset")) $("commitRangePreset").value = "__custom__";
+  renderCommitSelects();
+  renderCommitRangeSummary();
 }
 
 function selectedAnnouncementForEditor() {
@@ -350,12 +542,16 @@ function normalizeAnnouncementItems(items) {
   if (!Array.isArray(items)) return [];
   return items
     .filter((item) => item && typeof item === "object")
-    .map((item) => ({
-      category: String(item.category || "improvement").trim() || "improvement",
-      contents: {
-        zh: lines(item.contents?.zh),
-      },
-    }));
+    .map((item) => {
+      const zh = lines(item.contents?.zh);
+      const fallback = zh.length ? [] : lines(item.contents?.en);
+      return {
+        category: String(item.category || "improvement").trim() || "improvement",
+        contents: {
+          zh: [...zh, ...fallback],
+        },
+      };
+    });
 }
 
 function announcementCategorySelect(category) {
@@ -1696,6 +1892,38 @@ function attachEvents() {
   if ($("generateFromCommitsBtn")) {
     $("generateFromCommitsBtn").addEventListener("click", () => generateAnnouncementItemsFromCommits().catch(handleError));
   }
+  if ($("refreshCommitRangesBtn")) {
+    $("refreshCommitRangesBtn").addEventListener("click", () => loadGitSelectors({ applyDefault: true }).catch(handleError));
+  }
+  if ($("commitRangePreset")) {
+    $("commitRangePreset").addEventListener("change", () => {
+      const option = selectedCommitRangeOption();
+      if (option) {
+        applyCommitRangeOption(option);
+      } else {
+        state.selectedCommitRange = "__custom__";
+        renderCommitRangeSummary();
+      }
+    });
+  }
+  if ($("commitFromSelect")) {
+    $("commitFromSelect").addEventListener("change", () => applyCommitSelect("from", $("commitFromSelect").value));
+  }
+  if ($("commitToSelect")) {
+    $("commitToSelect").addEventListener("change", () => applyCommitSelect("to", $("commitToSelect").value));
+  }
+  if ($("commitRepoPath")) {
+    $("commitRepoPath").addEventListener("change", () => loadGitSelectors({ applyDefault: true }).catch(handleError));
+  }
+  ["commitFromRef", "commitToRef", "commitLimit"].forEach((id) => {
+    if (!$(id)) return;
+    $(id).addEventListener("input", () => {
+      state.selectedCommitRange = "__custom__";
+      if ($("commitRangePreset")) $("commitRangePreset").value = "__custom__";
+      renderCommitSelects();
+      renderCommitRangeSummary();
+    });
+  });
   if ($("aiTranslateBtn")) {
     $("aiTranslateBtn").addEventListener("click", () => generateAiTranslations().catch(handleError));
   }
