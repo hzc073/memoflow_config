@@ -61,12 +61,24 @@ jobs:
 
           ts="$(date -u +"%Y%m%dT%H%M%SZ")"
           mkdir -p publish/update/versions
-          cp dist/update/latest.json "publish/update/latest.json"
-          cp dist/update/latest.json "publish/update/versions/latest-$ts.json"
+          cp dist/update/latest*.json publish/update/
+          for file in dist/update/latest*.json; do
+            base="$(basename "$file" .json)"
+            cp "$file" "publish/update/versions/${base}-$ts.json"
+          done
 
           cat > publish/update/index.json <<EOF
           {
             "latest": "latest.json",
+            "localized_latest": {
+              "zh-Hans": "latest.zh-Hans.json",
+              "zh-Hant-TW": "latest.zh-Hant-TW.json",
+              "en": "latest.en.json",
+              "ja": "latest.ja.json",
+              "de": "latest.de.json",
+              "pt-BR": "latest.pt-BR.json",
+              "ko": "latest.ko.json"
+            },
             "generated_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
             "source_run_id": "${{ steps.src.outputs.run_id }}"
           }

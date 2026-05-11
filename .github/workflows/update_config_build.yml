@@ -154,6 +154,6 @@ jobs:
         with:
           name: update-config-bundle
           path: |
-            dist/update/latest.json
+            dist/update/latest*.json
             dist/update/build_metadata.json
           if-no-files-found: error

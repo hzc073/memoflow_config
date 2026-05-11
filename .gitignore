@@ -1,2 +1,4 @@
 备注
 i18n_skipped.txt
+config/ai.local.json
+config/*.local.json
