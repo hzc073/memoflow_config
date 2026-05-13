@@ -1,0 +1,43 @@
+{
+  "id": "20260513074902724",
+  "locale": "ko",
+  "title": "v1.0.32",
+  "summary": [],
+  "items": [
+    {
+      "category": "improvement",
+      "contents": [
+        "더보기 메뉴 스타일 조정",
+        "홈 화면에 좋아요 및 댓글 추가(show-home-memo-engagement)",
+        "사이드바 제스처 최적화",
+        "글에 이미지 링크 추가 지원",
+        "시스템 안정성 조정",
+        "데스크톱 메모 목록/미리보기 상호작용 최적화",
+        "업데이트 공지 및 알림 공지 푸시 로직 최적화"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "임시 보관함 및 컬렉션 화면에 메인 화면으로 돌아가기 기능 추가",
+        "0.28 대응",
+        "편집 중인 글을 임시 보관함에 넣을 수 있도록 추가",
+        "임시 보관함 진입 경로 추가",
+        "전체 화면 모드 추가"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "화면 전환 시 키보드가 자동으로 표시되지 않는 문제 수정",
+        "태그를 닫을 수 없는 문제 수정(fix-tag-autocomplete-overlay-picker-lifecycle)",
+        "샤오홍슈 클리핑이 되지 않는 문제 수정"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "7542f32d3e00c7c8d1b0a694c5a733cf3524e3d2f26e7d3c92a7e67c616e1fab",
+    "status": "reviewed"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "version_info": {
     "android": {
       "latest_version": "1.0.32",
@@ -162,36 +162,36 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "调整 更多 菜单样式",
-              "首页增加点赞和评论（show-home-memo-engagement）",
-              "优化侧边栏手势",
-              "支持在文章中添加图片链接",
-              "系统稳定性调整",
-              "优化桌面备忘录列表/预览交互",
-              "优化更新公告、通知公告推送逻辑"
+            "ko": [
+              "더보기 메뉴 스타일 조정",
+              "홈 화면에 좋아요 및 댓글 추가(show-home-memo-engagement)",
+              "사이드바 제스처 최적화",
+              "글에 이미지 링크 추가 지원",
+              "시스템 안정성 조정",
+              "데스크톱 메모 목록/미리보기 상호작용 최적화",
+              "업데이트 공지 및 알림 공지 푸시 로직 최적화"
             ]
           }
         },
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "添加返回主界面的功能到草稿箱和集合屏幕",
-              "适配 0.28",
-              "新增编辑中的文章可进草稿箱",
-              "新增草稿箱入口",
-              "新增全屏模式"
+            "ko": [
+              "임시 보관함 및 컬렉션 화면에 메인 화면으로 돌아가기 기능 추가",
+              "0.28 대응",
+              "편집 중인 글을 임시 보관함에 넣을 수 있도록 추가",
+              "임시 보관함 진입 경로 추가",
+              "전체 화면 모드 추가"
             ]
           }
         },
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "切换界面键盘无法自动唤起",
-              "标签无法关闭（fix-tag-autocomplete-overlay-picker-lifecycle）",
-              "修复小红书无法剪藏"
+            "ko": [
+              "화면 전환 시 키보드가 자동으로 표시되지 않는 문제 수정",
+              "태그를 닫을 수 없는 문제 수정(fix-tag-autocomplete-overlay-picker-lifecycle)",
+              "샤오홍슈 클리핑이 되지 않는 문제 수정"
             ]
           }
         }
@@ -204,10 +204,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "新增 AI 语义搜索。",
-              "新增巴西葡萄牙语支持。"
-            ],
             "en": [
               "Added AI semantic search.",
               "Added Brazilian Portuguese language support."
@@ -217,18 +213,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复导航栏模式会意外退出的错误。",
-              "修复本地模式剪藏无法内联查看图片的问题。",
-              "修复缩略图变形的错误。",
-              "修复 AI 总结容易未响应的错误。",
-              "修复 0.27 版本可能无法获取标签的错误。",
-              "重构图片压缩流程。",
-              "修复搜索按钮渲染错误。",
-              "剪藏图片增加懒加载。",
-              "修复搜索结果不可靠的问题。",
-              "修复启动页问题。"
-            ],
             "en": [
               "Fixed an issue where navigation bar mode could exit unexpectedly.",
               "Fixed local mode clipping images not being viewable inline.",
@@ -246,14 +230,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "细节优化。",
-              "更换 Logo 素材。",
-              "桌面端 UI 优化。",
-              "优化动效。",
-              "优化 AI 界面，避免回归。",
-              "优化 AI 总结界面，增加自定义模板数量。"
-            ],
             "en": [
               "Polished details across the app.",
               "Replaced logo assets.",
@@ -273,12 +249,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "增加合密专用版本",
-              "适配 0.27.0 API",
-              "增加日历视图",
-              "新增合集功能"
-            ],
             "en": [
               "Added a dedicated HeMi build.",
               "Added compatibility with API 0.27.0.",
@@ -290,12 +260,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "改进图片压缩流程与相关性能表现",
-              "优化剪藏流程，增加顶部平台识别",
-              "调整导航与手势交互",
-              "移除 Apple 平台脚手架"
-            ],
             "en": [
               "Improved the image compression pipeline and related performance.",
               "Optimized clipping and added top platform detection.",
@@ -307,11 +271,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复编辑图片时预览图变形",
-              "修复 Tag 排序无法保存",
-              "修复桌面端多账户切换失败"
-            ],
             "en": [
               "Fixed distorted image previews while editing.",
               "Fixed tag sorting not being saved.",
@@ -328,9 +287,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "相册选图支持原图选择"
-            ],
             "en": [
               "Gallery picking now supports original-image selection."
             ]
@@ -339,9 +295,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "提升 AI 服务兼容性"
-            ],
             "en": [
               "Improved AI service compatibility."
             ]
@@ -356,10 +309,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "统一编辑器、快捷输入与内联编辑的附件选择流程",
-              "抽离相机附件捕获逻辑并补足缺失文件提示"
-            ],
             "en": [
               "Unified attachment picking across the editor, quick input, and inline compose.",
               "Extracted camera attachment capture logic and improved missing-file handling."
@@ -369,9 +318,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复 #141 相关的媒体选择与添加问题"
-            ],
             "en": [
               "Fixed the media picking and attachment add flow behind issue #141."
             ]
@@ -386,9 +332,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "抽屉菜单新增提醒角标"
-            ],
             "en": [
               "Added reminder badges to the drawer menu."
             ]
@@ -397,10 +340,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "草稿箱图片增加分辨率上限",
-              "导出与本地库同步流程继续补强"
-            ],
             "en": [
               "Added resolution caps for draft images.",
               "Further strengthened export and local-library sync flows."
@@ -410,11 +349,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复导出不带位置信息的错误",
-              "修复备忘录关系元数据和本地关系片段未保留的问题",
-              "修复桌面子窗口同步与数据库写入问题"
-            ],
             "en": [
               "Fixed exports missing location information.",
               "Fixed memo relation metadata and local relation fragments not being preserved.",
@@ -431,12 +365,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "新增快捷语音输入",
-              "草稿箱支持从工具栏快速进入",
-              "本地库名称支持修改",
-              "新增通知菜单与抽屉提醒角标"
-            ],
             "en": [
               "Added quick voice input.",
               "Drafts can now be opened directly from the toolbar.",
@@ -448,12 +376,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "UI 细节持续调整",
-              "优化快捷语音与语音输入界面",
-              "优化录音路由与队列同步",
-              "取消标签统一小写规范，保留原始大小写"
-            ],
             "en": [
               "Continued refining UI details.",
               "Improved quick voice and voice input screens.",
@@ -465,11 +387,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复附件导出异常",
-              "修复文件锁冲突",
-              "修复仅本地备忘录状态容易丢失的问题"
-            ],
             "en": [
               "Fixed attachment export failures.",
               "Fixed file-lock conflicts.",
@@ -486,11 +403,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "新增局域网同步功能",
-              "搜索支持附件、定位、双链、时间筛选",
-              "新增启动方式与偏好设置"
-            ],
             "en": [
               "Added LAN sync.",
               "Search now supports filtering by attachments, location, backlinks, and time.",
@@ -501,13 +413,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "优化 WebDAV 界面与同步逻辑",
-              "适配坚果云 WebDAV",
-              "优化附件上传逻辑与附件分类",
-              "调整实验室布局",
-              "优化桌面端退出程序体验"
-            ],
             "en": [
               "Improved the WebDAV UI and sync flow.",
               "Added Nutstore WebDAV compatibility.",
@@ -520,9 +425,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复无序列表、有序列表、待办事项工具栏无法正常插入的问题"
-            ],
             "en": [
               "Fixed the toolbar insertion issue for unordered lists, ordered lists, and todo items."
             ]
@@ -537,13 +439,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "第三方分享支持直接剪藏内容",
-              "新增小红书视频剪藏",
-              "增强第三方分享剪藏，并支持清洗公众号文章",
-              "工具栏新增更多选项",
-              "笔记详情页支持双击进入编辑"
-            ],
             "en": [
               "Third-party sharing now supports direct content clipping.",
               "Added Xiaohongshu video clipping.",
@@ -556,11 +451,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "随机漫步补充位置信息",
-              "继续完善公众号文章清洗",
-              "优化长文阅读体验"
-            ],
             "en": [
               "Random Walk now carries location information.",
               "Further improved article cleanup for public account content.",
@@ -571,12 +461,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复图片预览黑屏故障",
-              "修复探索界面输入框无法显示的问题",
-              "防止 AI 摘要在未对齐的嵌入 blob 上崩溃",
-              "修复附件同步问题"
-            ],
             "en": [
               "Fixed the image preview black screen.",
               "Fixed the missing input field on the Explore screen.",
@@ -594,9 +478,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "Windows 端支持图片压缩"
-            ],
             "en": [
               "Added image compression support on Windows."
             ]
@@ -605,14 +486,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "移动端启用压缩时也可选择发送原图",
-              "附件查看界面支持按类型分类",
-              "首次握手失败时支持回退到 HTTP 重试",
-              "渲染模块解耦并补足空白行渲染",
-              "优化 Android 小组件并补充多语言支持",
-              "第三方分享可自动抓取标题并按 Markdown 填入编辑框"
-            ],
             "en": [
               "Mobile can now keep the original image even when compression is enabled.",
               "Attachment viewing now supports type-based grouping.",
@@ -632,10 +505,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "随机漫步重构后支持探索笔记与 AI 总结",
-              "AI 设置新增代理配置"
-            ],
             "en": [
               "Random Walk now supports exploration notes and AI summaries.",
               "Added proxy configuration in AI settings."
@@ -645,12 +514,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "AI 总结配置调整为 Chat 模型必选、向量模型可选",
-              "图片预览分辨率上限调整为 1080 像素",
-              "自动同步成功提示默认关闭",
-              "日志脱敏与文件保存路径进一步优化"
-            ],
             "en": [
               "AI summaries now require a chat model while keeping the vector model optional.",
               "Image previews are capped at 1080px.",
@@ -662,10 +525,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "兼容 Memos 0.26.2 在 MySQL 下时间字段处理不一致的问题",
-              "修复 Android 10 无法构建数据库的错误"
-            ],
             "en": [
               "Fixed inconsistent MySQL timestamp handling with Memos 0.26.2.",
               "Fixed the database creation failure on Android 10."
@@ -681,13 +540,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "登录页支持快速填写地址，并可切换 HTTP / HTTPS 协议",
-              "新增自定义工具栏，支持工具排序与隐藏",
-              "新增场景微引导",
-              "桌面快捷键与多媒体浏览翻页增强",
-              "AI 总结新增 9 个模板，AI 设置支持多服务商与自定义模型"
-            ],
             "en": [
               "Login screen now supports quicker server address entry and HTTP/HTTPS switching.",
               "Added a customizable toolbar with tool sorting and hiding.",
@@ -700,14 +552,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "优化登录界面交互",
-              "重构 AI 总结与 AI 设置模块",
-              "Windows 端支持窗口拉伸",
-              "完善定位功能",
-              "优化侧边栏与全部标签页布局",
-              "标签补充最近使用时间并支持排序"
-            ],
             "en": [
               "Refined the login screen interaction.",
               "Refactored the AI summary and AI settings modules.",
@@ -721,12 +565,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复若干已知问题与稳定性问题",
-              "修复启动流程、登录探测与任务列表显示问题",
-              "修复随机漫步渲染错误，并优化筛选弹窗",
-              "修复离线笔记上传服务器时创建时间被重置的问题"
-            ],
             "en": [
               "Fixed several known issues and stability problems.",
               "Fixed the startup flow, login detection, and task list display.",
@@ -744,14 +582,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "Windows 端托盘功能",
-              "图片压缩",
-              "提交日志能力",
-              "标签自定义颜色",
-              "搜索支持快捷搜索",
-              "编辑框支持筛选标签"
-            ],
             "en": [
               "Added Windows tray support.",
               "Added image compression.",
@@ -762,23 +592,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "仓库整理与部分文案维护",
-              "App 文件解耦与多轮架构调整",
-              "Windows 架构重构",
-              "Windows 端 UI 和交互体验优化",
-              "允许使用系统字体",
-              "增加分页提升浏览流畅度",
-              "本地导入流程优化",
-              "统计界面数据卡片优化",
-              "第三方分享格式放宽",
-              "启动流程重构",
-              "启动页动画与界面统一",
-              "日志输出完善并改用 zip 导出",
-              "WebDAV 同步逻辑优化",
-              "标签系统优化",
-              "桌面及 UI 文案本地化"
-            ],
             "en": [
               "Tidied the repository and maintained selected copy.",
               "Decoupled app files and completed multiple architecture adjustments.",
@@ -801,21 +614,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "若干通用错误",
-              "Debug 模式保存问题",
-              "本地模式无法导入",
-              "空白行渲染问题",
-              "渲染溢出问题",
-              "同步笔记不生效",
-              "从设置返回主页偶发模糊",
-              "跨窗口同步错误",
-              "本地库无法 WebDAV 同步",
-              "WebDAV 首次需手动同步问题",
-              "桌面会话稳定性问题",
-              "WebDAV 备份数据库上下文绑定问题",
-              "同步与 API 兼容性问题"
-            ],
             "en": [
               "Fixed several general issues.",
               "Fixed saving issues in debug mode.",
@@ -842,23 +640,6 @@
         {
           "category": "feature",
           "contents": {
-            "zh": [
-              "新增 Windows 端代码",
-              "模板变量与多地图定位",
-              "Windows 安装包构建",
-              "Windows 桌面客户端",
-              "Ob 同步功能",
-              "关于页面更新",
-              "快捷搜索",
-              "WebDAV 备份密码找回",
-              "服务器模式下的 WebDAV 备份",
-              "回收站与笔记历史版本",
-              "F-Droid 构建",
-              "CI/CD 自动化检测",
-              "Debug 模式增加截图功能",
-              "增加模板",
-              "增加 Windows 端部署资源"
-            ],
             "en": [
               "Added Windows-side codebase.",
               "Added template variables and multi-map location support.",
@@ -881,14 +662,6 @@
         {
           "category": "improvement",
           "contents": {
-            "zh": [
-              "桌面端设置界面优化",
-              "预热并复用桌面子窗口，提升设置与快速输入唤醒速度",
-              "同步更新多语言文案",
-              "日志收集并增强位置隐私脱敏",
-              "更新 README 文档",
-              "更新公告推送方式"
-            ],
             "en": [
               "Optimized the desktop settings page.",
               "Warmed and reused desktop child windows to speed up settings and quick-input wake-up.",
@@ -902,12 +675,6 @@
         {
           "category": "fix",
           "contents": {
-            "zh": [
-              "修复首页/编辑器/统计等页面交互问题",
-              "修复若干错误",
-              "修复 AI 总结按钮组件渲染溢出",
-              "更新 bug 模板"
-            ],
             "en": [
               "Fixed interaction issues on Home/Editor/Stats pages.",
               "Fixed several bugs.",
@@ -925,14 +692,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "html折叠渲染",
-              "随机漫步卡片筛选",
-              "同步队列任务进度条",
-              "Memos 多版本路由画像与兼容回退策略",
-              "版本路由与 URL 工具测试",
-              "实验室更换API入口"
-            ],
             "en": [
               "html折叠渲染",
               "随机漫步卡片筛选",
@@ -946,11 +705,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "兼容模式改成手动选择服务器版本",
-              "登录/账户清理流程并补充 API 调试信息展示",
-              "按 版本 拆分 API 门面并锁定路由"
-            ],
             "en": [
               "兼容模式改成手动选择服务器版本",
               "登录/账户清理流程并补充 API 调试信息展示",
@@ -961,18 +715,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "部分乱码",
-              "用户名登录失败",
-              "标签筛选渲染溢出",
-              "随机漫步乱码",
-              "0.21-0.24版本无法使用用户名登录",
-              "0.22无法加载图片",
-              "0.21版本无法导入",
-              "修复 v0.24 媒体地址鉴权并增强同步重试与进度",
-              "用户登录顺序与版本校验流程",
-              "搜索历史长列表滚动容器"
-            ],
             "en": [
               "部分乱码",
               "用户名登录失败",
@@ -996,14 +738,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "视频预览和播放",
-              "语言中国台湾、德语、日语",
-              "GitHub blob 转换",
-              "memo 旧接口回退门控与日志",
-              "SVG 渲染分支",
-              "偏好设置-全部笔记点赞评论显示开关"
-            ],
             "en": [
               "视频预览和播放",
               "语言中国台湾、德语、日语",
@@ -1017,11 +751,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "视频缩略图",
-              "语言选择",
-              "图片渲染日志"
-            ],
             "en": [
               "视频缩略图",
               "语言选择",
@@ -1032,14 +761,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "html渲染错误",
-              "应用锁错误",
-              "侧面栏展开时掉帧",
-              "图文混合附件切换避免滑动在视频节点中断",
-              "md语法渲染错误",
-              "搜索结果不全并增强兼容性"
-            ],
             "en": [
               "html渲染错误",
               "应用锁错误",
@@ -1059,9 +780,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "手势动作-列表界面右滑打开侧边栏"
-            ],
             "en": [
               "手势动作-列表界面右滑打开侧边栏"
             ]
@@ -1070,13 +788,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "文字与图片之间的间距",
-              "图片与图片之间的间距",
-              "通知样式",
-              "统一通知样式和位置",
-              "API路由选择"
-            ],
             "en": [
               "文字与图片之间的间距",
               "图片与图片之间的间距",
@@ -1089,12 +800,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "密码错误无法复位",
-              "探索界面点赞和评论错误",
-              "语言选择界面偶尔多次提出",
-              "0.21.0无法正确使用api"
-            ],
             "en": [
               "密码错误无法复位",
               "探索界面点赞和评论错误",
@@ -1112,11 +817,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "LaTeX公式渲染",
-              "本地模式，支持webdav加密备份",
-              "自动分页查询"
-            ],
             "en": [
               "LaTeX公式渲染",
               "本地模式，支持webdav加密备份",
@@ -1127,10 +827,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "笔记更多菜单弹出时间",
-              "webdav可记住密码"
-            ],
             "en": [
               "笔记更多菜单弹出时间",
               "webdav可记住密码"
@@ -1140,10 +836,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "用户名密码登录错误",
-              "添加本地库错误"
-            ],
             "en": [
               "用户名密码登录错误",
               "添加本地库错误"
@@ -1159,10 +851,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "用户名密码登录",
-              "回到顶部按钮"
-            ],
             "en": [
               "用户名密码登录",
               "回到顶部按钮"
@@ -1172,12 +860,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "标签跟随后端统一转成小写",
-              "应用锁自动对焦光标",
-              "取消笔记详情页中的展开",
-              "笔记双链关系缓存本地"
-            ],
             "en": [
               "标签跟随后端统一转成小写",
               "应用锁自动对焦光标",
@@ -1195,10 +877,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "快速记录",
-              "附件显示"
-            ],
             "en": [
               "快速记录",
               "附件显示"
@@ -1208,10 +886,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "html渲染高亮效果",
-              "删除队列任务不删笔记"
-            ],
             "en": [
               "html渲染高亮效果",
               "删除队列任务不删笔记"
@@ -1221,14 +895,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "更多按钮不显示",
-              "随机漫步无法显示音频",
-              "在个别情况掉帧的问题",
-              "代码块渲染溢出",
-              "附件名称显示错误",
-              "#36,fix: #35,fix: #34,fix: #33,fix: #32,fix: #31 v1.0.9"
-            ],
             "en": [
               "更多按钮不显示",
               "随机漫步无法显示音频",
@@ -1248,11 +914,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "定位功能",
-              "归档入口",
-              "排序功能"
-            ],
             "en": [
               "定位功能",
               "归档入口",
@@ -1263,12 +924,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "搜索支持全文搜索",
-              "定位显示位置",
-              "笔记布局",
-              "语音笔记发送方式"
-            ],
             "en": [
               "搜索支持全文搜索",
               "定位显示位置",
@@ -1280,12 +935,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "语言选择不会保存",
-              "双链无法编辑",
-              "热力图渲染错误",
-              "搜索界面无法修改待办事项"
-            ],
             "en": [
               "语言选择不会保存",
               "双链无法编辑",
@@ -1303,10 +952,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "增加长按笔记时复制",
-              "webdav备份配置"
-            ],
             "en": [
               "增加长按笔记时复制",
               "webdav备份配置"
@@ -1316,11 +961,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "笔记界面单击查看详情，双击进入编辑",
-              "版本更新采用在线检测",
-              "导出时增加附件，更新导入"
-            ],
             "en": [
               "笔记界面单击查看详情，双击进入编辑",
               "版本更新采用在线检测",
@@ -1331,11 +971,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "笔记提醒无法设置",
-              "搜索结果无法勾选待办事项 ，快捷筛选界面无法新建 (本功能由 【Mashiro_Sorata】 赞助支持)",
-              "语言选择界面语言跟按钮不联动"
-            ],
             "en": [
               "笔记提醒无法设置",
               "搜索结果无法勾选待办事项 ，快捷筛选界面无法新建 (本功能由 【Mashiro_Sorata】 赞助支持)",
@@ -1352,11 +987,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "自动上传图床功能",
-              "自定义主题（本功能由【青】赞赏加速实现）",
-              "笔记提醒"
-            ],
             "en": [
               "自动上传图床功能",
               "自定义主题（本功能由【青】赞赏加速实现）",
@@ -1367,10 +997,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "图片编辑和查看",
-              "同步方式"
-            ],
             "en": [
               "图片编辑和查看",
               "同步方式"
@@ -1380,10 +1006,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "搜索时输入法闪退",
-              "笔记图床渲染"
-            ],
             "en": [
               "搜索时输入法闪退",
               "笔记图床渲染"
@@ -1399,10 +1021,6 @@
         {
           "category": "新增",
           "contents": {
-            "zh": [
-              "第三方分享接入",
-              "功能组件和赞赏"
-            ],
             "en": [
               "第三方分享接入",
               "功能组件和赞赏"
@@ -1412,10 +1030,6 @@
         {
           "category": "修复",
           "contents": {
-            "zh": [
-              "编辑时图片无法加载",
-              "链接过长无法渲染"
-            ],
             "en": [
               "编辑时图片无法加载",
               "链接过长无法渲染"
@@ -1425,10 +1039,6 @@
         {
           "category": "优化",
           "contents": {
-            "zh": [
-              "进入笔记详情自动展开",
-              "AI 设置持久化保存本地"
-            ],
             "en": [
               "进入笔记详情自动展开",
               "AI 设置持久化保存本地"
@@ -1437,5 +1047,7 @@
         }
       ]
     }
-  ]
+  ],
+  "locale": "ko",
+  "fallback_locale": "en"
 }

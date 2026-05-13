@@ -1,0 +1,43 @@
+{
+  "id": "20260513074902724",
+  "locale": "en",
+  "title": "v1.0.32",
+  "summary": [],
+  "items": [
+    {
+      "category": "improvement",
+      "contents": [
+        "Adjusted the style of the More menu",
+        "Added likes and comments to the home page (show-home-memo-engagement)",
+        "Improved sidebar gestures",
+        "Added support for adding image links in articles",
+        "Improved system stability",
+        "Improved desktop memo list/preview interactions",
+        "Improved the push logic for update announcements and notifications"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Added the ability to return to the main screen from the Drafts and Collections screens",
+        "Adapted to 0.28",
+        "Added support for moving articles being edited to Drafts",
+        "Added a Drafts entry point",
+        "Added full-screen mode"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Fixed an issue where the keyboard could not be brought up automatically after switching screens",
+        "Fixed an issue where tags could not be closed (fix-tag-autocomplete-overlay-picker-lifecycle)",
+        "Fixed an issue where Xiaohongshu could not be clipped"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "7542f32d3e00c7c8d1b0a694c5a733cf3524e3d2f26e7d3c92a7e67c616e1fab",
+    "status": "reviewed"
+  }
+}

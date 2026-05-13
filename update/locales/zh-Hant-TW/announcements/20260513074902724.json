@@ -1,0 +1,43 @@
+{
+  "id": "20260513074902724",
+  "locale": "zh-Hant-TW",
+  "title": "v1.0.32",
+  "summary": [],
+  "items": [
+    {
+      "category": "improvement",
+      "contents": [
+        "調整「更多」選單樣式",
+        "首頁新增按讚與留言（show-home-memo-engagement）",
+        "最佳化側邊欄手勢",
+        "支援在文章中新增圖片連結",
+        "系統穩定性調整",
+        "最佳化桌面備忘錄列表／預覽互動",
+        "最佳化更新公告、通知公告推送邏輯"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "在草稿箱與集合畫面新增返回主介面的功能",
+        "適配 0.28",
+        "新增編輯中的文章可進入草稿箱",
+        "新增草稿箱入口",
+        "新增全螢幕模式"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "切換介面時鍵盤無法自動喚起",
+        "標籤無法關閉（fix-tag-autocomplete-overlay-picker-lifecycle）",
+        "修復小紅書無法剪藏"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "7542f32d3e00c7c8d1b0a694c5a733cf3524e3d2f26e7d3c92a7e67c616e1fab",
+    "status": "reviewed"
+  }
+}

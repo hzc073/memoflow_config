@@ -1,0 +1,43 @@
+{
+  "id": "20260513074902724",
+  "locale": "pt-BR",
+  "title": "v1.0.32",
+  "summary": [],
+  "items": [
+    {
+      "category": "improvement",
+      "contents": [
+        "Ajustado o estilo do menu Mais",
+        "Adicionados curtidas e comentários na página inicial (show-home-memo-engagement)",
+        "Otimizado o gesto da barra lateral",
+        "Suporte para adicionar links de imagem em artigos",
+        "Ajustes na estabilidade do sistema",
+        "Otimizada a interação da lista/visualização de memorandos na área de trabalho",
+        "Otimizada a lógica de envio de anúncios de atualização e notificações"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Adicionada a função de voltar à tela principal na caixa de rascunhos e na tela de coleções",
+        "Adaptação para 0.28",
+        "Adicionado suporte para enviar artigos em edição para a caixa de rascunhos",
+        "Adicionado acesso à caixa de rascunhos",
+        "Adicionado modo de tela cheia"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "O teclado não era aberto automaticamente ao trocar de tela",
+        "As tags não podiam ser fechadas (fix-tag-autocomplete-overlay-picker-lifecycle)",
+        "Corrigido o problema que impedia recortar conteúdo do Xiaohongshu"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "7542f32d3e00c7c8d1b0a694c5a733cf3524e3d2f26e7d3c92a7e67c616e1fab",
+    "status": "reviewed"
+  }
+}

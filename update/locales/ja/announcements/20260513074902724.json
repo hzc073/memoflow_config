@@ -1,0 +1,43 @@
+{
+  "id": "20260513074902724",
+  "locale": "ja",
+  "title": "v1.0.32",
+  "summary": [],
+  "items": [
+    {
+      "category": "improvement",
+      "contents": [
+        "「その他」メニューのスタイルを調整",
+        "ホーム画面に「いいね」とコメントを追加（show-home-memo-engagement）",
+        "サイドバーのジェスチャーを最適化",
+        "記事内に画像リンクを追加できるように対応",
+        "システムの安定性を調整",
+        "デスクトップのメモ一覧／プレビュー操作を最適化",
+        "更新のお知らせ・通知公告のプッシュロジックを最適化"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "下書き箱とコレクション画面にメイン画面へ戻る機能を追加",
+        "0.28 に対応",
+        "編集中の記事を下書き箱に保存できる機能を追加",
+        "下書き箱への入口を追加",
+        "全画面モードを追加"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "画面切り替え時にキーボードが自動で表示されない問題を修正",
+        "タグを閉じられない問題を修正（fix-tag-autocomplete-overlay-picker-lifecycle）",
+        "小紅書（RED）からクリップできない問題を修正"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "7542f32d3e00c7c8d1b0a694c5a733cf3524e3d2f26e7d3c92a7e67c616e1fab",
+    "status": "reviewed"
+  }
+}

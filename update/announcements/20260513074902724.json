@@ -5,18 +5,45 @@
   "date": "2026-05-13",
   "title": "v1.0.32",
   "show_when_up_to_date": false,
-  "contents": {
-    "en": [
-      "Update available."
-    ]
-  },
-  "new_donor_ids": [],
+  "contents": {},
+  "new_donor_ids": [
+    "3418_ji",
+    "2910_an"
+  ],
   "items": [
     {
       "category": "improvement",
       "contents": {
-        "en": [
-          "Update available."
+        "zh": [
+          "调整 更多 菜单样式",
+          "首页增加点赞和评论（show-home-memo-engagement）",
+          "优化侧边栏手势",
+          "支持在文章中添加图片链接",
+          "系统稳定性调整",
+          "优化桌面备忘录列表/预览交互",
+          "优化更新公告、通知公告推送逻辑"
+        ]
+      }
+    },
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "添加返回主界面的功能到草稿箱和集合屏幕",
+          "适配 0.28",
+          "新增编辑中的文章可进草稿箱",
+          "新增草稿箱入口",
+          "新增全屏模式"
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "切换界面键盘无法自动唤起",
+          "标签无法关闭（fix-tag-autocomplete-overlay-picker-lifecycle）",
+          "修复小红书无法剪藏"
         ]
       }
     }
