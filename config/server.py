@@ -20,10 +20,11 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import unicodedata
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
-from urllib.parse import parse_qs, unquote, urlparse
+from urllib.parse import parse_qs, quote, unquote, urlparse
 from urllib import error as urlerror
 from urllib import request as urlrequest
 
@@ -31,6 +32,8 @@ from urllib import request as urlrequest
 HOST = "127.0.0.1"
 DEFAULT_PORT = 8765
 MAX_BODY_BYTES = 25 * 1024 * 1024
+ANNOUNCEMENT_SUMMARY_LIMIT = 50
+ASSET_PUBLIC_BASE_URL = "https://juanzeng.hzc073.com/memoflow/assets/"
 SAFE_ASSET_SUFFIXES = {
     ".avif",
     ".gif",
@@ -194,6 +197,30 @@ def _localized_values(value: Any, locale: str, *, fallback_locale: str = FALLBAC
     if fallback and fallback in by_locale:
         return by_locale[fallback]
     return []
+
+
+def _summary_text(value: Any) -> str:
+    if isinstance(value, dict):
+        values = _localized_values(value, SOURCE_LOCALE, fallback_locale=SOURCE_LOCALE)
+    else:
+        values = _read_lines(value)
+    text = "；".join(values)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _limit_summary_text(value: Any, *, limit: int = ANNOUNCEMENT_SUMMARY_LIMIT) -> str:
+    text = _summary_text(value)
+    if len(text) <= limit:
+        return text
+    return text[:limit].rstrip(" ,，。.!！?？、；;：:")
+
+
+def _ai_summary_lines(raw: dict[str, Any]) -> list[str]:
+    summary = raw.get("summary")
+    if summary is None:
+        summary = raw.get("contents")
+    text = _limit_summary_text(summary)
+    return [text] if text else []
 
 
 def _announcement_source_hash(announcement: dict[str, Any], source_locale: str = SOURCE_LOCALE) -> str:
@@ -1071,6 +1098,101 @@ class ConfigRepository:
                 os.unlink(tmp_name)
         return self.load_all()
 
+    def generate_announcement_summary_with_ai(self, payload: dict[str, Any]) -> dict[str, Any]:
+        announcement = normalize_announcement(_dict(payload.get("announcement")))
+        settings = self.load_ai_settings()
+        if not settings["api_key"]:
+            raise ApiError(
+                "Missing AI settings. Set MEMOFLOW_CONFIG_AI_API_KEY or config/ai.local.json.",
+                HTTPStatus.PRECONDITION_REQUIRED,
+            )
+        generated = self._request_ai_summary(announcement=announcement, settings=settings)
+        summary = _ai_summary_lines(generated)
+        if not summary:
+            raise ApiError("AI summary response did not contain a usable summary.")
+        return {
+            "summary": summary,
+            "limit": ANNOUNCEMENT_SUMMARY_LIMIT,
+        }
+
+    def _request_ai_summary(
+        self,
+        *,
+        announcement: dict[str, Any],
+        settings: dict[str, str],
+    ) -> dict[str, Any]:
+        base_url = settings["base_url"].rstrip("/")
+        endpoint = base_url if base_url.endswith("/chat/completions") else f"{base_url}/chat/completions"
+        source_payload = {
+            "id": announcement.get("id"),
+            "title": announcement.get("title"),
+            "version": announcement.get("version"),
+            "date": announcement.get("date"),
+            "existing_summary": _localized_values(
+                announcement.get("contents"),
+                SOURCE_LOCALE,
+                fallback_locale=SOURCE_LOCALE,
+            ),
+            "items": [
+                {
+                    "category": _string(item.get("category")),
+                    "contents": _localized_values(
+                        item.get("contents"),
+                        SOURCE_LOCALE,
+                        fallback_locale=SOURCE_LOCALE,
+                    ),
+                }
+                for item in _list(announcement.get("items"))
+                if isinstance(item, dict)
+            ],
+        }
+        request_body = {
+            "model": settings["model"],
+            "temperature": 0.2,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": (
+                        "You write concise Simplified Chinese app update summaries. "
+                        "Return strict JSON only: {\"summary\":[\"...\"]}. "
+                        f"Write exactly one sentence and keep it within {ANNOUNCEMENT_SUMMARY_LIMIT} Chinese characters."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": json.dumps(
+                        {
+                            "source_locale": SOURCE_LOCALE,
+                            "limit": ANNOUNCEMENT_SUMMARY_LIMIT,
+                            "announcement": source_payload,
+                        },
+                        ensure_ascii=False,
+                    ),
+                },
+            ],
+        }
+        data = json.dumps(request_body, ensure_ascii=False).encode("utf-8")
+        request = urlrequest.Request(
+            endpoint,
+            data=data,
+            headers={
+                "Authorization": f"Bearer {settings['api_key']}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with urlrequest.urlopen(request, timeout=60) as response:
+                response_body = response.read().decode("utf-8")
+        except (OSError, urlerror.URLError) as exc:
+            raise ApiError(f"AI summary request failed: {exc}") from exc
+        try:
+            decoded = json.loads(response_body)
+            content = decoded["choices"][0]["message"]["content"]
+            return _parse_ai_json_content(content)
+        except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
+            raise ApiError("AI summary response did not contain valid JSON content.") from exc
+
     def translate_announcement_with_ai(self, payload: dict[str, Any]) -> dict[str, Any]:
         announcement = normalize_announcement(_dict(payload.get("announcement")))
         ann_id = _normalize_id(announcement.get("id"), where="announcement.id")
@@ -1382,13 +1504,28 @@ class ConfigRepository:
         return self.load_all()
 
     def upload_asset(self, payload: dict[str, Any]) -> dict[str, Any]:
-        filename = safe_filename(_string(payload.get("filename")))
+        original_filename = _string(payload.get("filename"))
+        filename = safe_filename(original_filename)
         data_url = _string(payload.get("data"))
         if not filename:
             raise ApiError("Asset filename is required")
         suffix = pathlib.Path(filename).suffix.lower()
         if suffix not in SAFE_ASSET_SUFFIXES:
             raise ApiError(f"Unsupported asset suffix: {suffix}")
+        if payload.get("auto_name"):
+            name_seed = " ".join(
+                item
+                for item in [
+                    _string(payload.get("name") or payload.get("donor_name")),
+                    _string(payload.get("donor_id")),
+                ]
+                if item
+            )
+            filename = generated_asset_filename(
+                filename,
+                name_seed=name_seed,
+                path_seed=_string(payload.get("path") or payload.get("source_path") or original_filename),
+            )
         if "," in data_url and data_url.lower().startswith("data:"):
             raw = data_url.split(",", 1)[1]
         else:
@@ -1412,7 +1549,7 @@ class ConfigRepository:
         return {
             "filename": target.name,
             "path": str(target),
-            "url": f"https://juanzeng.hzc073.com/memoflow/assets/{target.name}",
+            "url": asset_public_url(target.name),
         }
 
     def run_build_script(self, *, build: bool) -> dict[str, Any]:
@@ -1630,10 +1767,38 @@ def update_to_legacy_version_info(update: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def filename_leaf(raw: str) -> str:
+    return re.split(r"[\\/]+", _string(raw))[-1]
+
+
 def safe_filename(raw: str) -> str:
-    filename = pathlib.PurePath(raw).name
+    filename = filename_leaf(raw)
     filename = re.sub(r"[^A-Za-z0-9._ -]+", "_", filename).strip(" .")
     return filename[:160]
+
+
+def safe_asset_slug(*parts: str) -> str:
+    raw = " ".join(_string(part) for part in parts if _string(part))
+    normalized = unicodedata.normalize("NFKD", raw)
+    ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
+    slug = re.sub(r"[^A-Za-z0-9]+", "_", ascii_text).strip("_").lower()
+    if slug:
+        return slug[:80]
+    if raw:
+        return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
+    return "avatar"
+
+
+def generated_asset_filename(original_filename: str, *, name_seed: str = "", path_seed: str = "") -> str:
+    original = filename_leaf(original_filename)
+    suffix = pathlib.Path(original).suffix.lower()
+    stem = pathlib.Path(filename_leaf(path_seed) or original).stem
+    stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d%H%M%S")
+    return f"{stamp}_{safe_asset_slug(name_seed, stem)}{suffix}"
+
+
+def asset_public_url(filename: str) -> str:
+    return f"{ASSET_PUBLIC_BASE_URL}{quote(filename)}"
 
 
 def validate_v3(manifest: dict[str, Any]) -> dict[str, list[str]]:
@@ -1761,6 +1926,8 @@ class ManagerHandler(BaseHTTPRequestHandler):
                 data = self.repo.delete_announcement(payload)
             elif path == "/api/announcement/generate-from-commits":
                 data = self.repo.generate_announcement_items_from_commits(payload)
+            elif path == "/api/announcement/ai-summary":
+                data = self.repo.generate_announcement_summary_with_ai(payload)
             elif path == "/api/announcement/ai-translate":
                 data = self.repo.translate_announcement_with_ai(payload)
             elif path == "/api/announcement/localized/save":

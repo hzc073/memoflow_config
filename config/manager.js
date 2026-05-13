@@ -113,6 +113,17 @@ function parseCommaList(value) {
     .filter(Boolean);
 }
 
+function selectedValues(id) {
+  const root = $(id);
+  if (!root) return [];
+  const source = root.selectedOptions
+    ? Array.from(root.selectedOptions)
+    : Array.from(root.querySelectorAll("[data-multi-choice]:checked"));
+  return source
+    .map((option) => option.value.trim())
+    .filter(Boolean);
+}
+
 function normalizeLocaleTag(value) {
   const text = String(value || "").trim().replaceAll("_", "-").toLowerCase();
   if (!text) return "";
@@ -153,12 +164,31 @@ function setDirty(value = true) {
   $("dirtyBadge").classList.toggle("hidden", !value);
 }
 
+function messageTitle(tone) {
+  if (tone === "ok") return "操作完成";
+  if (tone === "error") return "操作失败";
+  return "提示";
+}
+
 function showMessage(message, tone = "") {
-  const box = $("message");
-  box.textContent = message;
-  box.className = `message ${tone}`.trim();
   window.clearTimeout(showMessage.timer);
-  showMessage.timer = window.setTimeout(() => box.classList.add("hidden"), 7000);
+  const modal = $("messageModal");
+  const card = modal?.querySelector(".modal-card");
+  const title = $("messageModalTitle");
+  const body = $("messageModalBody");
+  if (!modal || !card || !title || !body) {
+    window.alert(String(message ?? ""));
+    return;
+  }
+  title.textContent = messageTitle(tone);
+  body.textContent = String(message ?? "");
+  card.className = `modal-card ${tone}`.trim();
+  modal.classList.remove("hidden");
+  modal.querySelector(".modal-actions [data-close-message-modal]")?.focus();
+}
+
+function closeMessageModal() {
+  $("messageModal")?.classList.add("hidden");
 }
 
 function confirmDiscard() {
@@ -209,6 +239,53 @@ function setSelectOptions(id, options, selectedValue = "") {
   select.value = selected;
 }
 
+function setMultiSelectOptions(id, options, selectedValues = []) {
+  const root = $(id);
+  const selected = new Set((selectedValues || []).map(String));
+  const normalized = options.map((option) => (
+    typeof option === "string" ? { value: option, label: option } : option
+  ));
+  for (const value of selected) {
+    if (value && !normalized.some((option) => String(option.value) === value)) {
+      normalized.push({ value, label: `未在 donors.json 中找到：${value}` });
+    }
+  }
+  root.innerHTML = normalized.length
+    ? normalized
+      .map((option) => {
+        const value = String(option.value);
+        const label = String(option.label || value);
+        return `<label class="dropdown-option">
+          <input
+            type="checkbox"
+            value="${escapeHtml(value)}"
+            data-multi-choice
+            data-choice-label="${escapeHtml(label)}"
+            ${selected.has(value) ? "checked" : ""}
+          />
+          <span>${escapeHtml(label)}</span>
+        </label>`;
+      })
+      .join("")
+    : `<div class="empty-state">暂无可选捐赠者。</div>`;
+  updateMultiSelectSummary(id);
+}
+
+function updateMultiSelectSummary(id) {
+  const root = $(id);
+  const summary = $(`${id}Summary`);
+  if (!root || !summary) return;
+  const checked = Array.from(root.querySelectorAll("[data-multi-choice]:checked"));
+  if (!checked.length) {
+    summary.textContent = "未选择捐赠者";
+    return;
+  }
+  const labels = checked.map((input) => input.dataset.choiceLabel || input.value);
+  summary.textContent = labels.length <= 3
+    ? labels.join("、")
+    : `${labels.slice(0, 3).join("、")} 等 ${labels.length} 位`;
+}
+
 function displayOption(value) {
   return optionLabels[value] || value || "";
 }
@@ -219,6 +296,32 @@ function displayLocale(value) {
 
 function announcementCategoryLabel(value) {
   return announcementCategoryOptions.find((item) => item.value === value)?.label || value || "未分类";
+}
+
+function summaryLength(value) {
+  return String(value || "").replace(/\s+/g, "").length;
+}
+
+function updateAnnouncementSummaryCount() {
+  const counter = $("annSummaryCount");
+  if (!counter) return;
+  const count = summaryLength($("annSummaryZh")?.value || "");
+  counter.textContent = `${count} / 50`;
+  counter.classList.toggle("warn", count > 50);
+}
+
+function donorOptions() {
+  return (state.data?.donors || [])
+    .filter((donor) => donor && (donor.id || donor.name))
+    .map((donor) => {
+      const id = String(donor.id || "").trim();
+      const name = String(donor.name || "").trim();
+      return {
+        value: id,
+        label: name && id ? `${name} (${id})` : name || id,
+      };
+    })
+    .filter((option) => option.value);
 }
 
 function setupSelects() {
@@ -509,7 +612,7 @@ function currentAnnouncementFromForm() {
     title: $("annTitle").value.trim(),
     show_when_up_to_date: $("annShowWhenUpToDate").checked,
     contents: summaryZh.length ? { zh: summaryZh } : {},
-    new_donor_ids: parseCommaList($("annNewDonors").value),
+    new_donor_ids: selectedValues("annNewDonors"),
     items: announcementItemsFromEditor(),
   };
 }
@@ -640,8 +743,9 @@ function renderAnnouncementForm(announcement) {
   $("annTitle").value = announcement.title || "";
   $("annShowWhenUpToDate").checked = Boolean(announcement.show_when_up_to_date);
   $("annSummaryZh").value = textFromLines(announcement.contents?.zh);
-  $("annNewDonors").value = commaList(announcement.new_donor_ids);
+  setMultiSelectOptions("annNewDonors", donorOptions(), announcement.new_donor_ids || []);
   renderAnnouncementItems(announcement.items || []);
+  updateAnnouncementSummaryCount();
 }
 
 function renderAnnouncementItemsPreview(items) {
@@ -662,6 +766,7 @@ function renderAnnouncementItemsPreview(items) {
 }
 
 function renderAnnouncementPreview() {
+  updateAnnouncementSummaryCount();
   let ann;
   try {
     ann = currentAnnouncementFromForm();
@@ -1523,6 +1628,20 @@ async function generateAnnouncementItemsFromCommits() {
   showMessage("已根据 Git 提交生成更新内容，请检查后再保存。", "ok");
 }
 
+async function generateAnnouncementSummary() {
+  const announcement = currentAnnouncementFromForm();
+  const hasItemContent = (announcement.items || []).some((item) => lines(item.contents?.zh).length);
+  if (!announcement.title && !hasItemContent) {
+    throw new Error("请先填写标题或更新内容，再生成摘要。");
+  }
+  if (!window.confirm("将调用本地 AI 服务生成 50 字以内中文摘要。继续吗？")) return;
+  const result = await api("/api/announcement/ai-summary", { announcement });
+  $("annSummaryZh").value = textFromLines(result.summary || []);
+  renderAnnouncementPreview();
+  setDirty(true);
+  showMessage("AI 摘要已生成，请检查后再保存公告。", "ok");
+}
+
 async function generateAiTranslations() {
   const announcement = currentAnnouncementFromForm();
   if (!announcement.id) throw new Error("AI 翻译需要先保存或填写公告 ID。");
@@ -1764,14 +1883,23 @@ async function saveDonors(confirmReferencedDeletes = false) {
 async function uploadAsset() {
   const file = $("assetFile").files?.[0];
   if (!file) throw new Error("请先选择头像文件。");
+  const donor = donorFromForm();
   const data = await new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = () => reject(reader.error);
     reader.readAsDataURL(file);
   });
-  const result = await api("/api/assets/upload", { filename: file.name, data });
+  const result = await api("/api/assets/upload", {
+    filename: file.name,
+    path: file.name,
+    name: donor.name || donor.id,
+    donor_id: donor.id,
+    auto_name: true,
+    data,
+  });
   $("donorAvatar").value = result.url;
+  applyDonorFormToState();
   setDirty(true);
   renderDonorPreview();
   showMessage(`已上传 ${result.filename}。`, "ok");
@@ -1886,11 +2014,23 @@ function attachEvents() {
   $("reloadBtn").addEventListener("click", () => {
     if (confirmDiscard()) loadConfig().catch(handleError);
   });
+  $("messageModal").addEventListener("click", (event) => {
+    if (!event.target.closest("[data-close-message-modal]")) return;
+    closeMessageModal();
+  });
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !$("messageModal").classList.contains("hidden")) {
+      closeMessageModal();
+    }
+  });
   document.querySelectorAll("[data-add-ann-group]").forEach((button) => {
     button.addEventListener("click", () => addAnnouncementItemGroup(button.dataset.addAnnGroup));
   });
   if ($("generateFromCommitsBtn")) {
     $("generateFromCommitsBtn").addEventListener("click", () => generateAnnouncementItemsFromCommits().catch(handleError));
+  }
+  if ($("generateSummaryBtn")) {
+    $("generateSummaryBtn").addEventListener("click", () => generateAnnouncementSummary().catch(handleError));
   }
   if ($("refreshCommitRangesBtn")) {
     $("refreshCommitRangesBtn").addEventListener("click", () => loadGitSelectors({ applyDefault: true }).catch(handleError));
@@ -2055,6 +2195,12 @@ function attachEvents() {
     renderDonorPreview();
     setDirty(false);
   });
+  $("annNewDonors").addEventListener("change", (event) => {
+    if (!event.target.closest("[data-multi-choice]")) return;
+    updateMultiSelectSummary("annNewDonors");
+    renderAnnouncementPreview();
+    setDirty(true);
+  });
   $("annItemsEditor").addEventListener("click", (event) => {
     const group = event.target.closest("[data-ann-item-index]");
     if (!group) return;
@@ -2091,14 +2237,18 @@ function attachEvents() {
   });
 
   document.querySelectorAll("input, select, textarea").forEach((input) => {
-    input.addEventListener("input", () => {
+    const onEdit = () => {
       if (input.dataset.transient === "true") return;
       setDirty(true);
       if (input.closest("#announcementForm")) renderAnnouncementPreview();
       if (input.closest("#noticeForm")) renderNoticePreview();
       if (input.closest("#updateForm")) renderUpdatePreview();
       if (input.closest("#donorForm")) renderDonorPreview();
-    });
+    };
+    input.addEventListener("input", onEdit);
+    if (input.tagName === "SELECT") {
+      input.addEventListener("change", onEdit);
+    }
   });
   window.addEventListener("beforeunload", (event) => {
     if (!state.dirty) return;

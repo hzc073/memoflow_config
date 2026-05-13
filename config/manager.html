@@ -42,7 +42,19 @@
         </div>
       </header>
 
-      <section id="message" class="message hidden"></section>
+      <div id="messageModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="messageModalTitle">
+        <div class="modal-backdrop" data-close-message-modal></div>
+        <section class="modal-card">
+          <div class="modal-head">
+            <h3 id="messageModalTitle">提示</h3>
+            <button type="button" class="secondary compact icon-button" data-close-message-modal aria-label="关闭">X</button>
+          </div>
+          <pre id="messageModalBody" class="modal-body"></pre>
+          <div class="modal-actions">
+            <button type="button" data-close-message-modal>确定</button>
+          </div>
+        </section>
+      </div>
 
       <section id="panel-update" class="panel active">
         <div class="grid two">
@@ -82,8 +94,24 @@
                 <span>应用已是最新版本时也展示</span>
               </label>
             </div>
-            <label>中文摘要 <textarea id="annSummaryZh" rows="6" placeholder="每行一段"></textarea></label>
-            <label>新增捐赠者 ID <input id="annNewDonors" placeholder="id1, id2" /></label>
+            <label class="wide">
+              <div class="label-row">
+                <span>中文摘要</span>
+                <span class="inline-actions">
+                  <span id="annSummaryCount" class="field-hint">0 / 50</span>
+                  <button type="button" id="generateSummaryBtn" class="secondary compact">AI 生成摘要</button>
+                </span>
+              </div>
+              <textarea id="annSummaryZh" rows="4" placeholder="50 字以内，AI 可根据下方更新内容生成"></textarea>
+            </label>
+            <div class="field-label wide">
+              <span>新增捐赠者</span>
+              <details id="annNewDonorsPicker" class="dropdown-checklist">
+                <summary><span id="annNewDonorsSummary">未选择捐赠者</span></summary>
+                <div id="annNewDonors" class="dropdown-options"></div>
+              </details>
+              <span class="field-hint">从 donors.json 勾选，可多选。</span>
+            </div>
             <section class="field-panel">
               <div class="field-head">
                 <div>
@@ -405,12 +433,13 @@
             <form id="donorForm">
               <label>ID <input id="donorId" /></label>
               <label>名称 <input id="donorName" /></label>
-              <label>头像地址 <input id="donorAvatar" /></label>
+              <label>头像地址 <input id="donorAvatar" placeholder="上传后自动生成" /></label>
               <label>
                 复制头像到 update/assets
                 <input id="assetFile" type="file" accept="image/*,.webp,.svg" />
+                <span class="field-hint">上传时会根据捐赠者名称和所选文件名自动生成资源名与 URL。</span>
               </label>
-              <button id="uploadAssetBtn" type="button" class="secondary">上传所选头像</button>
+              <button id="uploadAssetBtn" type="button" class="secondary">上传并生成头像地址</button>
             </form>
           </section>
           <section class="surface preview">
