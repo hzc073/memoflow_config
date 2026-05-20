@@ -79,6 +79,24 @@ class ManagerFeatureTest(unittest.TestCase):
                 f"{manager_server.ASSET_PUBLIC_BASE_URL}{filename}",
             )
 
+    def test_upload_asset_avoids_repeating_timestamped_source_stem(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = manager_server.ConfigRepository(pathlib.Path(tmp))
+            result = repo.upload_asset(
+                {
+                    "filename": r"C:\fakepath\20260513204943_ji.webp",
+                    "path": r"C:\fakepath\20260513204943_ji.webp",
+                    "name": "\u002a\u002a\u7a3d",
+                    "donor_id": "4943_ji",
+                    "auto_name": True,
+                    "data": base64.b64encode(b"webp-bytes").decode("ascii"),
+                }
+            )
+
+            filename = result["filename"]
+            self.assertRegex(filename, re.compile(r"^\d{14}_4943_ji\.webp$"))
+            self.assertNotIn("20260513204943_ji", filename)
+
 
 if __name__ == "__main__":
     unittest.main()

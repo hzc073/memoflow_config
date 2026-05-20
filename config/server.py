@@ -1789,12 +1789,29 @@ def safe_asset_slug(*parts: str) -> str:
     return "avatar"
 
 
+def generated_asset_stem_slug(path_seed: str, original_filename: str) -> str:
+    stem = pathlib.Path(filename_leaf(path_seed) or filename_leaf(original_filename)).stem
+    stem = re.sub(r"^\d{8}[ _-]?\d{6}[_ -]+", "", stem)
+    return safe_asset_slug(stem)
+
+
+def compose_asset_slug(name_seed: str, path_seed: str, original_filename: str) -> str:
+    name_slug = safe_asset_slug(name_seed) if _string(name_seed) else ""
+    stem_slug = generated_asset_stem_slug(path_seed, original_filename)
+    if not name_slug:
+        return stem_slug or "avatar"
+    if not stem_slug:
+        return name_slug
+    if name_slug == stem_slug or name_slug.endswith(f"_{stem_slug}") or stem_slug.endswith(f"_{name_slug}"):
+        return name_slug
+    return safe_asset_slug(name_slug, stem_slug)
+
+
 def generated_asset_filename(original_filename: str, *, name_seed: str = "", path_seed: str = "") -> str:
     original = filename_leaf(original_filename)
     suffix = pathlib.Path(original).suffix.lower()
-    stem = pathlib.Path(filename_leaf(path_seed) or original).stem
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d%H%M%S")
-    return f"{stamp}_{safe_asset_slug(name_seed, stem)}{suffix}"
+    return f"{stamp}_{compose_asset_slug(name_seed, path_seed, original)}{suffix}"
 
 
 def asset_public_url(filename: str) -> str:
