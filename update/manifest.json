@@ -80,5 +80,41 @@
     "20260503131125723",
     "20260513074902724"
   ],
-  "latest_announcement_id": "20260513074902724"
+  "latest_announcement_id": "20260513074902724",
+  "notices": [
+    {
+      "id": "notice-2026-06-08",
+      "revision": 1,
+      "status": "public",
+      "priority": 0,
+      "severity": "info",
+      "publish_at": "2026-06-07T16:00:00.000Z",
+      "expire_at": "2026-06-09T13:38:28.532Z",
+      "audience": {
+        "platforms": [],
+        "channels": [],
+        "min_app_version": "1.0.33",
+        "max_app_version": "1.0.33"
+      },
+      "display": {
+        "surface": "startup_dialog",
+        "dismiss_policy": "once_per_revision",
+        "blocking": false
+      },
+      "content": {
+        "title": {
+          "zh": "通知",
+          "en": "Notification"
+        },
+        "body": {
+          "zh": [
+            "这是通知文本测试"
+          ],
+          "en": [
+            "This is the test text"
+          ]
+        }
+      }
+    }
+  ]
 }
