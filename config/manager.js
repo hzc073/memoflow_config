@@ -239,6 +239,10 @@ function setSelectOptions(id, options, selectedValue = "") {
   select.value = selected;
 }
 
+function setVersionBoundarySelect(id, value) {
+  setSelectOptions(id, versionBoundaryOptions(), String(value || "").trim());
+}
+
 function setMultiSelectOptions(id, options, selectedValues = []) {
   const root = $(id);
   const selected = new Set((selectedValues || []).map(String));
@@ -1042,8 +1046,8 @@ function noticeFromForm() {
     publish_at: $("noticePublishAt").value.trim(),
     expire_at: $("noticeExpireAt").value.trim(),
     audience: {
-      platforms: parseCommaList($("noticePlatforms").value).map((item) => item.toLowerCase()),
-      channels: parseCommaList($("noticeChannels").value).map((item) => item.toLowerCase()),
+      platforms: checkedChoiceValues("noticePlatforms", "data-notice-platform"),
+      channels: checkedChoiceValues("noticeChannels", "data-notice-channel"),
       min_app_version: $("noticeMinVersion").value.trim(),
       max_app_version: $("noticeMaxVersion").value.trim(),
     },
@@ -1095,10 +1099,26 @@ function renderNoticeForm() {
   $("noticeSeverity").value = notice.severity || "info";
   $("noticePublishAt").value = notice.publish_at || "";
   $("noticeExpireAt").value = notice.expire_at || "";
-  $("noticePlatforms").value = commaList(notice.audience?.platforms);
-  $("noticeChannels").value = commaList(notice.audience?.channels);
-  $("noticeMinVersion").value = notice.audience?.min_app_version || "";
-  $("noticeMaxVersion").value = notice.audience?.max_app_version || "";
+  renderNoticePublishDateTime($("noticePublishAt").value);
+  setSelectOptions("noticeExpirePreset", noticeExpireOptions(notice), $("noticeExpireAt").value);
+  $("noticeExpireAt").value = $("noticeExpirePreset").value;
+  renderChoiceGroup(
+    "noticePlatforms",
+    "data-notice-platform",
+    platformOptions,
+    notice.audience?.platforms || [],
+  );
+  renderChoiceGroup(
+    "noticeChannels",
+    "data-notice-channel",
+    channelOptions,
+    notice.audience?.channels || [],
+  );
+  const minVersion = notice.audience?.min_app_version || "";
+  const maxVersion = notice.audience?.max_app_version || "";
+  setVersionBoundarySelect("noticeMinVersion", minVersion);
+  setVersionBoundarySelect("noticeMaxVersion", maxVersion);
+  $("noticeTestVersion").value = minVersion && minVersion === maxVersion ? minVersion : "";
   $("noticeSurface").value = notice.display?.surface || "startup_dialog";
   $("noticeDismiss").value = notice.display?.dismiss_policy || "once_per_revision";
   $("noticeBlocking").checked = Boolean(notice.display?.blocking);
@@ -1170,6 +1190,11 @@ function nowIsoString() {
   return new Date().toISOString();
 }
 
+function plusHoursIsoString(hours) {
+  const date = new Date(Date.now() + hours * 60 * 60 * 1000);
+  return date.toISOString();
+}
+
 function plusDaysIsoString(days) {
   const date = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
   return date.toISOString();
@@ -1179,6 +1204,114 @@ function releaseNotePublishIso(releaseNoteId) {
   const item = (state.data.history || []).find((note) => String(note.id) === String(releaseNoteId));
   const date = String(item?.date || "").trim();
   return /^\d{4}-\d{2}-\d{2}$/.test(date) ? `${date}T00:00:00Z` : "";
+}
+
+function pad2(value) {
+  return String(value).padStart(2, "0");
+}
+
+function localDateValue(date) {
+  return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+}
+
+function localTimeValue(date) {
+  return `${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
+}
+
+function localDateTimePartsFromIso(value) {
+  const text = String(value || "").trim();
+  if (!text) return { date: "", time: "" };
+  const date = new Date(text);
+  if (Number.isNaN(date.getTime())) return { date: "", time: "" };
+  return {
+    date: localDateValue(date),
+    time: localTimeValue(date),
+  };
+}
+
+function parseClockTime(value) {
+  const match = /^(\d{1,2}):(\d{2})$/.exec(String(value || "").trim());
+  if (!match) return { hour: null, minute: null };
+  const hour = Number(match[1]);
+  const minute = Number(match[2]);
+  if (!Number.isInteger(hour) || hour < 0 || hour > 23) {
+    return { hour: null, minute: null };
+  }
+  if (!Number.isInteger(minute) || minute < 0 || minute > 59) {
+    return { hour: null, minute: null };
+  }
+  return { hour, minute };
+}
+
+function formatClockTime(hour, minute) {
+  return `${pad2(hour)}:${pad2(minute)}`;
+}
+
+function clockValuesForMode(mode) {
+  if (mode === "minute") {
+    return Array.from({ length: 12 }, (_, index) => index * 5);
+  }
+  return Array.from({ length: 24 }, (_, index) => index);
+}
+
+function renderNoticeClock(timeValue = $("noticePublishTime").value) {
+  const clock = $("noticePublishClock");
+  const face = $("noticeClockFace");
+  if (!clock || !face) return;
+  const hasDate = Boolean($("noticePublishDate").value);
+  const mode = clock.dataset.mode === "minute" ? "minute" : "hour";
+  const parts = parseClockTime(timeValue);
+  clock.classList.toggle("disabled", !hasDate);
+  clock.setAttribute("aria-disabled", String(!hasDate));
+  $("noticeClockHourMode").classList.toggle("active", mode === "hour");
+  $("noticeClockMinuteMode").classList.toggle("active", mode === "minute");
+  $("noticeClockHourMode").disabled = !hasDate;
+  $("noticeClockMinuteMode").disabled = !hasDate;
+  $("noticeClockHourMode").textContent = parts.hour == null ? "--" : pad2(parts.hour);
+  $("noticeClockMinuteMode").textContent = parts.minute == null ? "--" : pad2(parts.minute);
+
+  const values = clockValuesForMode(mode);
+  const radius = mode === "hour" ? 104 : 94;
+  face.innerHTML = values
+    .map((value, index) => {
+      const angle = (Math.PI * 2 * index) / values.length - Math.PI / 2;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      const selected = mode === "hour"
+        ? parts.hour === value
+        : parts.minute === value;
+      return `<button type="button" data-clock-value="${value}" class="${selected ? "selected" : ""}" style="--clock-x: ${x.toFixed(2)}px; --clock-y: ${y.toFixed(2)}px;"${hasDate ? "" : " disabled"}>${pad2(value)}</button>`;
+    })
+    .join("");
+}
+
+function syncNoticePublishDateTime() {
+  const dateValue = $("noticePublishDate").value;
+  const timeInput = $("noticePublishTime");
+  if (!dateValue) {
+    timeInput.value = "";
+    $("noticePublishAt").value = "";
+    renderNoticeClock("");
+    return;
+  }
+  const timeValue = timeInput.value;
+  if (!timeValue) {
+    $("noticePublishAt").value = "";
+    return;
+  }
+  const localDateTime = new Date(`${dateValue}T${timeValue}:00`);
+  $("noticePublishAt").value = Number.isNaN(localDateTime.getTime())
+    ? ""
+    : localDateTime.toISOString();
+}
+
+function renderNoticePublishDateTime(value) {
+  const parts = localDateTimePartsFromIso(value);
+  $("noticePublishDate").value = parts.date;
+  $("noticePublishTime").value = parts.time;
+  $("noticePublishClock").dataset.mode = "hour";
+  renderNoticeClock(parts.time);
+  syncNoticePublishDateTime();
 }
 
 function updateIdFromChoices(update) {
@@ -1242,6 +1375,18 @@ function updateExpireOptions(update) {
   options.push({ value: "", label: "不过期" });
   options.push({ value: plusDaysIsoString(7), label: "7 天后过期" });
   options.push({ value: plusDaysIsoString(30), label: "30 天后过期" });
+  return options;
+}
+
+function noticeExpireOptions(notice) {
+  const current = String(notice.expire_at || "").trim();
+  const options = [];
+  if (current) options.push({ value: current, label: `保留当前值：${current}` });
+  options.push({ value: "", label: "不过期" });
+  options.push({ value: plusHoursIsoString(24), label: "24 小时后过期" });
+  options.push({ value: plusDaysIsoString(7), label: "7 天后过期" });
+  options.push({ value: plusDaysIsoString(30), label: "30 天后过期" });
+  options.push({ value: plusDaysIsoString(45), label: "45 天后过期" });
   return options;
 }
 
@@ -2154,6 +2299,57 @@ function attachEvents() {
     renderNoticeForm();
     renderNoticePreview();
     setDirty(false);
+  });
+  $("applyNoticeTestVersionBtn").addEventListener("click", () => {
+    const version = $("noticeTestVersion").value.trim().replace(/^v/i, "");
+    if (!version) {
+      showMessage("请先填写临时测试版本。", "error");
+      return;
+    }
+    $("noticeTestVersion").value = version;
+    setVersionBoundarySelect("noticeMinVersion", version);
+    setVersionBoundarySelect("noticeMaxVersion", version);
+    setDirty(true);
+    renderNoticePreview();
+  });
+  $("noticePublishClock").addEventListener("click", (event) => {
+    if (!$("noticePublishDate").value) return;
+    const modeButton = event.target.closest("[data-clock-mode]");
+    if (modeButton) {
+      $("noticePublishClock").dataset.mode = modeButton.dataset.clockMode;
+      renderNoticeClock();
+      return;
+    }
+    const valueButton = event.target.closest("[data-clock-value]");
+    if (!valueButton) return;
+    const mode = $("noticePublishClock").dataset.mode === "minute" ? "minute" : "hour";
+    const value = Number(valueButton.dataset.clockValue);
+    const parts = parseClockTime($("noticePublishTime").value);
+    let hour = parts.hour;
+    let minute = parts.minute;
+    if (mode === "hour") {
+      hour = value;
+      minute ??= 0;
+      $("noticePublishClock").dataset.mode = "minute";
+    } else {
+      minute = value;
+      hour ??= 0;
+    }
+    $("noticePublishTime").value = formatClockTime(hour, minute);
+    syncNoticePublishDateTime();
+    renderNoticeClock();
+    setDirty(true);
+    renderNoticePreview();
+  });
+  $("noticeForm").addEventListener("change", (event) => {
+    if (event.target.id === "noticePublishDate") {
+      syncNoticePublishDateTime();
+      renderNoticeClock();
+    } else if (event.target.id === "noticeExpirePreset") {
+      $("noticeExpireAt").value = $("noticeExpirePreset").value;
+    }
+    setDirty(true);
+    renderNoticePreview();
   });
   $("updateList").addEventListener("click", (event) => {
     const button = event.target.closest("[data-update-index]");

@@ -304,30 +304,96 @@
             <div id="noticeList" class="list compact"></div>
             <form id="noticeForm">
               <div class="form-grid">
-                <label>ID <input id="noticeId" /></label>
-                <label>修订号 <input id="noticeRevision" type="number" min="1" /></label>
-                <label>状态 <select id="noticeStatus"></select></label>
-                <label>优先级 <input id="noticePriority" type="number" /></label>
-                <label>严重级别 <select id="noticeSeverity"></select></label>
-                <label>发布时间 <input id="noticePublishAt" placeholder="2026-05-11T00:00:00Z" /></label>
-                <label>过期时间 <input id="noticeExpireAt" placeholder="2026-05-18T00:00:00Z" /></label>
-                <label>平台 <input id="noticePlatforms" placeholder="android, windows" /></label>
-                <label>渠道 <input id="noticeChannels" placeholder="full, play" /></label>
-                <label>最低应用版本 <input id="noticeMinVersion" /></label>
-                <label>最高应用版本 <input id="noticeMaxVersion" /></label>
-                <label>展示位置 <select id="noticeSurface"></select></label>
-                <label>关闭策略 <select id="noticeDismiss"></select></label>
+                <label>
+                  <span class="label-with-help">ID <span class="help-tip" tabindex="0" data-tooltip="通知的唯一标识。不要复用旧 ID；新事件用新 ID，改文案但想重新提醒用户时优先提高修订号。">?</span></span>
+                  <input id="noticeId" />
+                </label>
+                <label>
+                  <span class="label-with-help">修订号 <span class="help-tip" tabindex="0" data-tooltip="用于 once_per_revision 关闭策略。文案或目标人群变更后递增，用户会再次看到同一通知。">?</span></span>
+                  <input id="noticeRevision" type="number" min="1" />
+                </label>
+                <label>
+                  <span class="label-with-help">状态 <span class="help-tip" tabindex="0" data-tooltip="只有 public 会在生产启动流程中展示；draft/preview 适合配置和预览阶段，archived 用于归档。">?</span></span>
+                  <select id="noticeStatus"></select>
+                </label>
+                <label>
+                  <span class="label-with-help">优先级 <span class="help-tip" tabindex="0" data-tooltip="多条通知同时命中时用于排序。数值越高越靠前；普通通知保持 0，紧急通知再提高。">?</span></span>
+                  <input id="noticePriority" type="number" />
+                </label>
+                <label>
+                  <span class="label-with-help">严重级别 <span class="help-tip" tabindex="0" data-tooltip="critical 会提升展示优先级，适合停服、数据风险或必须立即看到的提醒。">?</span></span>
+                  <select id="noticeSeverity"></select>
+                </label>
+                <label>
+                  <span class="label-with-help">发布日期 <span class="help-tip" tabindex="0" data-tooltip="限制通知最早展示日期。清空日期表示不设置发布时间，通过状态和受众后即可展示。">?</span></span>
+                  <input id="noticePublishDate" type="date" />
+                </label>
+                <div class="wide field-label clock-field">
+                  <span class="label-with-help">发布时间 <span class="help-tip" tabindex="0" data-tooltip="选择发布日期后再选择当天时间。日期和时间都选齐后会生成 UTC ISO 时间写入配置。">?</span></span>
+                  <div id="noticePublishClock" class="clock-picker" aria-disabled="true">
+                    <div class="clock-readout">
+                      <button id="noticeClockHourMode" type="button" data-clock-mode="hour">--</button>
+                      <span>:</span>
+                      <button id="noticeClockMinuteMode" type="button" data-clock-mode="minute">--</button>
+                    </div>
+                    <div id="noticeClockFace" class="clock-face"></div>
+                    <input id="noticePublishTime" type="hidden" />
+                  </div>
+                </div>
+                <label>
+                  <span class="label-with-help">过期时间 <span class="help-tip" tabindex="0" data-tooltip="到期后通知不再展示。短期维护、活动或临时风险提示建议设置过期时间。">?</span></span>
+                  <select id="noticeExpirePreset"></select>
+                </label>
+                <label class="wide">
+                  <span class="label-with-help">实际发布时间 <span class="help-tip" tabindex="0" data-tooltip="由上方选项生成并写入配置。保留当前值可避免编辑时刷新发布时间。">?</span></span>
+                  <input id="noticePublishAt" readonly />
+                </label>
+                <label class="wide">
+                  <span class="label-with-help">实际过期时间 <span class="help-tip" tabindex="0" data-tooltip="由上方选项生成并写入配置。留空表示不过期。">?</span></span>
+                  <input id="noticeExpireAt" readonly />
+                </label>
+                <div class="wide field-label">
+                  <span class="field-caption">平台 <span class="help-tip" tabindex="0" data-tooltip="限制哪些平台能看到通知。不选表示所有平台；平台事故或平台专属功能公告才建议限制。">?</span></span>
+                  <div id="noticePlatforms" class="choice-grid"></div>
+                </div>
+                <div class="wide field-label">
+                  <span class="field-caption">渠道 <span class="help-tip" tabindex="0" data-tooltip="限制 full 或 Google Play 渠道。不选表示所有渠道；渠道包行为不同或下载入口不同才建议限制。">?</span></span>
+                  <div id="noticeChannels" class="choice-grid"></div>
+                </div>
+                <div class="wide field-label">
+                  <span class="field-caption">临时测试版本 <span class="help-tip" tabindex="0" data-tooltip="用于测试尚未发布、还不在版本列表里的客户端版本。点击应用后会同时设置最低和最高应用版本，只命中这个版本。">?</span></span>
+                  <div class="version-test-row">
+                    <input id="noticeTestVersion" placeholder="例如 1.0.33" />
+                    <button id="applyNoticeTestVersionBtn" type="button" class="secondary compact">应用到最低/最高</button>
+                  </div>
+                </div>
+                <label>
+                  <span class="label-with-help">最低应用版本 <span class="help-tip" tabindex="0" data-tooltip="仅当前版本大于等于该版本时展示。用于只影响新版的功能说明或兼容性提示。">?</span></span>
+                  <select id="noticeMinVersion"></select>
+                </label>
+                <label>
+                  <span class="label-with-help">最高应用版本 <span class="help-tip" tabindex="0" data-tooltip="仅当前版本小于等于该版本时展示。用于提醒旧版本用户，或避免新版继续看到旧公告。">?</span></span>
+                  <select id="noticeMaxVersion"></select>
+                </label>
+                <label>
+                  <span class="label-with-help">展示位置 <span class="help-tip" tabindex="0" data-tooltip="startup_dialog 会在启动检查中弹出；release_highlight 不进入启动弹窗，适合后续扩展展示入口。">?</span></span>
+                  <select id="noticeSurface"></select>
+                </label>
+                <label>
+                  <span class="label-with-help">关闭策略 <span class="help-tip" tabindex="0" data-tooltip="once_per_id 只提醒一次；once_per_revision 可随修订号再次提醒；every_start 每次启动都提醒，慎用。">?</span></span>
+                  <select id="noticeDismiss"></select>
+                </label>
                 <label class="check-row">
                   <input id="noticeBlocking" type="checkbox" />
-                  <span>阻塞式通知</span>
+                  <span>阻塞式通知 <span class="help-tip" tabindex="0" data-tooltip="提高通知优先级并表达必须处理的语义。只在严重事故、迁移风险或必须立即确认时开启。">?</span></span>
                 </label>
                 <label class="check-row">
                   <input id="noticeLegacySync" type="checkbox" />
-                  <span>同步此通知到旧版 notice</span>
+                  <span>同步此通知到旧版 notice <span class="help-tip" tabindex="0" data-tooltip="同时写入旧版 notice 字段，让还不支持 v3 notices 的客户端也能看到。可能导致旧客户端无版本受众过滤。">?</span></span>
                 </label>
                 <label class="check-row">
                   <input id="disableLegacyNotice" type="checkbox" />
-                  <span>保存时关闭旧版 notice</span>
+                  <span>保存时关闭旧版 notice <span class="help-tip" tabindex="0" data-tooltip="保存通知列表时清空旧版 notice。确认不需要兼容旧客户端，或想只使用 v3 通知时再开启。">?</span></span>
                 </label>
               </div>
               <div class="split">
