@@ -14,6 +14,7 @@ const state = {
   selectedNotice: 0,
   selectedUpdate: 0,
   selectedDonor: 0,
+  draggedAnnouncementItemIndex: null,
 };
 
 const statusOptions = ["draft", "preview", "public", "archived"];
@@ -706,6 +707,14 @@ function renderAnnouncementItems(items) {
       (item, groupIndex) => `
         <article class="item-group" data-ann-item-index="${groupIndex}">
           <div class="item-group-head">
+            <button
+              type="button"
+              class="secondary compact drag-handle"
+              draggable="true"
+              data-ann-drag-handle
+              aria-label="&#25302;&#21160;&#35843;&#25972;&#39034;&#24207;"
+              title="&#25302;&#21160;&#35843;&#25972;&#39034;&#24207;"
+            >&#8597;</button>
             <div>
               <span class="field-caption">类型</span>
               ${announcementCategorySelect(item.category)}
@@ -1653,6 +1662,23 @@ function updateAnnouncementItems(mutator) {
   setDirty(true);
 }
 
+function moveAnnouncementItemGroup(fromIndex, rawToIndex) {
+  const items = announcementItemsFromEditor();
+  const from = Number(fromIndex);
+  let to = Number(rawToIndex);
+  if (!Number.isInteger(from) || from < 0 || from >= items.length) return false;
+  if (!Number.isInteger(to)) return false;
+  to = Math.max(0, Math.min(items.length, to));
+  if (from < to) to -= 1;
+  if (from === to) return false;
+  const [item] = items.splice(from, 1);
+  items.splice(to, 0, item);
+  renderAnnouncementItems(items);
+  renderAnnouncementPreview();
+  setDirty(true);
+  return true;
+}
+
 function addAnnouncementItemGroup(category) {
   updateAnnouncementItems((items) => {
     items.push({ category, contents: { zh: [] } });
@@ -1683,6 +1709,82 @@ function deleteAnnouncementItemLine(groupIndex, lang, lineIndex) {
     item.contents[lang] = lines(item.contents[lang]);
     item.contents[lang].splice(lineIndex, 1);
   });
+}
+
+function announcementItemDropPosition(group, event) {
+  const rect = group.getBoundingClientRect();
+  return event.clientY > rect.top + rect.height / 2 ? "after" : "before";
+}
+
+function clearAnnouncementItemDropState() {
+  document.querySelectorAll("#annItemsEditor .item-group.drop-before, #annItemsEditor .item-group.drop-after")
+    .forEach((group) => {
+      group.classList.remove("drop-before", "drop-after");
+      delete group.dataset.dropPosition;
+    });
+}
+
+function markAnnouncementItemDropTarget(group, position) {
+  clearAnnouncementItemDropState();
+  group.classList.add(`drop-${position}`);
+  group.dataset.dropPosition = position;
+}
+
+function handleAnnouncementItemDragStart(event) {
+  const handle = event.target.closest("[data-ann-drag-handle]");
+  if (!handle) return;
+  const group = handle.closest("[data-ann-item-index]");
+  if (!group) return;
+  const index = Number(group.dataset.annItemIndex);
+  if (!Number.isInteger(index)) return;
+  state.draggedAnnouncementItemIndex = index;
+  group.classList.add("dragging");
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", String(index));
+}
+
+function handleAnnouncementItemDragOver(event) {
+  if (state.draggedAnnouncementItemIndex === null) return;
+  const group = event.target.closest("#annItemsEditor [data-ann-item-index]");
+  if (!group) return;
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "move";
+  markAnnouncementItemDropTarget(group, announcementItemDropPosition(group, event));
+}
+
+function handleAnnouncementItemDrop(event) {
+  if (state.draggedAnnouncementItemIndex === null) return;
+  const group = event.target.closest("#annItemsEditor [data-ann-item-index]");
+  if (!group) return;
+  event.preventDefault();
+  const targetIndex = Number(group.dataset.annItemIndex);
+  const position = group.dataset.dropPosition || announcementItemDropPosition(group, event);
+  const insertionIndex = targetIndex + (position === "after" ? 1 : 0);
+  moveAnnouncementItemGroup(state.draggedAnnouncementItemIndex, insertionIndex);
+  state.draggedAnnouncementItemIndex = null;
+  clearAnnouncementItemDropState();
+}
+
+function handleAnnouncementItemDragEnd() {
+  state.draggedAnnouncementItemIndex = null;
+  clearAnnouncementItemDropState();
+  document.querySelectorAll("#annItemsEditor .item-group.dragging")
+    .forEach((group) => group.classList.remove("dragging"));
+}
+
+function handleAnnouncementItemKeydown(event) {
+  const handle = event.target.closest("[data-ann-drag-handle]");
+  if (!handle) return;
+  const group = handle.closest("[data-ann-item-index]");
+  if (!group) return;
+  const index = Number(group.dataset.annItemIndex);
+  if (event.key === "ArrowUp") {
+    event.preventDefault();
+    moveAnnouncementItemGroup(index, index - 1);
+  } else if (event.key === "ArrowDown") {
+    event.preventDefault();
+    moveAnnouncementItemGroup(index, index + 2);
+  }
 }
 
 function commitGenerationPayload() {
@@ -2416,6 +2518,11 @@ function attachEvents() {
       deleteAnnouncementItemGroup(groupIndex);
     }
   });
+  $("annItemsEditor").addEventListener("dragstart", handleAnnouncementItemDragStart);
+  $("annItemsEditor").addEventListener("dragover", handleAnnouncementItemDragOver);
+  $("annItemsEditor").addEventListener("drop", handleAnnouncementItemDrop);
+  $("annItemsEditor").addEventListener("dragend", handleAnnouncementItemDragEnd);
+  $("annItemsEditor").addEventListener("keydown", handleAnnouncementItemKeydown);
   $("annItemsEditor").addEventListener("input", () => {
     setDirty(true);
     renderAnnouncementPreview();
