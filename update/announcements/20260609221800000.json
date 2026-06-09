@@ -1,0 +1,104 @@
+{
+  "id": "20260609221800000",
+  "release_tag": "v1.0.33",
+  "version": "1.0.33",
+  "date": "2026-06-09",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "适配mac桌面端并优化同步、搜索与布局体验。新增后端v0.29"
+    ]
+  },
+  "new_donor_ids": [],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "macOS 桌面端支持，现在可以在 Mac 上直接使用 MemoFlow。"
+        ]
+      }
+    },
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "新增 存储空间 ，可以更方便地查看和清理缓存。"
+        ]
+      }
+    },
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "适配 Memos 0.29 基础 API。"
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "优化桌面端布局，减少页面拥挤和内容溢出。"
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "调整桌面端导航、设置页和二级页面交互，使用起来更符合电脑端习惯。"
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "优化不同设备上的页面密度，让手机、平板和桌面端的体验更统一。"
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "改进服务器地址输入，登录自建 Memos 时更顺手。"
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "Memo0.27+  点赞、评论等互动信息支持实时刷新。"
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复部分 Memo 更新时间同步不准确的问题，列表排序更加稳定。"
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "改进主页搜索逻辑，搜索状态和结果范围更加清晰。"
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "调整标签识别规则，减少正文内容被误识别为标签的情况。"
+        ]
+      }
+    }
+  ]
+}

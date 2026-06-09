@@ -1,0 +1,81 @@
+{
+  "id": "20260609221800000",
+  "locale": "ja",
+  "title": "バージョン更新のお知らせ",
+  "summary": [
+    "macデスクトップ版に対応し、同期、検索、レイアウト体験を最適化しました。バックエンドv0.29を新たに追加しました。"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "macOSデスクトップ版に対応し、MacでMemoFlowを直接利用できるようになりました。"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "「ストレージ」を追加し、キャッシュの確認と整理がより簡単になりました。"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Memos 0.29の基本APIに対応しました。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "デスクトップ版のレイアウトを最適化し、ページの窮屈さやコンテンツのはみ出しを軽減しました。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "デスクトップ版のナビゲーション、設定ページ、下層ページの操作を調整し、PCでより自然に使えるようにしました。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "各デバイスでのページ密度を最適化し、スマートフォン、タブレット、デスクトップでより統一感のある体験にしました。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "サーバーアドレス入力を改善し、セルフホストのMemosへよりスムーズにログインできるようにしました。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Memo 0.27以降で、いいねやコメントなどのインタラクション情報がリアルタイム更新に対応しました。"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "一部のMemoの更新時刻同期が不正確になる問題を修正し、リストの並び順をより安定させました。"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "ホーム画面の検索ロジックを改善し、検索状態と結果範囲がより明確になりました。"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "タグ認識ルールを調整し、本文内容がタグとして誤認識されるケースを減らしました。"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "6079dd0b1b6c1f4a3f3f85241dcc4a76a66f42ed204a2d93494521dc8545353a",
+    "status": "reviewed"
+  }
+}

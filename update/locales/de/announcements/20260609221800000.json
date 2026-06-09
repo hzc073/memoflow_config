@@ -1,0 +1,81 @@
+{
+  "id": "20260609221800000",
+  "locale": "de",
+  "title": "Versionsupdate-Ankündigung",
+  "summary": [
+    "Anpassung an die macOS-Desktop-App sowie Optimierungen für Synchronisierung, Suche und Layout. Backend v0.29 hinzugefügt."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Unterstützung für die macOS-Desktop-App: MemoFlow kann jetzt direkt auf dem Mac verwendet werden."
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Neuer Bereich „Speicherplatz“, um Cache-Daten einfacher anzuzeigen und zu bereinigen."
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Anpassung an die Basis-API von Memos 0.29."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Desktop-Layout optimiert, um überfüllte Seiten und überlaufende Inhalte zu reduzieren."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Navigation, Einstellungsseite und Interaktionen auf Unterseiten der Desktop-Version angepasst, damit die Bedienung besser zu Desktop-Gewohnheiten passt."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Seitendichte auf verschiedenen Geräten optimiert, damit die Nutzung auf Smartphone, Tablet und Desktop einheitlicher wirkt."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Eingabe der Serveradresse verbessert, damit die Anmeldung bei selbst gehosteten Memos reibungsloser funktioniert."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Für Memo 0.27+ werden Interaktionsinformationen wie Likes und Kommentare jetzt in Echtzeit aktualisiert."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Problem behoben, bei dem die Synchronisierung der Aktualisierungszeit einiger Memos ungenau war; die Listensortierung ist nun stabiler."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Suchlogik auf der Startseite verbessert; Suchstatus und Ergebnisbereich sind nun klarer."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Regeln zur Tag-Erkennung angepasst, um zu reduzieren, dass Textinhalte fälschlicherweise als Tags erkannt werden."
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "6079dd0b1b6c1f4a3f3f85241dcc4a76a66f42ed204a2d93494521dc8545353a",
+    "status": "reviewed"
+  }
+}

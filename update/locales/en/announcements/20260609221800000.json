@@ -1,0 +1,81 @@
+{
+  "id": "20260609221800000",
+  "locale": "en",
+  "title": "Version Update Announcement",
+  "summary": [
+    "Adapted for the Mac desktop app and improved sync, search, and layout experiences. Added backend v0.29 support."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "macOS desktop support: you can now use MemoFlow directly on your Mac."
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Added Storage, making it easier to view and clear cached data."
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Adapted to the Memos 0.29 base API."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Optimized the desktop layout to reduce page crowding and content overflow."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Adjusted desktop navigation, settings pages, and secondary page interactions to better match desktop usage habits."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Optimized page density across devices for a more consistent experience on phones, tablets, and desktops."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Improved server address input for a smoother login experience with self-hosted Memos instances."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "For Memo 0.27+, interaction information such as likes and comments now supports real-time refresh."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Fixed inaccurate sync for some Memo update times, making list sorting more stable."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Improved home page search logic, with clearer search states and result scope."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Adjusted tag recognition rules to reduce cases where body content is mistakenly recognized as tags."
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "6079dd0b1b6c1f4a3f3f85241dcc4a76a66f42ed204a2d93494521dc8545353a",
+    "status": "reviewed"
+  }
+}

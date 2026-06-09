@@ -1,0 +1,81 @@
+{
+  "id": "20260609221800000",
+  "locale": "zh-Hant-TW",
+  "title": "版本更新公告",
+  "summary": [
+    "適配 Mac 桌面端並優化同步、搜尋與版面配置體驗。新增後端 v0.29 支援。"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "macOS 桌面端支援，現在可以在 Mac 上直接使用 MemoFlow。"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "新增「儲存空間」，可以更方便地檢視和清理快取。"
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "適配 Memos 0.29 基礎 API。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "優化桌面端版面配置，減少頁面擁擠和內容溢出。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "調整桌面端導覽、設定頁和二級頁面互動，使用起來更符合電腦端習慣。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "優化不同裝置上的頁面密度，讓手機、平板和桌面端的體驗更一致。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "改進伺服器位址輸入，登入自架 Memos 時更順手。"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Memo 0.27+ 按讚、留言等互動資訊支援即時重新整理。"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "修正部分 Memo 更新時間同步不準確的問題，列表排序更加穩定。"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "改進首頁搜尋邏輯，搜尋狀態和結果範圍更加清楚。"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "調整標籤識別規則，減少正文內容被誤識別為標籤的情況。"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "6079dd0b1b6c1f4a3f3f85241dcc4a76a66f42ed204a2d93494521dc8545353a",
+    "status": "reviewed"
+  }
+}

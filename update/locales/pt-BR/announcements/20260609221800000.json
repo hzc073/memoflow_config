@@ -1,0 +1,81 @@
+{
+  "id": "20260609221800000",
+  "locale": "pt-BR",
+  "title": "Aviso de atualização de versão",
+  "summary": [
+    "Compatibilidade com o app de desktop para Mac e otimizações na experiência de sincronização, busca e layout. Novo backend v0.29."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Suporte ao app de desktop para macOS: agora você pode usar o MemoFlow diretamente no Mac."
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Novo Espaço de armazenamento, facilitando a visualização e limpeza do cache."
+      ]
+    },
+    {
+      "category": "feature",
+      "contents": [
+        "Compatibilidade com a API base do Memos 0.29."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Layout otimizado no desktop, reduzindo páginas congestionadas e estouro de conteúdo."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Ajustes na navegação do desktop, na página de configurações e nas interações de páginas secundárias, deixando o uso mais alinhado aos hábitos no computador."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Densidade das páginas otimizada em diferentes dispositivos, tornando a experiência mais consistente em celulares, tablets e desktop."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Entrada de endereço do servidor aprimorada, tornando o login em instâncias próprias do Memos mais fluido."
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "No Memo 0.27+, informações de interação como curtidas e comentários agora têm suporte a atualização em tempo real."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Corrigido um problema em que o horário de atualização de alguns Memos não era sincronizado com precisão, deixando a ordenação da lista mais estável."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Lógica de busca da página inicial aprimorada, com estado da busca e escopo dos resultados mais claros."
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Regras de reconhecimento de tags ajustadas, reduzindo casos em que o conteúdo do texto era identificado incorretamente como tag."
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "6079dd0b1b6c1f4a3f3f85241dcc4a76a66f42ed204a2d93494521dc8545353a",
+    "status": "reviewed"
+  }
+}
