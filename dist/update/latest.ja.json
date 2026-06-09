@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.32",
+      "latest_version": "1.0.33",
       "force_update": false,
       "update_source": "google_play",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.32/MemoFlow_v1.0.32-full-arm64-v8a-release.apk",
-      "publish_at": "2026-05-13T07:53:51.878Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
+      "publish_at": "2026-06-09T15:04:02.592Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,58 +16,74 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.32",
+      "latest_version": "1.0.33",
       "force_update": false,
       "update_source": "windows_installer",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.32/MemoFlow_v1.0.32_windows_x64_setup.exe",
-      "publish_at": "2026-05-13T07:53:51.878Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
+      "publish_at": "2026-06-09T15:05:41.343Z"
     }
   },
   "notice_enabled": false,
   "notice": null,
   "debug_announcement_source": "release_notes",
   "debug_announcement": null,
-  "notices": [
+  "notices": [],
+  "updates": [
     {
-      "id": "notice-2026-06-08",
-      "revision": 1,
+      "id": "update-android-full-1.0.33",
       "status": "public",
       "priority": 0,
-      "severity": "info",
-      "publish_at": "2026-06-07T16:00:00.000Z",
-      "expire_at": "2026-06-09T13:38:28.532Z",
+      "platform": "android",
+      "channel": "full",
+      "version": "1.0.33",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
+      "release_note_id": "1.0.33",
+      "publish_at": "2026-06-09T15:04:02.592Z",
+      "expire_at": "2026-06-16T15:04:02.592Z",
       "audience": {
-        "platforms": [],
+        "platforms": [
+          "android"
+        ],
+        "channels": [
+          "full"
+        ],
+        "min_app_version": "",
+        "max_app_version": ""
+      }
+    },
+    {
+      "id": "update-windows-full-1.0.33",
+      "status": "public",
+      "priority": 0,
+      "platform": "windows",
+      "channel": "full",
+      "version": "1.0.33",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
+      "release_note_id": "1.0.33",
+      "publish_at": "2026-06-09T15:05:41.343Z",
+      "expire_at": "2026-06-16T15:05:41.343Z",
+      "audience": {
+        "platforms": [
+          "windows"
+        ],
         "channels": [],
-        "min_app_version": "1.0.33",
-        "max_app_version": "1.0.33"
-      },
-      "display": {
-        "surface": "startup_dialog",
-        "dismiss_policy": "once_per_revision",
-        "blocking": false
-      },
-      "content": {
-        "title": {
-          "en": "Notification"
-        },
-        "body": {
-          "en": [
-            "This is the test text"
-          ]
-        }
+        "min_app_version": "",
+        "max_app_version": ""
       }
     }
   ],
   "announcement": {
-    "id": "20260513074902724",
-    "title": "v1.0.32",
+    "id": "20260609221800000",
+    "title": "バージョン更新のお知らせ",
     "show_when_up_to_date": false,
-    "contents": {},
-    "new_donor_ids": [
-      "3418_ji",
-      "2910_an"
-    ]
+    "contents": {
+      "ja": [
+        "macデスクトップ版に対応し、同期、検索、レイアウト体験を最適化しました。バックエンドv0.29を新たに追加しました。"
+      ]
+    },
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -192,6 +208,100 @@
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.33",
+      "date": "2026-06-09",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ja": [
+              "macOSデスクトップ版に対応し、MacでMemoFlowを直接利用できるようになりました。"
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "ja": [
+              "「ストレージ」を追加し、キャッシュの確認と整理がより簡単になりました。"
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "ja": [
+              "Memos 0.29の基本APIに対応しました。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "デスクトップ版のレイアウトを最適化し、ページの窮屈さやコンテンツのはみ出しを軽減しました。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "デスクトップ版のナビゲーション、設定ページ、下層ページの操作を調整し、PCでより自然に使えるようにしました。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "各デバイスでのページ密度を最適化し、スマートフォン、タブレット、デスクトップでより統一感のある体験にしました。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "サーバーアドレス入力を改善し、セルフホストのMemosへよりスムーズにログインできるようにしました。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "Memo 0.27以降で、いいねやコメントなどのインタラクション情報がリアルタイム更新に対応しました。"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ja": [
+              "一部のMemoの更新時刻同期が不正確になる問題を修正し、リストの並び順をより安定させました。"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ja": [
+              "ホーム画面の検索ロジックを改善し、検索状態と結果範囲がより明確になりました。"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ja": [
+              "タグ認識ルールを調整し、本文内容がタグとして誤認識されるケースを減らしました。"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.32",
       "date": "2026-05-13",

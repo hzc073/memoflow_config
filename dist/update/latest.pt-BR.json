@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.32",
+      "latest_version": "1.0.33",
       "force_update": false,
       "update_source": "google_play",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.32/MemoFlow_v1.0.32-full-arm64-v8a-release.apk",
-      "publish_at": "2026-05-13T07:53:51.878Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
+      "publish_at": "2026-06-09T15:04:02.592Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,58 +16,74 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.32",
+      "latest_version": "1.0.33",
       "force_update": false,
       "update_source": "windows_installer",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.32/MemoFlow_v1.0.32_windows_x64_setup.exe",
-      "publish_at": "2026-05-13T07:53:51.878Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
+      "publish_at": "2026-06-09T15:05:41.343Z"
     }
   },
   "notice_enabled": false,
   "notice": null,
   "debug_announcement_source": "release_notes",
   "debug_announcement": null,
-  "notices": [
+  "notices": [],
+  "updates": [
     {
-      "id": "notice-2026-06-08",
-      "revision": 1,
+      "id": "update-android-full-1.0.33",
       "status": "public",
       "priority": 0,
-      "severity": "info",
-      "publish_at": "2026-06-07T16:00:00.000Z",
-      "expire_at": "2026-06-09T13:38:28.532Z",
+      "platform": "android",
+      "channel": "full",
+      "version": "1.0.33",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
+      "release_note_id": "1.0.33",
+      "publish_at": "2026-06-09T15:04:02.592Z",
+      "expire_at": "2026-06-16T15:04:02.592Z",
       "audience": {
-        "platforms": [],
+        "platforms": [
+          "android"
+        ],
+        "channels": [
+          "full"
+        ],
+        "min_app_version": "",
+        "max_app_version": ""
+      }
+    },
+    {
+      "id": "update-windows-full-1.0.33",
+      "status": "public",
+      "priority": 0,
+      "platform": "windows",
+      "channel": "full",
+      "version": "1.0.33",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
+      "release_note_id": "1.0.33",
+      "publish_at": "2026-06-09T15:05:41.343Z",
+      "expire_at": "2026-06-16T15:05:41.343Z",
+      "audience": {
+        "platforms": [
+          "windows"
+        ],
         "channels": [],
-        "min_app_version": "1.0.33",
-        "max_app_version": "1.0.33"
-      },
-      "display": {
-        "surface": "startup_dialog",
-        "dismiss_policy": "once_per_revision",
-        "blocking": false
-      },
-      "content": {
-        "title": {
-          "en": "Notification"
-        },
-        "body": {
-          "en": [
-            "This is the test text"
-          ]
-        }
+        "min_app_version": "",
+        "max_app_version": ""
       }
     }
   ],
   "announcement": {
-    "id": "20260513074902724",
-    "title": "v1.0.32",
+    "id": "20260609221800000",
+    "title": "Aviso de atualização de versão",
     "show_when_up_to_date": false,
-    "contents": {},
-    "new_donor_ids": [
-      "3418_ji",
-      "2910_an"
-    ]
+    "contents": {
+      "pt-BR": [
+        "Compatibilidade com o app de desktop para Mac e otimizações na experiência de sincronização, busca e layout. Novo backend v0.29."
+      ]
+    },
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -192,6 +208,100 @@
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.33",
+      "date": "2026-06-09",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "pt-BR": [
+              "Suporte ao app de desktop para macOS: agora você pode usar o MemoFlow diretamente no Mac."
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "pt-BR": [
+              "Novo Espaço de armazenamento, facilitando a visualização e limpeza do cache."
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "pt-BR": [
+              "Compatibilidade com a API base do Memos 0.29."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Layout otimizado no desktop, reduzindo páginas congestionadas e estouro de conteúdo."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Ajustes na navegação do desktop, na página de configurações e nas interações de páginas secundárias, deixando o uso mais alinhado aos hábitos no computador."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Densidade das páginas otimizada em diferentes dispositivos, tornando a experiência mais consistente em celulares, tablets e desktop."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Entrada de endereço do servidor aprimorada, tornando o login em instâncias próprias do Memos mais fluido."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "No Memo 0.27+, informações de interação como curtidas e comentários agora têm suporte a atualização em tempo real."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "pt-BR": [
+              "Corrigido um problema em que o horário de atualização de alguns Memos não era sincronizado com precisão, deixando a ordenação da lista mais estável."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "pt-BR": [
+              "Lógica de busca da página inicial aprimorada, com estado da busca e escopo dos resultados mais claros."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "pt-BR": [
+              "Regras de reconhecimento de tags ajustadas, reduzindo casos em que o conteúdo do texto era identificado incorretamente como tag."
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.32",
       "date": "2026-05-13",

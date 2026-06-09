@@ -2,11 +2,11 @@
   "schema_version": 2,
   "version_info": {
     "android": {
-      "latest_version": "1.0.32",
+      "latest_version": "1.0.33",
       "force_update": false,
       "update_source": "google_play",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.32/MemoFlow_v1.0.32-full-arm64-v8a-release.apk",
-      "publish_at": "2026-05-13T07:53:51.878Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
+      "publish_at": "2026-06-09T15:04:02.592Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,62 +16,74 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.32",
+      "latest_version": "1.0.33",
       "force_update": false,
       "update_source": "windows_installer",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.32/MemoFlow_v1.0.32_windows_x64_setup.exe",
-      "publish_at": "2026-05-13T07:53:51.878Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
+      "publish_at": "2026-06-09T15:05:41.343Z"
     }
   },
   "notice_enabled": false,
   "notice": null,
   "debug_announcement_source": "release_notes",
   "debug_announcement": null,
-  "notices": [
+  "notices": [],
+  "updates": [
     {
-      "id": "notice-2026-06-08",
-      "revision": 1,
+      "id": "update-android-full-1.0.33",
       "status": "public",
       "priority": 0,
-      "severity": "info",
-      "publish_at": "2026-06-07T16:00:00.000Z",
-      "expire_at": "2026-06-09T13:38:28.532Z",
+      "platform": "android",
+      "channel": "full",
+      "version": "1.0.33",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
+      "release_note_id": "1.0.33",
+      "publish_at": "2026-06-09T15:04:02.592Z",
+      "expire_at": "2026-06-16T15:04:02.592Z",
       "audience": {
-        "platforms": [],
+        "platforms": [
+          "android"
+        ],
+        "channels": [
+          "full"
+        ],
+        "min_app_version": "",
+        "max_app_version": ""
+      }
+    },
+    {
+      "id": "update-windows-full-1.0.33",
+      "status": "public",
+      "priority": 0,
+      "platform": "windows",
+      "channel": "full",
+      "version": "1.0.33",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
+      "release_note_id": "1.0.33",
+      "publish_at": "2026-06-09T15:05:41.343Z",
+      "expire_at": "2026-06-16T15:05:41.343Z",
+      "audience": {
+        "platforms": [
+          "windows"
+        ],
         "channels": [],
-        "min_app_version": "1.0.33",
-        "max_app_version": "1.0.33"
-      },
-      "display": {
-        "surface": "startup_dialog",
-        "dismiss_policy": "once_per_revision",
-        "blocking": false
-      },
-      "content": {
-        "title": {
-          "zh": "通知",
-          "en": "Notification"
-        },
-        "body": {
-          "zh": [
-            "这是通知文本测试"
-          ],
-          "en": [
-            "This is the test text"
-          ]
-        }
+        "min_app_version": "",
+        "max_app_version": ""
       }
     }
   ],
   "announcement": {
-    "id": "20260513074902724",
-    "title": "v1.0.32",
+    "id": "20260609221800000",
+    "title": "版本更新公告",
     "show_when_up_to_date": false,
-    "contents": {},
-    "new_donor_ids": [
-      "3418_ji",
-      "2910_an"
-    ]
+    "contents": {
+      "zh": [
+        "适配mac桌面端并优化同步、搜索与布局体验。新增后端v0.29"
+      ]
+    },
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -196,6 +208,100 @@
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.33",
+      "date": "2026-06-09",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "macOS 桌面端支持，现在可以在 Mac 上直接使用 MemoFlow。"
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "新增 存储空间 ，可以更方便地查看和清理缓存。"
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "适配 Memos 0.29 基础 API。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "优化桌面端布局，减少页面拥挤和内容溢出。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "调整桌面端导航、设置页和二级页面交互，使用起来更符合电脑端习惯。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "优化不同设备上的页面密度，让手机、平板和桌面端的体验更统一。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "改进服务器地址输入，登录自建 Memos 时更顺手。"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "Memo0.27+  点赞、评论等互动信息支持实时刷新。"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "修复部分 Memo 更新时间同步不准确的问题，列表排序更加稳定。"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "改进主页搜索逻辑，搜索状态和结果范围更加清晰。"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "调整标签识别规则，减少正文内容被误识别为标签的情况。"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.32",
       "date": "2026-05-13",
