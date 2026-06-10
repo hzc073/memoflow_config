@@ -1,0 +1,62 @@
+schema: spec-driven
+
+context: |
+  Project: MemoFlow standalone configuration repository.
+  Repository role: maintain update metadata, release announcements, donor data, static assets, generated update bundles, and the local config manager. This is not the main MemoFlow app repository.
+
+  Tech stack:
+  - Split JSON configuration under `update/`.
+  - Python 3 build and validation script at `.github/scripts/build_update_config.py`.
+  - Local config manager: `config/server.py`, `config/manager.html`, `config/manager.css`, `config/manager.js`.
+  - Cloudflare Worker automation under `cloudflare/update-config-worker/`.
+  - GitHub Actions workflows under `.github/workflows/`.
+
+  Source-of-truth rules:
+  - `update/` is the canonical configuration source.
+  - `dist/update/` is generated output and MUST NOT be treated as the only source of truth.
+  - `memoflow_update.json` is a compatibility mirror for legacy clients.
+  - `update/manifest.json` owns global update settings, `version_info`, `notices`, `updates`, and announcement indexes.
+  - `update/announcements/*.json` stores one announcement per file.
+  - `update/locales/{locale}/announcements/*.json` stores localized announcement files.
+  - `update/donors.json` stores donor records.
+  - `update/assets/*` stores published static assets.
+
+  Data integrity rules:
+  - All `.json` files MUST remain valid UTF-8 without BOM.
+  - Preserve existing field semantics, array ordering, and stable category keys unless the change explicitly requires otherwise.
+  - Announcement item categories SHOULD remain stable keys: `feature`, `improvement`, `fix`.
+  - Release note lists exposed to clients MUST keep newest versions first.
+  - Changes that add, remove, or retag announcements MUST keep `announcement_tag_index`, `announcement_ids`, and `latest_announcement_id` coherent.
+  - Do not invent fields, routes, release rules, or client behavior. Confirm against repository docs and existing JSON examples.
+
+  Validation commands:
+  - After changing `update/` config, run `python .github/scripts/build_update_config.py --root update --validate-only`.
+  - When preview output is needed, run `python .github/scripts/build_update_config.py --root update --output dist/update/latest.json`.
+  - After changing the local config manager, run `python -m unittest discover -s config -p "test_*.py"`.
+  - If a change touches Cloudflare Worker behavior or publish automation, review `cloudflare/update-config-worker/README.md` and the relevant `.github/workflows/` files.
+
+  Documentation language:
+  - OpenSpec artifact prose defaults to Simplified Chinese.
+  - Preserve English for OpenSpec structural words, requirement keywords, code identifiers, paths, API names, schema keys, locale tags, commands, and stable category values.
+
+rules:
+  proposal:
+    - 用简体中文说明 Why、What Changes、Impact 和 Non-goals；保留 capability IDs、paths、commands、schema keys 和 API names 的英文。
+    - 明确列出变更会触及的事实源文件，例如 `update/manifest.json`、`update/announcements/*.json`、`config/server.py` 或 `cloudflare/update-config-worker/worker.js`。
+    - 对涉及客户端可见配置的变更，说明 legacy compatibility 是否受影响，包括 `memoflow_update.json`、`version_info`、legacy `notice` 或 localized outputs。
+    - 对涉及发布或自动化的变更，说明 GitHub Actions、Cloudflare Worker、generated `dist/update/*` 的影响边界。
+  design:
+    - 用简体中文描述数据流、写入目标、校验策略和回滚方式；保留代码标识符、JSON keys、file paths 和 commands 的英文。
+    - 涉及本地配置管理器时，说明前端表单字段、后端 API endpoint、写入文件之间的对应关系。
+    - 涉及公告、通知或更新候选时，说明索引同步、排序、locale fallback、legacy sync 和客户端兼容性。
+    - 避免将 generated output 设计成主要写入源；如必须写入 `dist/update/`，解释原因和验证方式。
+  specs:
+    - Requirement 描述和 Scenario 说明默认使用简体中文；保留 `Requirement`、`Scenario`、`GIVEN`、`WHEN`、`THEN`、`MUST`、`SHOULD`、`MAY` 等结构和规范词英文。
+    - 每个 requirement SHOULD 明确输入、行为、输出、边界条件和验收标准。
+    - 涉及 JSON 配置的 specs MUST 指明目标文件、必要字段、排序要求和兼容性要求。
+    - 涉及本地工具的 specs SHOULD 指明对应 UI action、server endpoint、持久化目标和错误处理。
+  tasks:
+    - 任务描述默认使用简体中文；保留 checkbox syntax、paths、commands、function names、route names 和 JSON keys 的英文。
+    - 为每个会写入配置的变更加入校验任务，至少覆盖仓库规定的 validate command。
+    - 为本地配置管理器变更加上相关 unittest 或 manual smoke task。
+    - 为发布、Worker 或 workflow 变更加上 review docs/workflows 和 failure-mode verification task。
