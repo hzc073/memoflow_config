@@ -34,6 +34,9 @@ DEFAULT_PORT = 8765
 MAX_BODY_BYTES = 25 * 1024 * 1024
 ANNOUNCEMENT_SUMMARY_LIMIT = 50
 ASSET_PUBLIC_BASE_URL = "https://juanzeng.hzc073.com/memoflow/assets/"
+DEFAULT_GITHUB_REPO = "hzc073/memoflow"
+DEFAULT_GITHUB_CACHE_TTL_SECONDS = 300
+GITHUB_RELEASE_LIMIT = 50
 SAFE_ASSET_SUFFIXES = {
     ".avif",
     ".gif",
@@ -93,6 +96,10 @@ class ApiError(Exception):
 
 def _json_dumps(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, indent=2) + "\n"
+
+
+def deepcopy_json(value: Any) -> Any:
+    return json.loads(json.dumps(value, ensure_ascii=False))
 
 
 def _is_relative_to(path: pathlib.Path, parent: pathlib.Path) -> bool:
@@ -323,6 +330,79 @@ def _has_english(value: Any) -> bool:
     return _has_content(value.get("en") or value.get("en-US") or value.get("en_us"))
 
 
+def normalize_release_version(value: Any) -> str:
+    text = _string(value)
+    if text.lower().startswith("refs/tags/"):
+        text = text.rsplit("/", 1)[-1]
+    return re.sub(r"^v", "", text, flags=re.IGNORECASE).strip()
+
+
+def semver_sort_key(value: Any) -> list[tuple[int, Any]]:
+    text = normalize_release_version(value)
+    if not text:
+        return []
+    key: list[tuple[int, Any]] = []
+    for part in re.split(r"[.+_-]", text):
+        if not part:
+            continue
+        if part.isdigit():
+            key.append((1, int(part)))
+        else:
+            key.append((0, part.lower()))
+    return key
+
+
+def infer_asset_platform(name: Any) -> str:
+    text = _string(name).lower()
+    if text.endswith(".apk") or "android" in text or "arm64-v8a" in text:
+        return "android"
+    if text.endswith(".exe") or text.endswith(".msi") or "windows" in text or "setup" in text:
+        return "windows"
+    if "ios" in text or "appstore" in text:
+        return "ios"
+    return ""
+
+
+def normalize_github_asset(raw: dict[str, Any]) -> dict[str, Any]:
+    name = _string(raw.get("name"))
+    size = raw.get("size")
+    download_count = raw.get("download_count")
+    return {
+        "id": raw.get("id"),
+        "name": name,
+        "platform": infer_asset_platform(name),
+        "size": int(size) if isinstance(size, int) else 0,
+        "download_count": int(download_count) if isinstance(download_count, int) else 0,
+        "browser_download_url": _string(raw.get("browser_download_url")),
+        "content_type": _string(raw.get("content_type")),
+        "created_at": _string(raw.get("created_at")),
+        "updated_at": _string(raw.get("updated_at")),
+    }
+
+
+def normalize_github_release(raw: dict[str, Any]) -> dict[str, Any]:
+    assets = [
+        normalize_github_asset(item)
+        for item in _list(raw.get("assets"))
+        if isinstance(item, dict)
+    ]
+    tag = _string(raw.get("tag_name"))
+    return {
+        "id": raw.get("id"),
+        "tag_name": tag,
+        "version": normalize_release_version(tag),
+        "name": _string(raw.get("name")),
+        "html_url": _string(raw.get("html_url")),
+        "draft": bool(raw.get("draft")),
+        "prerelease": bool(raw.get("prerelease")),
+        "created_at": _string(raw.get("created_at")),
+        "published_at": _string(raw.get("published_at")),
+        "asset_count": len(assets),
+        "total_downloads": sum(int(item.get("download_count") or 0) for item in assets),
+        "assets": assets,
+    }
+
+
 class ConfigRepository:
     def __init__(self, repo_root: pathlib.Path) -> None:
         self.repo_root = repo_root.resolve()
@@ -332,6 +412,9 @@ class ConfigRepository:
         self.locales_root = (self.update_root / "locales").resolve()
         self.assets_root = (self.update_root / "assets").resolve()
         self.dist_latest = (self.repo_root / "dist" / "update" / "latest.json").resolve()
+        self._github_cache: dict[str, Any] | None = None
+        self._github_cache_at: dt.datetime | None = None
+        self._github_cache_key = ""
 
     @property
     def manifest_path(self) -> pathlib.Path:
@@ -495,6 +578,308 @@ class ConfigRepository:
                     }
                 )
         return refs
+
+    def github_settings(self) -> dict[str, Any]:
+        raw_ttl = _string(os.environ.get("MEMOFLOW_CONFIG_GITHUB_CACHE_TTL_SECONDS"))
+        try:
+            ttl_seconds = int(raw_ttl) if raw_ttl else DEFAULT_GITHUB_CACHE_TTL_SECONDS
+        except ValueError:
+            ttl_seconds = DEFAULT_GITHUB_CACHE_TTL_SECONDS
+        ttl_seconds = max(0, ttl_seconds)
+        return {
+            "repo": _string(os.environ.get("MEMOFLOW_CONFIG_GITHUB_REPO")) or DEFAULT_GITHUB_REPO,
+            "token_configured": bool(_string(os.environ.get("MEMOFLOW_CONFIG_GITHUB_TOKEN"))),
+            "cache_ttl_seconds": ttl_seconds,
+        }
+
+    def github_release_data(self, *, force: bool = False) -> dict[str, Any]:
+        settings = self.github_settings()
+        repo = settings["repo"]
+        ttl_seconds = int(settings["cache_ttl_seconds"])
+        now = dt.datetime.now(dt.timezone.utc)
+        cache_valid = (
+            not force
+            and self._github_cache is not None
+            and self._github_cache_key == repo
+            and self._github_cache_at is not None
+            and (now - self._github_cache_at).total_seconds() <= ttl_seconds
+        )
+        if cache_valid:
+            cached = deepcopy_json(self._github_cache)
+            cached["state"] = "cache"
+            cached["cache"] = {
+                "hit": True,
+                "fetched_at": self._github_cache_at.isoformat(),
+                "ttl_seconds": ttl_seconds,
+            }
+            return cached
+
+        url = f"https://api.github.com/repos/{repo}/releases?per_page={GITHUB_RELEASE_LIMIT}"
+        headers = {
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "MemoFlowConfigManager",
+        }
+        token = _string(os.environ.get("MEMOFLOW_CONFIG_GITHUB_TOKEN"))
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+        request = urlrequest.Request(url, headers=headers, method="GET")
+        try:
+            with urlrequest.urlopen(request, timeout=30) as response:
+                body = response.read().decode("utf-8")
+                decoded = json.loads(body)
+                if not isinstance(decoded, list):
+                    raise ApiError("GitHub releases response must be an array")
+                releases = [
+                    normalize_github_release(item)
+                    for item in decoded
+                    if isinstance(item, dict)
+                ]
+                data = {
+                    "state": "ok",
+                    "repo": repo,
+                    "token_configured": bool(token),
+                    "fetched_at": now.isoformat(),
+                    "rate_limit": {
+                        "remaining": response.headers.get("X-RateLimit-Remaining", ""),
+                        "reset": response.headers.get("X-RateLimit-Reset", ""),
+                    },
+                    "releases": releases,
+                    "cache": {
+                        "hit": False,
+                        "ttl_seconds": ttl_seconds,
+                    },
+                }
+                self._github_cache = deepcopy_json(data)
+                self._github_cache_at = now
+                self._github_cache_key = repo
+                return data
+        except urlerror.HTTPError as exc:
+            error_state = "rate_limited" if exc.code in {403, 429} else "error"
+            error = {
+                "status": exc.code,
+                "reason": exc.reason,
+                "message": self._read_error_body(exc),
+            }
+        except (OSError, urlerror.URLError, json.JSONDecodeError) as exc:
+            error_state = "error"
+            error = {
+                "status": 0,
+                "reason": type(exc).__name__,
+                "message": str(exc),
+            }
+
+        fallback = {
+            "state": error_state,
+            "repo": repo,
+            "token_configured": bool(token),
+            "fetched_at": "",
+            "rate_limit": {},
+            "releases": [],
+            "error": error,
+            "cache": {
+                "hit": False,
+                "ttl_seconds": ttl_seconds,
+            },
+        }
+        if self._github_cache is not None and self._github_cache_key == repo:
+            fallback["state"] = "stale_cache"
+            fallback["releases"] = deepcopy_json(self._github_cache).get("releases", [])
+            fallback["cache"] = {
+                "hit": True,
+                "stale": True,
+                "fetched_at": self._github_cache_at.isoformat() if self._github_cache_at else "",
+                "ttl_seconds": ttl_seconds,
+            }
+        return fallback
+
+    def _read_error_body(self, exc: urlerror.HTTPError) -> str:
+        try:
+            raw = exc.read().decode("utf-8", errors="replace")
+        except OSError:
+            return ""
+        try:
+            decoded = json.loads(raw)
+        except json.JSONDecodeError:
+            return raw
+        if isinstance(decoded, dict):
+            return _string(decoded.get("message")) or raw
+        return raw
+
+    def dashboard_data(self) -> dict[str, Any]:
+        manifest = self.load_manifest()
+        announcements = self.load_announcement_directory()
+        github = self.github_release_data()
+        groups = self.release_groups(github.get("releases") if isinstance(github, dict) else [])
+        latest_github = (github.get("releases") or [None])[0] if isinstance(github, dict) else None
+        version_info = _dict(manifest.get("version_info"))
+        local_versions = {
+            platform: _string(_dict(info).get("latest_version"))
+            for platform, info in version_info.items()
+            if isinstance(info, dict)
+        }
+        issues = [
+            issue
+            for group in groups
+            for issue in _list(group.get("issues"))
+        ]
+        return {
+            "github": github,
+            "local": {
+                "latest_announcement_id": _string(manifest.get("latest_announcement_id")),
+                "announcement_count": len(announcements),
+                "donor_count": len(self.load_donors()),
+                "update_count": len(_list(manifest.get("updates"))),
+                "latest_versions": local_versions,
+                "generated": self.generated_summary(),
+            },
+            "charts": {
+                "downloads_by_version": [
+                    {
+                        "version": _string(item.get("version")),
+                        "tag_name": _string(item.get("tag_name")),
+                        "total_downloads": int(item.get("total_downloads") or 0),
+                    }
+                    for item in _list(github.get("releases") if isinstance(github, dict) else [])
+                ],
+                "downloads_by_asset": [
+                    {
+                        "version": _string(release.get("version")),
+                        "asset": _string(asset.get("name")),
+                        "platform": _string(asset.get("platform")),
+                        "download_count": int(asset.get("download_count") or 0),
+                    }
+                    for release in _list(github.get("releases") if isinstance(github, dict) else [])
+                    for asset in _list(release.get("assets"))
+                    if isinstance(asset, dict)
+                ],
+            },
+            "latest_github_release": latest_github,
+            "release_groups": groups,
+            "issues": issues,
+        }
+
+    def release_groups(self, github_releases: Any | None = None) -> list[dict[str, Any]]:
+        manifest = self.load_manifest()
+        announcements = self.load_announcement_directory()
+        localized = self.localized_status(announcements)
+        localized_by_id = _dict(localized.get("announcements"))
+        refs = self.donor_references(announcements)
+        groups: dict[str, dict[str, Any]] = {}
+
+        def ensure(version: Any) -> dict[str, Any]:
+            normalized = normalize_release_version(version) or "unknown"
+            if normalized not in groups:
+                groups[normalized] = {
+                    "version": normalized,
+                    "release_tags": [],
+                    "github_release": None,
+                    "source_announcements": [],
+                    "localized_announcements_by_locale": {},
+                    "update_candidates": [],
+                    "legacy_version_info_platforms": [],
+                    "donor_references": [],
+                    "issues": [],
+                }
+            return groups[normalized]
+
+        for release in _list(github_releases):
+            if not isinstance(release, dict):
+                continue
+            group = ensure(release.get("version") or release.get("tag_name"))
+            group["github_release"] = release
+            tag = _string(release.get("tag_name"))
+            if tag and tag not in group["release_tags"]:
+                group["release_tags"].append(tag)
+
+        for announcement in announcements:
+            release_tag = _string(announcement.get("release_tag"))
+            version = normalize_release_version(release_tag) or _string(announcement.get("version"))
+            group = ensure(version)
+            group["source_announcements"].append(
+                {
+                    "id": _string(announcement.get("id")),
+                    "version": _string(announcement.get("version")),
+                    "release_tag": release_tag,
+                    "date": _string(announcement.get("date")),
+                    "title": _string(announcement.get("title")),
+                    "path": self.relative_path(self.announcement_path(_string(announcement.get("id")))),
+                    "is_latest": _string(manifest.get("latest_announcement_id")) == _string(announcement.get("id")),
+                }
+            )
+            if release_tag and release_tag not in group["release_tags"]:
+                group["release_tags"].append(release_tag)
+            ann_id = _string(announcement.get("id"))
+            if ann_id in localized_by_id:
+                group["localized_announcements_by_locale"][ann_id] = localized_by_id[ann_id]
+            for donor_id in _list(announcement.get("new_donor_ids")):
+                donor_key = _string(donor_id)
+                if donor_key and donor_key in refs:
+                    group["donor_references"].extend(refs[donor_key])
+            if release_tag and _string(announcement.get("version")):
+                tag_version = normalize_release_version(release_tag)
+                if tag_version and tag_version != normalize_release_version(announcement.get("version")):
+                    group["issues"].append(f"{ann_id} release_tag 与 version 不一致。")
+
+        for update in _list(manifest.get("updates")):
+            if not isinstance(update, dict):
+                continue
+            group = ensure(update.get("version"))
+            group["update_candidates"].append(
+                {
+                    "id": _string(update.get("id")),
+                    "status": _string(update.get("status")),
+                    "platform": _string(update.get("platform")),
+                    "channel": _string(update.get("channel")),
+                    "version": _string(update.get("version")),
+                    "download_url": _string(update.get("download_url") or update.get("url")),
+                    "release_note_id": _string(update.get("release_note_id") or update.get("releaseNoteId")),
+                }
+            )
+            if not _string(update.get("download_url") or update.get("url")):
+                group["issues"].append(f"{_string(update.get('id')) or _string(update.get('version'))} 缺少下载链接。")
+
+        for platform, info in _dict(manifest.get("version_info")).items():
+            if not isinstance(info, dict):
+                continue
+            version = _string(info.get("latest_version"))
+            if not version:
+                continue
+            group = ensure(version)
+            group["legacy_version_info_platforms"].append(
+                {
+                    "platform": _string(platform),
+                    "latest_version": version,
+                    "url": _string(info.get("url")),
+                    "publish_at": _string(info.get("publish_at")),
+                    "force_update": bool(info.get("force_update")),
+                }
+            )
+            if not _string(info.get("url")) and _string(platform).lower() != "ios":
+                group["issues"].append(f"legacy version_info.{platform} 缺少下载链接。")
+
+        for group in groups.values():
+            if group["source_announcements"] and group["github_release"] is None:
+                group["issues"].append("未匹配 GitHub release。")
+            for ann_id, status in _dict(group.get("localized_announcements_by_locale")).items():
+                for locale, detail in _dict(status.get("locales")).items():
+                    if locale == SOURCE_LOCALE:
+                        continue
+                    state = _string(_dict(detail).get("status"))
+                    if state in {"missing", "stale", "needs_review", "ai_draft"}:
+                        group["issues"].append(f"{ann_id} {locale} 翻译状态为 {state}。")
+            group["status_summary"] = {
+                "source_count": len(group["source_announcements"]),
+                "localized_source_count": len(group["localized_announcements_by_locale"]),
+                "update_count": len(group["update_candidates"]),
+                "legacy_platform_count": len(group["legacy_version_info_platforms"]),
+                "issue_count": len(group["issues"]),
+            }
+
+        return sorted(
+            groups.values(),
+            key=lambda item: (semver_sort_key(item.get("version")), _string(item.get("version"))),
+            reverse=True,
+        )
 
     def localized_diagnostics(
         self,
@@ -1467,24 +1852,32 @@ class ConfigRepository:
         manifest = self.load_manifest()
         updates = [normalize_update(item) for item in _list(payload.get("updates")) if isinstance(item, dict)]
         manifest["updates"] = updates
-        syncs = _list(payload.get("legacy_syncs"))
-        if syncs:
-            version_info = manifest.get("version_info")
-            if not isinstance(version_info, dict):
-                version_info = {}
-            for raw_sync in syncs:
-                sync = _dict(raw_sync)
-                update_id = _string(sync.get("id"))
-                update = next((item for item in updates if _string(item.get("id")) == update_id), None)
-                if update is None:
-                    raise ApiError(f"Legacy update source not found: {update_id}")
-                platform = _string(sync.get("platform") or update.get("platform")).lower()
-                if not platform:
-                    raise ApiError("Legacy update sync requires a platform")
-                version_info[platform] = update_to_legacy_version_info(update)
-            manifest["version_info"] = version_info
+        self._apply_legacy_update_syncs(manifest, updates, _list(payload.get("legacy_syncs")))
         self.write_json(self.manifest_path, manifest)
         return self.load_all()
+
+    def _apply_legacy_update_syncs(
+        self,
+        manifest: dict[str, Any],
+        updates: list[dict[str, Any]],
+        syncs: list[Any],
+    ) -> None:
+        if not syncs:
+            return
+        version_info = manifest.get("version_info")
+        if not isinstance(version_info, dict):
+            version_info = {}
+        for raw_sync in syncs:
+            sync = _dict(raw_sync)
+            update_id = _string(sync.get("id"))
+            update = next((item for item in updates if _string(item.get("id")) == update_id), None)
+            if update is None:
+                raise ApiError(f"Legacy update source not found: {update_id}")
+            platform = _string(sync.get("platform") or update.get("platform")).lower()
+            if not platform:
+                raise ApiError("Legacy update sync requires a platform")
+            version_info[platform] = update_to_legacy_version_info(update)
+        manifest["version_info"] = version_info
 
     def save_donors(self, payload: dict[str, Any]) -> dict[str, Any]:
         donors = [normalize_donor(item) for item in _list(payload.get("donors")) if isinstance(item, dict)]
@@ -1502,6 +1895,174 @@ class ConfigRepository:
             )
         self.write_json(self.donors_path, donors)
         return self.load_all()
+
+    def prepare_release_draft(self, payload: dict[str, Any]) -> dict[str, Any]:
+        announcement = normalize_announcement(_dict(payload.get("announcement")))
+        if not _has_content(announcement.get("title")) and not _has_content(announcement.get("version")):
+            raise ApiError("Release draft announcement requires at least a title or version")
+        ann_id = _string(announcement.get("id")) or self.generate_announcement_id(announcement)
+        announcement["id"] = _normalize_id(ann_id, where="announcement.id")
+
+        manifest = deepcopy_json(self.load_manifest())
+        self._index_announcement_in_manifest(manifest, announcement)
+        set_latest = payload.get("set_latest")
+        if set_latest is None or bool(set_latest):
+            manifest["latest_announcement_id"] = announcement["id"]
+
+        updates: list[dict[str, Any]] | None = None
+        if "updates" in payload:
+            updates = [
+                normalize_update(item)
+                for item in _list(payload.get("updates"))
+                if isinstance(item, dict)
+            ]
+            for update in updates:
+                if not _string(update.get("release_note_id")):
+                    update["release_note_id"] = announcement["id"]
+            manifest["updates"] = updates
+            self._apply_legacy_update_syncs(manifest, updates, _list(payload.get("legacy_syncs")))
+
+        donors: list[dict[str, str]] | None = None
+        if "donors" in payload:
+            donors = [
+                normalize_donor(item)
+                for item in _list(payload.get("donors"))
+                if isinstance(item, dict)
+            ]
+
+        source_hash = _announcement_source_hash(announcement, SOURCE_LOCALE)
+        localizations: list[dict[str, Any]] = []
+        for raw_item in _list(payload.get("localizations")):
+            if not isinstance(raw_item, dict):
+                continue
+            locale = _normalize_locale_tag(raw_item.get("locale") or _dict(raw_item.get("announcement")).get("locale"))
+            if locale not in SUPPORTED_LOCALES or locale == SOURCE_LOCALE:
+                continue
+            raw_announcement = _dict(raw_item.get("announcement"))
+            status = _translation_status(raw_item.get("status") or _dict(raw_announcement.get("translation")).get("status"))
+            localizations.append(
+                normalize_localized_announcement_for_save(
+                    raw_announcement,
+                    announcement_id=announcement["id"],
+                    locale=locale,
+                    source_hash=source_hash,
+                    status=status,
+                )
+            )
+
+        build = bool(payload.get("build"))
+        write_plan = [
+            {"path": "update/manifest.json", "kind": "manifest"},
+            {
+                "path": f"update/announcements/{announcement['id']}.json",
+                "kind": "announcement",
+            },
+        ]
+        if donors is not None:
+            write_plan.append({"path": "update/donors.json", "kind": "donors"})
+        for localized in localizations:
+            write_plan.append(
+                {
+                    "path": f"update/locales/{localized['locale']}/announcements/{announcement['id']}.json",
+                    "kind": "localized_announcement",
+                }
+            )
+        if build:
+            write_plan.append({"path": "dist/update/latest.json", "kind": "generated"})
+
+        return {
+            "announcement": announcement,
+            "manifest": manifest,
+            "updates": updates,
+            "donors": donors,
+            "localizations": localizations,
+            "build": build,
+            "write_plan": write_plan,
+            "summary": {
+                "announcement_id": announcement["id"],
+                "version": _string(announcement.get("version")),
+                "release_tag": _string(announcement.get("release_tag")),
+                "update_count": len(updates) if updates is not None else 0,
+                "donor_count": len(donors) if donors is not None else 0,
+                "localization_count": len(localizations),
+                "build": build,
+            },
+        }
+
+    def release_draft_preview(self, payload: dict[str, Any]) -> dict[str, Any]:
+        prepared = self.prepare_release_draft(payload)
+        validation = self.validate_prepared_release_draft(prepared)
+        return {
+            "draft": prepared["summary"],
+            "write_plan": prepared["write_plan"],
+            "validation": validation,
+        }
+
+    def publish_release_draft(self, payload: dict[str, Any]) -> dict[str, Any]:
+        prepared = self.prepare_release_draft(payload)
+        preflight = self.validate_prepared_release_draft(prepared)
+        if not preflight.get("ok"):
+            raise ApiError(
+                json.dumps({"preflight": preflight}, ensure_ascii=False),
+                HTTPStatus.CONFLICT,
+            )
+        self.apply_prepared_release_draft(prepared, self.update_root, use_allowlist=True)
+        post_validate = self.run_build_script(build=False)
+        build_result = self.run_build_script(build=True) if prepared["build"] else None
+        data = self.load_all()
+        data["releaseDraftResult"] = {
+            "draft": prepared["summary"],
+            "write_plan": prepared["write_plan"],
+            "preflight": preflight,
+            "post_validate": post_validate,
+            "build": build_result,
+        }
+        return data
+
+    def validate_prepared_release_draft(self, prepared: dict[str, Any]) -> dict[str, Any]:
+        with tempfile.TemporaryDirectory(prefix="memoflow-release-draft-") as tmp:
+            temp_update = pathlib.Path(tmp) / "update"
+            shutil.copytree(self.update_root, temp_update)
+            self.apply_prepared_release_draft(prepared, temp_update, use_allowlist=False)
+            return self._run_update_build(temp_update, build=False)
+
+    def apply_prepared_release_draft(
+        self,
+        prepared: dict[str, Any],
+        update_root: pathlib.Path,
+        *,
+        use_allowlist: bool,
+    ) -> None:
+        update_root = update_root.resolve()
+        self._write_update_json(update_root / "manifest.json", prepared["manifest"], use_allowlist=use_allowlist)
+        ann_id = _normalize_id(prepared["announcement"].get("id"), where="announcement.id")
+        self._write_update_json(
+            update_root / "announcements" / f"{ann_id}.json",
+            prepared["announcement"],
+            use_allowlist=use_allowlist,
+        )
+        if prepared.get("donors") is not None:
+            self._write_update_json(update_root / "donors.json", prepared["donors"], use_allowlist=use_allowlist)
+        for localized in _list(prepared.get("localizations")):
+            if not isinstance(localized, dict):
+                continue
+            locale = _normalize_locale_tag(localized.get("locale"))
+            if not locale:
+                continue
+            self._write_update_json(
+                update_root / "locales" / locale / "announcements" / f"{ann_id}.json",
+                localized,
+                use_allowlist=use_allowlist,
+            )
+
+    def _write_update_json(self, path: pathlib.Path, data: Any, *, use_allowlist: bool) -> None:
+        if use_allowlist:
+            self.write_json(path, data)
+            return
+        path.parent.mkdir(parents=True, exist_ok=True)
+        encoded = _json_dumps(data)
+        json.loads(encoded)
+        path.write_text(encoded, encoding="utf-8", newline="\n")
 
     def upload_asset(self, payload: dict[str, Any]) -> dict[str, Any]:
         original_filename = _string(payload.get("filename"))
@@ -1553,20 +2114,10 @@ class ConfigRepository:
         }
 
     def run_build_script(self, *, build: bool) -> dict[str, Any]:
-        script = self.repo_root / ".github" / "scripts" / "build_update_config.py"
-        if not script.exists():
-            raise ApiError(f"Build script not found: {script}", HTTPStatus.NOT_FOUND)
-        args = [sys.executable, str(script), "--root", "update"]
-        if build:
-            args.extend(["--output", "dist/update/latest.json"])
-        else:
-            args.append("--validate-only")
-        completed = subprocess.run(
-            args,
-            cwd=str(self.repo_root),
-            text=True,
-            capture_output=True,
-            timeout=60,
+        result = self._run_update_build(
+            self.update_root,
+            build=build,
+            output=self.dist_latest if build else None,
         )
         manifest = self.load_manifest()
         announcements = self.load_announcements(manifest)
@@ -1576,14 +2127,39 @@ class ConfigRepository:
             "errors": [*diagnostics["errors"], *localized_diagnostics["errors"]],
             "warnings": [*diagnostics["warnings"], *localized_diagnostics["warnings"]],
         }
+        result["diagnostics"] = diagnostics
+        result["output"] = str(self.dist_latest) if build else ""
+        return result
+
+    def _run_update_build(
+        self,
+        root: pathlib.Path,
+        *,
+        build: bool,
+        output: pathlib.Path | None = None,
+    ) -> dict[str, Any]:
+        script = self.repo_root / ".github" / "scripts" / "build_update_config.py"
+        if not script.exists():
+            raise ApiError(f"Build script not found: {script}", HTTPStatus.NOT_FOUND)
+        args = [sys.executable, str(script), "--root", str(root)]
+        if build:
+            args.extend(["--output", str(output or self.dist_latest)])
+        else:
+            args.append("--validate-only")
+        completed = subprocess.run(
+            args,
+            cwd=str(self.repo_root),
+            text=True,
+            capture_output=True,
+            timeout=60,
+        )
         return {
             "ok": completed.returncode == 0,
             "returncode": completed.returncode,
             "stdout": completed.stdout,
             "stderr": completed.stderr,
             "command": " ".join(args),
-            "output": str(self.dist_latest) if build else "",
-            "diagnostics": diagnostics,
+            "output": str(output or self.dist_latest) if build else "",
         }
 
 
@@ -1891,6 +2467,13 @@ class ManagerHandler(BaseHTTPRequestHandler):
             if parsed.path == "/api/config":
                 self._send_json({"ok": True, "data": self.repo.load_all()})
                 return
+            if parsed.path == "/api/dashboard":
+                self._send_json({"ok": True, "data": self.repo.dashboard_data()})
+                return
+            if parsed.path == "/api/release-groups":
+                github = self.repo.github_release_data()
+                self._send_json({"ok": True, "data": self.repo.release_groups(github.get("releases"))})
+                return
             if parsed.path == "/api/announcement/localized":
                 params = parse_qs(parsed.query)
                 data = self.repo.localized_editor_payload(
@@ -1961,6 +2544,10 @@ class ManagerHandler(BaseHTTPRequestHandler):
                 data = self.repo.save_donors(payload)
             elif path == "/api/assets/upload":
                 data = self.repo.upload_asset(payload)
+            elif path == "/api/release-draft/preview":
+                data = self.repo.release_draft_preview(payload)
+            elif path == "/api/release-draft/publish":
+                data = self.repo.publish_release_draft(payload)
             elif path == "/api/validate":
                 data = self.repo.run_build_script(build=False)
             elif path == "/api/build":
