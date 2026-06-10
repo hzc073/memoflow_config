@@ -1,7 +1,14 @@
 const state = {
   data: null,
-  panel: "update",
+  dashboard: null,
+  panel: "dashboard",
   dirty: false,
+  wizardStep: 0,
+  wizardDonorsTouched: false,
+  wizardUpdatesInitialized: false,
+  wizardDownloadLinks: [],
+  activeWizardDownloadIndex: null,
+  selectedReleaseGroupVersion: "",
   selectedAnnouncementId: "",
   selectedHistoryId: "",
   selectedLocalizationAnnouncementId: "",
@@ -38,6 +45,7 @@ const announcementCategoryOptions = [
   { value: "fix", label: "修复" },
   { value: "improvement", label: "优化" },
 ];
+const wizardAnnouncementCategoryOrder = ["feature", "improvement", "fix"];
 const localeLabels = {
   "zh-Hans": "简体中文",
   "zh-Hant-TW": "繁体中文",
@@ -240,6 +248,60 @@ function setSelectOptions(id, options, selectedValue = "") {
   select.value = selected;
 }
 
+function optionListHtml(options, selectedValue = "") {
+  const normalized = options.map((option) => (
+    typeof option === "string" ? { value: option, label: option } : option
+  ));
+  const selected = String(selectedValue ?? "");
+  if (selected && !normalized.some((option) => String(option.value) === selected)) {
+    normalized.push({ value: selected, label: `当前值：${selected}` });
+  }
+  return normalized
+    .map((option) => {
+      const value = String(option.value);
+      return `<option value="${escapeHtml(value)}"${value === selected ? " selected" : ""}>${escapeHtml(option.label)}</option>`;
+    })
+    .join("");
+}
+
+function setChoiceChecklistOptions(id, options, selectedValues = [], emptyText = "暂无可选项") {
+  const root = $(id);
+  if (!root) return;
+  const selected = new Set((selectedValues || []).map(String));
+  root.innerHTML = options.length
+    ? options.map((option) => {
+      const item = typeof option === "string" ? { value: option, label: option } : option;
+      const value = String(item.value);
+      return `<label class="dropdown-option">
+        <input
+          type="checkbox"
+          value="${escapeHtml(value)}"
+          data-multi-choice
+          data-choice-label="${escapeHtml(item.label || value)}"
+          ${selected.has(value) ? "checked" : ""}
+        />
+        <span>${escapeHtml(item.label || value)}</span>
+      </label>`;
+    }).join("")
+    : `<div class="empty-state">${escapeHtml(emptyText)}</div>`;
+  updateChoiceChecklistSummary(id);
+}
+
+function updateChoiceChecklistSummary(id, emptyText = "未选择") {
+  const root = $(id);
+  const summary = $(`${id}Summary`);
+  if (!root || !summary) return;
+  const checked = Array.from(root.querySelectorAll("[data-multi-choice]:checked"));
+  if (!checked.length) {
+    summary.textContent = emptyText;
+    return;
+  }
+  const labels = checked.map((input) => input.dataset.choiceLabel || input.value);
+  summary.textContent = labels.length <= 3
+    ? labels.join("、")
+    : `${labels.slice(0, 3).join("、")} 等 ${labels.length} 项`;
+}
+
 function setVersionBoundarySelect(id, value) {
   setSelectOptions(id, versionBoundaryOptions(), String(value || "").trim());
 }
@@ -344,7 +406,19 @@ function setupSelects() {
 
 async function loadConfig() {
   const data = await api("/api/config");
+  const dashboard = await api("/api/dashboard").catch((error) => ({
+    github: { state: "error", error: { message: error.message }, releases: [] },
+    local: {},
+    charts: { downloads_by_version: [], downloads_by_asset: [] },
+    release_groups: [],
+    issues: [error.message],
+  }));
   state.data = data;
+  state.dashboard = dashboard;
+  state.wizardDonorsTouched = false;
+  state.wizardUpdatesInitialized = false;
+  state.wizardDownloadLinks = [];
+  state.activeWizardDownloadIndex = null;
   state.selectedAnnouncementId ||= data.currentAnnouncement?.id || data.history?.[0]?.id || "";
   state.selectedHistoryId ||= data.currentAnnouncement?.id || data.history?.[0]?.id || "";
   if (!(data.history || []).some((item) => String(item.id) === String(state.selectedAnnouncementId))) {
@@ -358,6 +432,12 @@ async function loadConfig() {
   }
   if (!(data.announcements || []).some((item) => String(item.id) === String(state.selectedLocalizationAnnouncementId))) {
     state.selectedLocalizationAnnouncementId = data.currentAnnouncement?.id || data.history?.[0]?.id || "";
+  }
+  if (!state.selectedReleaseGroupVersion) {
+    state.selectedReleaseGroupVersion = dashboard.release_groups?.[0]?.version || "";
+  }
+  if (!(dashboard.release_groups || []).some((item) => String(item.version) === String(state.selectedReleaseGroupVersion))) {
+    state.selectedReleaseGroupVersion = dashboard.release_groups?.[0]?.version || "";
   }
   state.selectedNotice = Math.min(state.selectedNotice, Math.max((data.manifest.notices || []).length - 1, 0));
   state.selectedUpdate = Math.min(state.selectedUpdate, Math.max((data.manifest.updates || []).length - 1, 0));
@@ -373,6 +453,9 @@ async function loadConfig() {
 }
 
 function renderAll() {
+  renderDashboard();
+  renderReleaseWizard();
+  renderReleaseGroups();
   renderAnnouncementLoader();
   renderAnnouncementForm(selectedAnnouncementForEditor() || {});
   renderAnnouncementPreview();
@@ -390,6 +473,693 @@ function renderAll() {
   renderDonorForm();
   renderDonorPreview();
   renderOps();
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat("zh-CN").format(Number(value || 0));
+}
+
+function renderDashboard() {
+  const dashboard = state.dashboard || {};
+  const github = dashboard.github || {};
+  const releases = github.releases || [];
+  const local = dashboard.local || {};
+  const latest = dashboard.latest_github_release || releases[0] || {};
+  const totalDownloads = releases.reduce((sum, item) => sum + Number(item.total_downloads || 0), 0);
+  if ($("dashboardGithubState")) {
+    const token = github.token_configured ? "已配置 GitHub token" : "未配置 GitHub token";
+    const stateLabel = github.state || "unknown";
+    const error = github.error?.message ? ` / ${github.error.message}` : "";
+    $("dashboardGithubState").textContent = `GitHub: ${stateLabel} / ${token} / repo ${github.repo || ""}${error}`;
+  }
+  if ($("dashboardMetricCards")) {
+    const latestVersions = local.latest_versions || {};
+    $("dashboardMetricCards").innerHTML = [
+      ["GitHub 最新版本", latest.tag_name || "暂无"],
+      ["GitHub releases", releases.length],
+      ["累计下载", formatNumber(totalDownloads)],
+      ["本地最新公告", local.latest_announcement_id || ""],
+      ["Android 配置版本", latestVersions.android || ""],
+      ["Windows 配置版本", latestVersions.windows || ""],
+    ]
+      .map(([label, value]) => `<article class="metric-card"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`)
+      .join("");
+  }
+  if ($("dashboardDownloads")) {
+    const rows = dashboard.charts?.downloads_by_version || [];
+    const max = Math.max(1, ...rows.map((item) => Number(item.total_downloads || 0)));
+    $("dashboardDownloads").innerHTML = rows.length
+      ? rows.slice(0, 12).map((item) => {
+          const pct = Math.max(4, Math.round((Number(item.total_downloads || 0) / max) * 100));
+          return `<div class="chart-row">
+            <span>${escapeHtml(item.tag_name || item.version || "")}</span>
+            <div class="bar"><i style="width:${pct}%"></i></div>
+            <strong>${escapeHtml(formatNumber(item.total_downloads))}</strong>
+          </div>`;
+        }).join("")
+      : `<div class="empty-state">暂无 GitHub 下载数据。</div>`;
+  }
+  if ($("dashboardAssets")) {
+    const assets = dashboard.charts?.downloads_by_asset || [];
+    $("dashboardAssets").innerHTML = assets.length
+      ? assets.slice(0, 18).map((asset) => `<button class="list-item" type="button">
+          <strong>${escapeHtml(asset.version || "")} / ${escapeHtml(asset.platform || "asset")}</strong>
+          <span>${escapeHtml(asset.asset || "")} · ${escapeHtml(formatNumber(asset.download_count))}</span>
+        </button>`).join("")
+      : `<div class="empty-state">暂无 release asset 数据。</div>`;
+  }
+  if ($("dashboardIssues")) {
+    const issues = dashboard.issues || [];
+    $("dashboardIssues").innerHTML = issues.length
+      ? issues.slice(0, 16).map((issue) => `<div class="diag warn">${escapeHtml(issue)}</div>`).join("")
+      : `<div class="diag">暂无发布就绪问题。</div>`;
+  }
+}
+
+function todayLocalDate() {
+  return todayDateString();
+}
+
+function selectedWizardRelease() {
+  const tag = $("wizardReleaseSelect")?.value || "";
+  return (state.dashboard?.github?.releases || []).find((item) => String(item.tag_name) === tag) || null;
+}
+
+function fixedWizardAnnouncementItemsFrom(items) {
+  const normalized = normalizeAnnouncementItems(items);
+  const grouped = new Map(wizardAnnouncementCategoryOrder.map((category) => [category, []]));
+  for (const item of normalized) {
+    const category = wizardAnnouncementCategoryOrder.includes(item.category) ? item.category : "improvement";
+    grouped.set(category, [...(grouped.get(category) || []), ...lines(item.contents?.zh)]);
+  }
+  return wizardAnnouncementCategoryOrder.map((category) => ({
+    category,
+    contents: { zh: grouped.get(category) || [] },
+  }));
+}
+
+function wizardItemsFromEditor() {
+  const editor = $("wizardItemsEditor");
+  if (!editor) return fixedWizardAnnouncementItemsFrom([]);
+  return wizardAnnouncementCategoryOrder.map((category) => {
+    const group = editor.querySelector(`[data-wizard-ann-category="${category}"]`);
+    const values = lines(group?.querySelector("[data-wizard-ann-textarea]")?.value || "");
+    return { category, contents: { zh: values } };
+  });
+}
+
+function renderWizardItems(items = null) {
+  const editor = $("wizardItemsEditor");
+  if (!editor) return;
+  const source = items || wizardItemsFromEditor();
+  const normalized = fixedWizardAnnouncementItemsFrom(source);
+  editor.innerHTML = normalized.map((item) => {
+    const label = announcementCategoryLabel(item.category);
+    const rows = lines(item.contents?.zh);
+    return `<article class="item-group fixed-item-group" data-wizard-ann-category="${escapeHtml(item.category)}">
+      <div class="item-group-head">
+        <div>
+          <span class="field-caption">类型</span>
+          <strong>${escapeHtml(label)}</strong>
+        </div>
+      </div>
+      <div>
+        <span class="field-caption">中文</span>
+        <textarea data-wizard-ann-textarea rows="5" placeholder="每行一条${escapeHtml(label)}内容，回车后下一行会保存为另一条">${escapeHtml(textFromLines(rows))}</textarea>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+function addWizardItemLine(category) {
+  const items = fixedWizardAnnouncementItemsFrom(wizardItemsFromEditor());
+  const item = items.find((entry) => entry.category === category);
+  if (item) item.contents.zh = [...lines(item.contents.zh), ""];
+  renderWizardItems(items);
+  renderWizardDraftSummary();
+}
+
+function deleteWizardItemLine(category, lineIndex) {
+  const items = fixedWizardAnnouncementItemsFrom(wizardItemsFromEditor());
+  const item = items.find((entry) => entry.category === category);
+  if (item) {
+    const values = lines(item.contents.zh);
+    values.splice(lineIndex, 1);
+    item.contents.zh = values;
+  }
+  renderWizardItems(items);
+  renderWizardDraftSummary();
+}
+
+function updateWizardSummaryCount() {
+  const counter = $("wizardSummaryCount");
+  if (!counter) return;
+  const count = summaryLength($("wizardSummary")?.value || "");
+  counter.textContent = `${count} / 50`;
+  counter.classList.toggle("warn", count > 50);
+}
+
+function wizardAnnouncementFromForm() {
+  const version = $("wizardVersion")?.value.trim() || "";
+  const releaseTag = $("wizardReleaseTag")?.value.trim() || (version ? `v${version}` : "");
+  const summary = lines($("wizardSummary")?.value || "");
+  return {
+    id: "",
+    release_tag: releaseTag,
+    version,
+    date: $("wizardDate")?.value || todayLocalDate(),
+    title: $("wizardTitle")?.value.trim() || "版本更新公告",
+    show_when_up_to_date: false,
+    contents: summary.length ? { zh: summary } : {},
+    new_donor_ids: wizardSelectedDonorIds(),
+    items: wizardItemsFromEditor().filter((item) => lines(item.contents?.zh).length),
+  };
+}
+
+function wizardSelectedDonorIds() {
+  return Array.from(document.querySelectorAll("[data-wizard-donor]"))
+    .filter((input) => input.checked)
+    .map((input) => input.value.trim())
+    .filter(Boolean);
+}
+
+function wizardDonorFromForm() {
+  return {
+    id: $("wizardDonorId")?.value.trim() || "",
+    name: $("wizardDonorName")?.value.trim() || "",
+    avatar: $("wizardDonorAvatar")?.value.trim() || "",
+  };
+}
+
+function hasWizardDonorDraft(donor = wizardDonorFromForm()) {
+  return Boolean(donor.id || donor.name || donor.avatar);
+}
+
+function mergeWizardDonor(donor) {
+  if (!donor.id) throw new Error("请先填写捐赠者 ID。");
+  state.data.donors = state.data.donors || [];
+  const index = state.data.donors.findIndex((item) => String(item.id) === donor.id);
+  if (index >= 0) {
+    state.data.donors[index] = donor;
+  } else {
+    state.data.donors.push(donor);
+  }
+  state.wizardDonorsTouched = true;
+  return donor.id;
+}
+
+function wizardDonorsForDraft() {
+  const donors = [...(state.data?.donors || [])];
+  const donor = wizardDonorFromForm();
+  if (hasWizardDonorDraft(donor) && donor.id) {
+    const index = donors.findIndex((item) => String(item.id) === donor.id);
+    if (index >= 0) donors[index] = donor;
+    else donors.push(donor);
+  }
+  return donors;
+}
+
+function renderWizardDonorControls(selectedOverride = null) {
+  if (!$("wizardDonors")) return;
+  const selected = selectedOverride || new Set(wizardSelectedDonorIds());
+  $("wizardDonors").innerHTML = (state.data?.donors || []).map((donor) => {
+    const id = String(donor.id || "");
+    return `<label class="dropdown-option">
+      <input type="checkbox" data-wizard-donor value="${escapeHtml(id)}"${selected.has(id) ? " checked" : ""} />
+      <span>${donor.avatar ? `<img class="inline-avatar" src="${escapeHtml(donor.avatar)}" alt="" />` : ""}${escapeHtml(donor.name || id)}</span>
+    </label>`;
+  }).join("") || `<div class="empty-state">暂无捐赠者。可在下方新增后应用到列表。</div>`;
+}
+
+function renderWizardDonorPreview() {
+  if (!$("wizardDonorPreview")) return;
+  const donor = wizardDonorFromForm();
+  $("wizardDonorPreview").innerHTML = `
+    <article class="preview-card">
+      ${donor.avatar ? `<img class="donor-avatar" src="${escapeHtml(donor.avatar)}" alt="" />` : ""}
+      <h4>${escapeHtml(donor.name || donor.id || "未填写捐赠者")}</h4>
+      <p>${escapeHtml(donor.avatar || "无头像地址")}</p>
+    </article>
+  `;
+}
+
+function applyWizardDonorFormToState() {
+  const donor = wizardDonorFromForm();
+  const donorId = mergeWizardDonor(donor);
+  const selected = new Set([...wizardSelectedDonorIds(), donorId]);
+  renderWizardDonorControls(selected);
+  renderWizardDonorPreview();
+  renderWizardDraftSummary();
+}
+
+function wizardDefaultUpdate(overrides = {}) {
+  const platform = String(overrides.platform || "android").toLowerCase();
+  const channel = String(overrides.channel || "full").toLowerCase();
+  const version = String(overrides.version || $("wizardVersion")?.value || "").trim();
+  return {
+    id: overrides.id || updateIdFromChoices({ platform, channel, version }),
+    status: overrides.status || "public",
+    priority: Number(overrides.priority ?? 0),
+    platform,
+    channel,
+    version,
+    force: Boolean(overrides.force),
+    download_url: overrides.download_url || overrides.url || "",
+    release_note_id: overrides.release_note_id || "",
+    publish_at: overrides.publish_at || nowIsoString(),
+    expire_at: overrides.expire_at || "",
+    legacy_sync: overrides.legacy_sync ?? true,
+    audience: {
+      platforms: lines(overrides.audience?.platforms).length ? lines(overrides.audience.platforms) : [platform],
+      channels: lines(overrides.audience?.channels).length ? lines(overrides.audience.channels) : (platform === "windows" ? [] : [channel]),
+      min_app_version: overrides.audience?.min_app_version || "",
+      max_app_version: overrides.audience?.max_app_version || "",
+    },
+  };
+}
+
+function wizardUpdatesFromGithubRelease(release) {
+  if (!release) return [];
+  return (release.assets || [])
+    .filter((asset) => asset.browser_download_url)
+    .map((asset) => wizardDefaultUpdate({
+      platform: asset.platform || inferPlatformFromAssetName(asset.name),
+      channel: String(asset.name || "").toLowerCase().includes("play") ? "play" : "full",
+      version: release.version || $("wizardVersion")?.value || "",
+      download_url: asset.browser_download_url,
+      publish_at: release.published_at || release.created_at || nowIsoString(),
+    }));
+}
+
+function inferPlatformFromAssetName(name) {
+  const text = String(name || "").toLowerCase();
+  if (text.includes("windows") || text.endsWith(".exe") || text.endsWith(".msi")) return "windows";
+  if (text.includes("apk") || text.endsWith(".apk") || text.endsWith(".aab")) return "android";
+  if (text.includes("mac") || text.endsWith(".dmg")) return "macos";
+  if (text.includes("linux") || text.endsWith(".appimage")) return "linux";
+  return "android";
+}
+
+function mergeWizardUpdateCandidates(existing, incoming) {
+  const merged = existing.map((item) => wizardDefaultUpdate(item));
+  for (const item of incoming.map((entry) => wizardDefaultUpdate(entry))) {
+    const index = merged.findIndex((current) => current.id === item.id);
+    if (index >= 0) merged[index] = item;
+    else merged.push(item);
+  }
+  return merged;
+}
+
+function renderWizardAudienceChoices(kind, values, selected) {
+  const attribute = kind === "platform" ? "data-wizard-modal-audience-platform" : "data-wizard-modal-audience-channel";
+  const selectedSet = new Set((selected || []).map(String));
+  return values.map((value) => `<label>
+    <input type="checkbox" ${attribute} value="${escapeHtml(value)}"${selectedSet.has(value) ? " checked" : ""} />
+    <span>${escapeHtml(displayOption(value))}</span>
+  </label>`).join("");
+}
+
+function platformLogoMarkup(platform) {
+  const value = String(platform || "").toLowerCase();
+  if (value === "android") {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 9h10v8.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 17.5V9Z" />
+      <path d="M8.5 7.5 7 5M15.5 7.5 17 5M7 9h10M5 10v6M19 10v6M10 19v2M14 19v2" />
+      <circle cx="10" cy="12" r=".55" /><circle cx="14" cy="12" r=".55" />
+    </svg>`;
+  }
+  if (value === "windows") {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 5.5 11 4v7H4V5.5ZM13 3.6l7-1.5V11h-7V3.6ZM4 13h7v7l-7-1.5V13ZM13 13h7v8.9l-7-1.5V13Z" />
+    </svg>`;
+  }
+  if (value === "ios" || value === "macos") {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15.4 3.2c-.7.4-1.3 1-1.6 1.6-.4.7-.5 1.4-.4 2.1.8-.1 1.5-.5 2-1.1.6-.6.9-1.4.9-2.2 0-.2 0-.3-.1-.4-.3-.1-.6-.1-.8 0Z" />
+      <path d="M18.7 16.8c-.4.9-.6 1.3-1.1 2.1-.7 1.1-1.7 2.5-2.9 2.5-.7 0-1.1-.4-2.1-.4s-1.5.4-2.2.4c-1.2 0-2.1-1.3-2.8-2.4-1.9-2.9-2.1-6.4-.9-8.2.8-1.2 2-1.9 3.1-1.9.8 0 1.5.4 2.2.4.7 0 1.8-.5 3-.4.5 0 2 .2 3 1.6-2.6 1.4-2.2 5 .7 6.3Z" />
+    </svg>`;
+  }
+  if (value === "linux") {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3.5c-2.2 0-3.7 2-3.4 4.6.1 1-.2 1.9-.8 2.8l-2.4 3.7c-1 1.6-.1 3.8 1.8 4.1 1 .2 1.9-.1 2.6-.8.6.5 1.3.8 2.2.8s1.6-.3 2.2-.8c.7.7 1.6 1 2.6.8 1.9-.3 2.8-2.5 1.8-4.1l-2.4-3.7c-.6-.9-.9-1.8-.8-2.8.3-2.6-1.2-4.6-3.4-4.6Z" />
+      <circle cx="10.4" cy="7.4" r=".55" /><circle cx="13.6" cy="7.4" r=".55" />
+    </svg>`;
+  }
+  if (value === "web") {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" />
+      <path d="M4 12h16M12 4c2 2.3 3 5 3 8s-1 5.7-3 8M12 4c-2 2.3-3 5-3 8s1 5.7 3 8" />
+    </svg>`;
+  }
+  return `<span class="platform-logo-fallback">${escapeHtml(value.slice(0, 3).toUpperCase() || "?")}</span>`;
+}
+
+function renderWizardPlatformChoices(selectedPlatform) {
+  const selected = String(selectedPlatform || "android");
+  return platformOptions.map((platform) => {
+    const active = platform === selected ? " active" : "";
+    return `<button type="button" class="platform-choice${active}" data-wizard-platform-choice="${escapeHtml(platform)}" title="${escapeHtml(displayOption(platform))}" aria-label="${escapeHtml(displayOption(platform))}">
+      <span class="platform-logo" data-platform="${escapeHtml(platform)}">${platformLogoMarkup(platform)}</span>
+    </button>`;
+  }).join("");
+}
+
+function setWizardDownloadPlatform(platform) {
+  const value = platformOptions.includes(platform) ? platform : "android";
+  $("wizardDownloadPlatform").value = value;
+  $("wizardDownloadPlatformChoices").innerHTML = renderWizardPlatformChoices(value);
+  syncWizardDownloadModalDerivedFields();
+}
+
+function defaultWizardDownloadLinks() {
+  const version = $("wizardVersion")?.value || "";
+  return ["android", "windows"].map((platform) => wizardDefaultUpdate({
+    platform,
+    channel: "full",
+    version,
+    download_url: "",
+    publish_at: "",
+  }));
+}
+
+function normalizeWizardDownloadLinks(updates) {
+  const normalized = (updates || []).map((item) => wizardDefaultUpdate(item));
+  return normalized.length ? normalized : defaultWizardDownloadLinks();
+}
+
+function wizardDownloadComplete(update) {
+  return Boolean(String(update.download_url || "").trim());
+}
+
+function renderWizardUpdateCandidates(updates) {
+  const root = $("wizardUpdateCandidates");
+  if (!root) return;
+  state.wizardDownloadLinks = normalizeWizardDownloadLinks(updates);
+  root.innerHTML = state.wizardDownloadLinks.map((update, index) => {
+    const complete = wizardDownloadComplete(update);
+    return `<button type="button" class="platform-download-card${complete ? " complete" : ""}" data-wizard-update-index="${index}">
+      <span class="platform-logo" data-platform="${escapeHtml(update.platform)}" title="${escapeHtml(displayOption(update.platform))}">${platformLogoMarkup(update.platform)}</span>
+      <span class="platform-status-dot" aria-hidden="true"></span>
+      <strong>${escapeHtml(update.version || "未设置版本")}</strong>
+      <small>${escapeHtml(displayOption(update.channel) || update.channel)} · ${complete ? "已填写" : "未填写"}</small>
+      <span>${complete ? escapeHtml(update.download_url) : "未填写下载链接"}</span>
+    </button>`;
+  }).join("");
+}
+
+function wizardUpdateCandidatesFromEditor() {
+  return state.wizardDownloadLinks.map((item) => wizardDefaultUpdate(item));
+}
+
+function setWizardUpdateCandidates(updates) {
+  renderWizardUpdateCandidates(updates);
+  state.wizardUpdatesInitialized = true;
+  renderWizardDraftSummary();
+}
+
+function seedWizardUpdateCandidatesFromRelease(release) {
+  const incoming = wizardUpdatesFromGithubRelease(release);
+  const current = wizardUpdateCandidatesFromEditor();
+  setWizardUpdateCandidates(mergeWizardUpdateCandidates(current, incoming));
+}
+
+function addWizardUpdateCandidate() {
+  const current = wizardUpdateCandidatesFromEditor();
+  const used = new Set(current.map((item) => item.platform));
+  const platform = platformOptions.find((item) => !used.has(item)) || "android";
+  current.push(wizardDefaultUpdate({ platform, channel: "full", version: $("wizardVersion")?.value || "" }));
+  setWizardUpdateCandidates(current);
+  openWizardDownloadModal(current.length - 1);
+}
+
+function openWizardDownloadModal(index) {
+  const update = wizardUpdateCandidatesFromEditor()[index];
+  if (!update) return;
+  state.activeWizardDownloadIndex = index;
+  $("wizardDownloadModalTitle").textContent = "本版本下载链接";
+  $("wizardDownloadId").value = update.id || "";
+  setSelectOptions("wizardDownloadStatus", statusOptions, update.status || "public");
+  setSelectOptions("wizardDownloadPriority", updatePriorityOptions, String(update.priority ?? 0));
+  setWizardDownloadPlatform(update.platform || "android");
+  setSelectOptions("wizardDownloadChannel", channelOptions, update.channel || "full");
+  $("wizardDownloadVersion").value = update.version || "";
+  $("wizardDownloadUrl").value = update.download_url || "";
+  setSelectOptions("wizardDownloadUrlPreset", updateUrlOptions(update), update.download_url || "");
+  $("wizardDownloadForce").checked = Boolean(update.force);
+  $("wizardDownloadLegacySync").checked = Boolean(update.legacy_sync);
+  $("wizardDownloadReleaseNoteId").value = update.release_note_id || "";
+  $("wizardDownloadPublishAt").value = update.publish_at || "";
+  $("wizardDownloadExpireAt").value = update.expire_at || "";
+  $("wizardDownloadAudiencePlatforms").innerHTML = renderWizardAudienceChoices("platform", platformOptions, update.audience?.platforms || []);
+  $("wizardDownloadAudienceChannels").innerHTML = renderWizardAudienceChoices("channel", channelOptions, update.audience?.channels || []);
+  $("wizardDownloadMinVersion").value = update.audience?.min_app_version || "";
+  $("wizardDownloadMaxVersion").value = update.audience?.max_app_version || "";
+  syncWizardDownloadModalDerivedFields();
+  $("wizardDownloadModal").classList.remove("hidden");
+  $("wizardDownloadUrl").focus();
+}
+
+function closeWizardDownloadModal() {
+  state.activeWizardDownloadIndex = null;
+  $("wizardDownloadModal")?.classList.add("hidden");
+}
+
+function wizardDownloadFromModal() {
+  const platform = $("wizardDownloadPlatform").value || "android";
+  const channel = $("wizardDownloadChannel").value || "full";
+  const version = $("wizardDownloadVersion").value.trim();
+  return wizardDefaultUpdate({
+    id: $("wizardDownloadId").value.trim() || updateIdFromChoices({ platform, channel, version }),
+    status: $("wizardDownloadStatus").value || "public",
+    priority: Number($("wizardDownloadPriority").value || 0),
+    platform,
+    channel,
+    version,
+    force: $("wizardDownloadForce").checked,
+    download_url: $("wizardDownloadUrl").value.trim(),
+    release_note_id: $("wizardDownloadReleaseNoteId").value.trim(),
+    publish_at: $("wizardDownloadPublishAt").value.trim(),
+    expire_at: $("wizardDownloadExpireAt").value.trim(),
+    legacy_sync: $("wizardDownloadLegacySync").checked,
+    audience: {
+      platforms: Array.from(document.querySelectorAll("#wizardDownloadAudiencePlatforms [data-wizard-modal-audience-platform]:checked")).map((input) => input.value),
+      channels: Array.from(document.querySelectorAll("#wizardDownloadAudienceChannels [data-wizard-modal-audience-channel]:checked")).map((input) => input.value),
+      min_app_version: $("wizardDownloadMinVersion").value.trim(),
+      max_app_version: $("wizardDownloadMaxVersion").value.trim(),
+    },
+  });
+}
+
+function syncWizardDownloadModalDerivedFields() {
+  const platform = $("wizardDownloadPlatform")?.value || "android";
+  const channel = $("wizardDownloadChannel")?.value || "full";
+  const version = $("wizardDownloadVersion")?.value.trim() || "";
+  if ($("wizardDownloadId")) {
+    $("wizardDownloadId").value = updateIdFromChoices({ platform, channel, version });
+  }
+  if ($("wizardDownloadUrlPreset") && $("wizardDownloadUrl")) {
+    $("wizardDownloadUrlPreset").innerHTML = optionListHtml(updateUrlOptions({
+      platform,
+      channel,
+      version,
+      download_url: $("wizardDownloadUrl").value,
+    }), $("wizardDownloadUrl").value);
+  }
+}
+
+function saveWizardDownloadModal() {
+  const index = state.activeWizardDownloadIndex;
+  if (index === null) return;
+  const updates = wizardUpdateCandidatesFromEditor();
+  updates[index] = wizardDownloadFromModal();
+  setWizardUpdateCandidates(updates);
+  closeWizardDownloadModal();
+}
+
+function deleteWizardDownloadModal() {
+  const index = state.activeWizardDownloadIndex;
+  if (index === null) return;
+  const updates = wizardUpdateCandidatesFromEditor();
+  updates.splice(index, 1);
+  setWizardUpdateCandidates(updates);
+  closeWizardDownloadModal();
+}
+
+function applyWizardRelease(release) {
+  if (!release) return;
+  $("wizardVersion").value = release.version || "";
+  $("wizardReleaseTag").value = release.tag_name || "";
+  $("wizardDate").value = String(release.published_at || release.created_at || "").slice(0, 10) || todayLocalDate();
+  $("wizardTitle").value = release.name || `版本更新公告`;
+  seedWizardUpdateCandidatesFromRelease(release);
+  renderWizardDraftSummary();
+}
+
+function releaseDraftFromWizard() {
+  const announcement = wizardAnnouncementFromForm();
+  const payload = {
+    announcement,
+    set_latest: true,
+    build: Boolean($("wizardBuildLatest")?.checked),
+    localization_plan: {
+      enabled: Boolean($("wizardTranslate")?.checked),
+      target_locales: selectedValues("wizardTargetLocales"),
+    },
+  };
+  if ($("wizardUpdateDownloads")?.checked) {
+    const updates = wizardUpdateCandidatesFromEditor().filter(wizardDownloadComplete);
+    if (updates.length) {
+      payload.updates = updates;
+      payload.legacy_syncs = updates
+        .filter((update) => update.legacy_sync)
+        .map((update) => ({ id: update.id, platform: update.platform }));
+    }
+  }
+  if (state.wizardDonorsTouched || hasWizardDonorDraft()) {
+    payload.donors = wizardDonorsForDraft();
+  }
+  return payload;
+}
+
+function renderReleaseWizard() {
+  if (!$("releaseWizardSteps")) return;
+  const releases = state.dashboard?.github?.releases || [];
+  if ($("wizardReleaseSelect")) {
+    const current = $("wizardReleaseSelect").value;
+    const options = [{ value: "", label: "手动填写版本" }, ...releases.map((release) => ({
+      value: release.tag_name,
+      label: `${release.tag_name || release.version} / ${release.published_at || ""} / ${formatNumber(release.total_downloads)} 下载`,
+    }))];
+    setSelectOptions("wizardReleaseSelect", options, current);
+  }
+  if ($("wizardDate") && !$("wizardDate").value) $("wizardDate").value = todayLocalDate();
+  renderWizardItems();
+  renderWizardDonorControls();
+  renderWizardDonorPreview();
+  if ($("wizardTargetLocales")) {
+    const initialized = $("wizardTargetLocales").dataset.initialized === "true";
+    const selected = selectedValues("wizardTargetLocales");
+    setChoiceChecklistOptions(
+      "wizardTargetLocales",
+      localizedAnnouncementLocales.map((locale) => ({ value: locale, label: displayLocale(locale) })),
+      initialized ? selected : localizedAnnouncementLocales,
+      "暂无目标语言",
+    );
+    $("wizardTargetLocales").dataset.initialized = "true";
+  }
+  if ($("wizardUpdateCandidates") && !state.wizardUpdatesInitialized) {
+    renderWizardUpdateCandidates(state.data?.manifest?.updates || []);
+    state.wizardUpdatesInitialized = true;
+  }
+  const labels = ["公告", "捐赠者", "下载链接", "多语言", "预览检查", "发布"];
+  $("releaseWizardSteps").innerHTML = labels.map((label, index) => `
+    <button type="button" class="wizard-dot${index === state.wizardStep ? " active" : ""}" data-wizard-index="${index}">
+      <span>${index + 1}</span>${escapeHtml(label)}
+    </button>
+  `).join("");
+  document.querySelectorAll(".wizard-step").forEach((step) => {
+    step.classList.toggle("active", Number(step.dataset.wizardStep) === state.wizardStep);
+  });
+  if ($("wizardPrevBtn")) $("wizardPrevBtn").disabled = state.wizardStep <= 0;
+  if ($("wizardNextBtn")) $("wizardNextBtn").disabled = state.wizardStep >= 5;
+  updateWizardSummaryCount();
+  renderWizardDraftSummary();
+}
+
+function renderWizardDraftSummary(result) {
+  if (!$("wizardDraftSummary")) return;
+  const draft = releaseDraftFromWizard();
+  const ann = draft.announcement;
+  const zh = lines(ann.contents?.zh);
+  const items = Array.isArray(ann.items) ? ann.items : [];
+  const plan = result?.write_plan || [];
+  $("wizardDraftSummary").innerHTML = `
+    <article class="preview-card">
+      <h4>${escapeHtml(ann.title || "更新日志")} ${ann.version ? `v${escapeHtml(ann.version)}` : ""}</h4>
+      ${zh.map((line) => `<p>${escapeHtml(line)}</p>`).join("") || "<p>暂无摘要内容。</p>"}
+      <div class="pill-row">
+        <span class="pill">id ${escapeHtml(ann.id || "新建")}</span>
+        <span class="pill">${escapeHtml(ann.date || "无日期")}</span>
+        <span class="pill">${items.length} 个更新分组</span>
+        <span class="pill">${ann.show_when_up_to_date ? "当前版本也展示" : "仅更新时展示"}</span>
+      </div>
+      ${renderAnnouncementItemsPreview(items) || "<p>暂无更新内容。</p>"}
+      ${plan.length ? `<h5>写入计划</h5><ul>${plan.map((item) => `<li>${escapeHtml(item.path)}</li>`).join("")}</ul>` : ""}
+    </article>
+  `;
+}
+
+async function previewReleaseDraft() {
+  const result = await api("/api/release-draft/preview", releaseDraftFromWizard());
+  const validation = result.validation || {};
+  $("wizardPreview").innerHTML = `
+    <article class="preview-card">
+      <h4>${validation.ok ? "校验通过" : "校验失败"}</h4>
+      <p>退出码：${escapeHtml(validation.returncode ?? "")}</p>
+      <pre>${escapeHtml([validation.stdout || "", validation.stderr || ""].join("\n").trim() || "无输出")}</pre>
+    </article>
+  `;
+  renderWizardDraftSummary(result);
+}
+
+async function publishReleaseDraft() {
+  if (!window.confirm("发布会写入本地 update 配置文件。继续吗？")) return;
+  const data = await api("/api/release-draft/publish", releaseDraftFromWizard());
+  state.data = data;
+  state.dashboard = await api("/api/dashboard").catch(() => state.dashboard);
+  const result = data.releaseDraftResult || {};
+  $("wizardPublishResult").innerHTML = `
+    <article class="preview-card">
+      <h4>已写入本地配置</h4>
+      <p>公告 ID：${escapeHtml(result.draft?.announcement_id || "")}</p>
+      <p>发布后校验：${result.post_validate?.ok ? "通过" : "失败"}</p>
+      ${result.build ? `<p>构建 latest.json：${result.build.ok ? "通过" : "失败"}</p>` : ""}
+    </article>
+  `;
+  renderAll();
+  setDirty(false);
+}
+
+function selectedReleaseGroup() {
+  return (state.dashboard?.release_groups || []).find((group) => String(group.version) === String(state.selectedReleaseGroupVersion)) || null;
+}
+
+function renderReleaseGroups() {
+  if (!$("releaseGroupList")) return;
+  const groups = state.dashboard?.release_groups || [];
+  $("releaseGroupList").innerHTML = groups.length
+    ? groups.map((group) => {
+        const active = String(group.version) === String(state.selectedReleaseGroupVersion) ? " active" : "";
+        const downloads = group.github_release?.total_downloads ?? "";
+        return `<button type="button" class="list-item${active}" data-release-group="${escapeHtml(group.version)}">
+          <strong>v${escapeHtml(group.version)}</strong>
+          <span>${group.status_summary?.source_count || 0} 公告 / ${group.status_summary?.update_count || 0} 更新 / ${group.status_summary?.issue_count || 0} 问题 / ${escapeHtml(downloads)} 下载</span>
+        </button>`;
+      }).join("")
+    : `<div class="empty-state">暂无版本分组。</div>`;
+  const group = selectedReleaseGroup();
+  if (!$("releaseGroupDetail")) return;
+  if (!group) {
+    $("releaseGroupDetail").innerHTML = `<div class="empty-state">选择一个版本查看详情。</div>`;
+    return;
+  }
+  const source = group.source_announcements?.[0];
+  const issues = group.issues || [];
+  $("releaseGroupDetail").innerHTML = `
+    <article class="preview-card">
+      <h4>v${escapeHtml(group.version)}</h4>
+      <div class="pill-row">
+        <span class="pill">${group.github_release ? "GitHub 已匹配" : "无 GitHub release"}</span>
+        <span class="pill">${group.status_summary?.source_count || 0} 个主公告</span>
+        <span class="pill">${group.status_summary?.update_count || 0} 个下载链接</span>
+      </div>
+      ${source ? `<p>主公告：${escapeHtml(source.title || source.id)} / ${escapeHtml(source.release_tag || "")}</p>` : "<p>没有本地主公告。</p>"}
+      <h5>下载链接</h5>
+      <ul>${(group.update_candidates || []).map((item) => `<li>${escapeHtml(item.platform)} / ${escapeHtml(item.version)} / ${escapeHtml(item.download_url || "无下载链接")}</li>`).join("") || "<li>无下载链接。</li>"}</ul>
+      <h5>问题</h5>
+      <ul>${issues.map((issue) => `<li>${escapeHtml(issue)}</li>`).join("") || "<li>暂无问题。</li>"}</ul>
+    </article>
+  `;
 }
 
 function renderGitDefaults() {
@@ -1361,7 +2131,7 @@ function updateUrlOptions(update) {
     options.push({ value: legacyUrl, label: `使用 ${displayOption(platform)} 旧版配置地址` });
   }
   if (currentUrl && currentUrl !== legacyUrl) {
-    options.push({ value: currentUrl, label: "保留当前候选地址" });
+    options.push({ value: currentUrl, label: "保留当前下载地址" });
   }
   return options;
 }
@@ -1643,11 +2413,14 @@ function switchPanel(panel) {
   document.querySelectorAll(".nav button").forEach((button) => button.classList.toggle("active", button.dataset.panel === panel));
   document.querySelectorAll(".panel").forEach((section) => section.classList.toggle("active", section.id === `panel-${panel}`));
   $("panelTitle").textContent = {
+    dashboard: "数据面板",
+    publish: "添加更新版本",
+    manage: "版本管理",
     update: "更新公告",
     history: "历史公告",
     localization: "AI 翻译",
     notices: "通知公告",
-    updates: "更新候选",
+    updates: "下载链接",
     donors: "捐赠者",
     ops: "校验与构建",
   }[panel];
@@ -1889,6 +2662,20 @@ async function generateAnnouncementSummary() {
   showMessage("AI 摘要已生成，请检查后再保存公告。", "ok");
 }
 
+async function generateWizardSummary() {
+  const announcement = wizardAnnouncementFromForm();
+  const hasItemContent = (announcement.items || []).some((item) => lines(item.contents?.zh).length);
+  if (!announcement.title && !hasItemContent) {
+    throw new Error("请先填写标题或三类更新内容，再生成摘要。");
+  }
+  if (!window.confirm("将调用本地 AI 服务生成 50 字以内中文摘要。继续吗？")) return;
+  const result = await api("/api/announcement/ai-summary", { announcement });
+  $("wizardSummary").value = textFromLines(result.summary || []);
+  updateWizardSummaryCount();
+  renderWizardDraftSummary();
+  showMessage("AI 摘要已生成，请检查后再发布。", "ok");
+}
+
 async function generateAiTranslations() {
   const announcement = currentAnnouncementFromForm();
   if (!announcement.id) throw new Error("AI 翻译需要先保存或填写公告 ID。");
@@ -2092,14 +2879,14 @@ async function saveUpdates() {
   const current = currentUpdate();
   const payload = { updates: state.data.manifest.updates || [], legacy_syncs: [] };
   if ($("updateLegacySync").checked) {
-    if (!current?.id) throw new Error("同步旧版 version_info 需要更新候选 ID。");
+    if (!current?.id) throw new Error("同步旧版 version_info 需要下载链接 ID。");
     payload.legacy_syncs.push({ id: current.id, platform: current.platform });
   }
   const data = await api("/api/updates/save", payload);
   state.data = data;
   renderAll();
   setDirty(false);
-  showMessage("更新候选已保存。", "ok");
+  showMessage("下载链接已保存。", "ok");
 }
 
 async function saveDonors(confirmReferencedDeletes = false) {
@@ -2127,17 +2914,19 @@ async function saveDonors(confirmReferencedDeletes = false) {
   }
 }
 
-async function uploadAsset() {
-  const file = $("assetFile").files?.[0];
-  if (!file) throw new Error("请先选择头像文件。");
-  const donor = donorFromForm();
-  const data = await new Promise((resolve, reject) => {
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = () => reject(reader.error);
     reader.readAsDataURL(file);
   });
-  const result = await api("/api/assets/upload", {
+}
+
+async function uploadAssetForDonor(file, donor) {
+  if (!file) throw new Error("请先选择头像文件。");
+  const data = await readFileAsDataUrl(file);
+  return api("/api/assets/upload", {
     filename: file.name,
     path: file.name,
     name: donor.name || donor.id,
@@ -2145,10 +2934,27 @@ async function uploadAsset() {
     auto_name: true,
     data,
   });
+}
+
+async function uploadAsset() {
+  const file = $("assetFile").files?.[0];
+  const donor = donorFromForm();
+  const result = await uploadAssetForDonor(file, donor);
   $("donorAvatar").value = result.url;
   applyDonorFormToState();
   setDirty(true);
   renderDonorPreview();
+  showMessage(`已上传 ${result.filename}。`, "ok");
+}
+
+async function uploadWizardDonorAvatar() {
+  const file = $("wizardDonorAvatarFile").files?.[0];
+  const donor = wizardDonorFromForm();
+  const result = await uploadAssetForDonor(file, donor);
+  $("wizardDonorAvatar").value = result.url;
+  state.wizardDonorsTouched = true;
+  renderWizardDonorPreview();
+  renderWizardDraftSummary();
   showMessage(`已上传 ${result.filename}。`, "ok");
 }
 
@@ -2261,6 +3067,213 @@ function attachEvents() {
   $("reloadBtn").addEventListener("click", () => {
     if (confirmDiscard()) loadConfig().catch(handleError);
   });
+  if ($("refreshDashboardBtn")) {
+    $("refreshDashboardBtn").addEventListener("click", async () => {
+      state.dashboard = await api("/api/dashboard");
+      renderDashboard();
+      renderReleaseWizard();
+      renderReleaseGroups();
+      showMessage("数据面板已刷新。", "ok");
+    });
+  }
+  if ($("releaseWizardSteps")) {
+    $("releaseWizardSteps").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-wizard-index]");
+      if (!button) return;
+      state.wizardStep = Number(button.dataset.wizardIndex);
+      renderReleaseWizard();
+    });
+  }
+  if ($("wizardPrevBtn")) {
+    $("wizardPrevBtn").addEventListener("click", () => {
+      state.wizardStep = Math.max(0, state.wizardStep - 1);
+      renderReleaseWizard();
+    });
+  }
+  if ($("wizardNextBtn")) {
+    $("wizardNextBtn").addEventListener("click", () => {
+      state.wizardStep = Math.min(5, state.wizardStep + 1);
+      renderReleaseWizard();
+    });
+  }
+  if ($("wizardReleaseSelect")) {
+    $("wizardReleaseSelect").addEventListener("change", () => applyWizardRelease(selectedWizardRelease()));
+  }
+  [
+    "wizardVersion",
+    "wizardReleaseTag",
+    "wizardDate",
+    "wizardTitle",
+    "wizardSummary",
+    "wizardDonorId",
+    "wizardDonorName",
+    "wizardDonorAvatar",
+  ].forEach((id) => {
+    if (!$(id)) return;
+    $(id).addEventListener("input", () => {
+      if (id === "wizardSummary") updateWizardSummaryCount();
+      if (id.startsWith("wizardDonor")) renderWizardDonorPreview();
+      renderWizardDraftSummary();
+    });
+  });
+  [
+    "wizardUpdateDownloads",
+    "wizardTranslate",
+    "wizardBuildLatest",
+  ].forEach((id) => {
+    if (!$(id)) return;
+    $(id).addEventListener("change", renderWizardDraftSummary);
+  });
+  if ($("wizardGenerateSummaryBtn")) {
+    $("wizardGenerateSummaryBtn").addEventListener("click", () => generateWizardSummary().catch(handleError));
+  }
+  if ($("wizardItemsEditor")) {
+    $("wizardItemsEditor").addEventListener("click", (event) => {
+      const addButton = event.target.closest("[data-wizard-add-line]");
+      if (addButton) {
+        addWizardItemLine(addButton.dataset.wizardAddLine);
+        return;
+      }
+      const deleteButton = event.target.closest("[data-wizard-delete-line]");
+      if (deleteButton) {
+        deleteWizardItemLine(deleteButton.dataset.wizardDeleteLine, Number(deleteButton.dataset.lineIndex));
+      }
+    });
+    $("wizardItemsEditor").addEventListener("input", renderWizardDraftSummary);
+  }
+  if ($("wizardDonors")) {
+    $("wizardDonors").addEventListener("change", (event) => {
+      const input = event.target.closest("[data-wizard-donor]");
+      if (input) {
+        const donor = (state.data?.donors || []).find((item) => String(item.id) === String(input.value));
+        if (donor) {
+          $("wizardDonorId").value = donor.id || "";
+          $("wizardDonorName").value = donor.name || "";
+          $("wizardDonorAvatar").value = donor.avatar || "";
+          renderWizardDonorPreview();
+        }
+      }
+      renderWizardDraftSummary();
+    });
+  }
+  if ($("wizardAddDonorBtn")) {
+    $("wizardAddDonorBtn").addEventListener("click", () => {
+      $("wizardDonorId").value = "";
+      $("wizardDonorName").value = "";
+      $("wizardDonorAvatar").value = "";
+      $("wizardDonorAvatarFile").value = "";
+      renderWizardDonorPreview();
+      $("wizardDonorId").focus();
+    });
+  }
+  if ($("wizardApplyDonorBtn")) {
+    $("wizardApplyDonorBtn").addEventListener("click", () => {
+      applyWizardDonorFormToState();
+    });
+  }
+  if ($("wizardUploadDonorAvatarBtn")) {
+    $("wizardUploadDonorAvatarBtn").addEventListener("click", () => uploadWizardDonorAvatar().catch(handleError));
+  }
+  if ($("wizardTargetLocales")) {
+    $("wizardTargetLocales").addEventListener("change", () => {
+      updateChoiceChecklistSummary("wizardTargetLocales", "未选择目标语言");
+      renderWizardDraftSummary();
+    });
+  }
+  if ($("wizardSeedUpdateCandidatesBtn")) {
+    $("wizardSeedUpdateCandidatesBtn").addEventListener("click", () => {
+      seedWizardUpdateCandidatesFromRelease(selectedWizardRelease());
+    });
+  }
+  if ($("wizardAddUpdateCandidateBtn")) {
+    $("wizardAddUpdateCandidateBtn").addEventListener("click", addWizardUpdateCandidate);
+  }
+  if ($("wizardUpdateCandidates")) {
+    $("wizardUpdateCandidates").addEventListener("click", (event) => {
+      const card = event.target.closest("[data-wizard-update-index]");
+      if (!card) return;
+      openWizardDownloadModal(Number(card.dataset.wizardUpdateIndex));
+    });
+  }
+  document.querySelectorAll("[data-close-wizard-download-modal]").forEach((button) => {
+    button.addEventListener("click", closeWizardDownloadModal);
+  });
+  if ($("wizardDownloadSaveBtn")) {
+    $("wizardDownloadSaveBtn").addEventListener("click", saveWizardDownloadModal);
+  }
+  if ($("wizardDownloadDeleteBtn")) {
+    $("wizardDownloadDeleteBtn").addEventListener("click", deleteWizardDownloadModal);
+  }
+  if ($("wizardDownloadPlatformChoices")) {
+    $("wizardDownloadPlatformChoices").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-wizard-platform-choice]");
+      if (!button) return;
+      setWizardDownloadPlatform(button.dataset.wizardPlatformChoice);
+    });
+  }
+  [
+    "wizardDownloadChannel",
+    "wizardDownloadVersion",
+    "wizardDownloadUrl",
+  ].forEach((id) => {
+    if (!$(id)) return;
+    $(id).addEventListener("input", syncWizardDownloadModalDerivedFields);
+    $(id).addEventListener("change", syncWizardDownloadModalDerivedFields);
+  });
+  if ($("wizardDownloadUrlPreset")) {
+    $("wizardDownloadUrlPreset").addEventListener("change", () => {
+      $("wizardDownloadUrl").value = $("wizardDownloadUrlPreset").value;
+      syncWizardDownloadModalDerivedFields();
+    });
+  }
+  if ($("wizardPreviewBtn")) {
+    $("wizardPreviewBtn").addEventListener("click", () => previewReleaseDraft().catch(handleError));
+  }
+  if ($("wizardPublishBtn")) {
+    $("wizardPublishBtn").addEventListener("click", () => publishReleaseDraft().catch(handleError));
+  }
+  if ($("releaseGroupList")) {
+    $("releaseGroupList").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-release-group]");
+      if (!button) return;
+      state.selectedReleaseGroupVersion = button.dataset.releaseGroup;
+      renderReleaseGroups();
+    });
+  }
+  if ($("manageEditAnnouncementBtn")) {
+    $("manageEditAnnouncementBtn").addEventListener("click", () => {
+      const source = selectedReleaseGroup()?.source_announcements?.[0];
+      if (!source || !confirmDiscard()) return;
+      const announcement = (state.data.history || []).find((item) => String(item.id) === String(source.id));
+      if (!announcement) return;
+      state.selectedAnnouncementId = announcement.id;
+      state.selectedHistoryId = announcement.id;
+      renderAnnouncementForm(announcement);
+      renderAnnouncementPreview();
+      renderAnnouncementLoader();
+      switchPanel("update");
+    });
+  }
+  if ($("manageSetLatestBtn")) {
+    $("manageSetLatestBtn").addEventListener("click", async () => {
+      const source = selectedReleaseGroup()?.source_announcements?.[0];
+      if (!source) throw new Error("当前版本组没有主公告。");
+      const data = await api("/api/announcement/set-latest", { id: source.id });
+      state.data = data;
+      state.dashboard = await api("/api/dashboard").catch(() => state.dashboard);
+      renderAll();
+      showMessage("已设为最新公告。", "ok");
+    });
+  }
+  if ($("manageDeleteAnnouncementBtn")) {
+    $("manageDeleteAnnouncementBtn").addEventListener("click", async () => {
+      const source = selectedReleaseGroup()?.source_announcements?.[0];
+      if (!source) throw new Error("当前版本组没有主公告。");
+      await deleteAnnouncementById(source.id, "版本组公告");
+      state.dashboard = await api("/api/dashboard").catch(() => state.dashboard);
+      renderAll();
+    });
+  }
   $("messageModal").addEventListener("click", (event) => {
     if (!event.target.closest("[data-close-message-modal]")) return;
     closeMessageModal();
@@ -2268,6 +3281,9 @@ function attachEvents() {
   window.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !$("messageModal").classList.contains("hidden")) {
       closeMessageModal();
+    }
+    if (event.key === "Escape" && !$("wizardDownloadModal")?.classList.contains("hidden")) {
+      closeWizardDownloadModal();
     }
   });
   document.querySelectorAll("[data-add-ann-group]").forEach((button) => {

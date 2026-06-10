@@ -16,11 +16,14 @@
         </div>
       </div>
       <nav class="nav">
-        <button data-panel="update" class="active">更新公告</button>
+        <button data-panel="dashboard" class="active">数据面板</button>
+        <button data-panel="publish">添加更新版本</button>
+        <button data-panel="manage">版本管理</button>
+        <button data-panel="update">公告编辑</button>
         <button data-panel="history">历史公告</button>
         <button data-panel="localization">AI 翻译</button>
         <button data-panel="notices">通知公告</button>
-        <button data-panel="updates">更新候选</button>
+        <button data-panel="updates">下载链接</button>
         <button data-panel="donors">捐赠者</button>
         <button data-panel="ops">校验与构建</button>
       </nav>
@@ -34,7 +37,7 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">仅本地使用</p>
-          <h2 id="panelTitle">更新公告</h2>
+          <h2 id="panelTitle">数据面板</h2>
         </div>
         <div class="top-actions">
           <button id="validateTopBtn" class="secondary">校验</button>
@@ -56,7 +59,272 @@
         </section>
       </div>
 
-      <section id="panel-update" class="panel active">
+      <div id="wizardDownloadModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="wizardDownloadModalTitle">
+        <div class="modal-backdrop" data-close-wizard-download-modal></div>
+        <section class="modal-card wide-modal">
+          <div class="modal-head">
+            <h3 id="wizardDownloadModalTitle">本版本下载链接</h3>
+            <button type="button" class="secondary compact icon-button" data-close-wizard-download-modal aria-label="关闭">X</button>
+          </div>
+          <div class="form-grid">
+            <label>ID <input id="wizardDownloadId" readonly /></label>
+            <label>状态 <select id="wizardDownloadStatus"></select></label>
+            <label>优先级 <select id="wizardDownloadPriority"></select></label>
+            <div class="wide">
+              <span class="field-caption">平台</span>
+              <input id="wizardDownloadPlatform" type="hidden" />
+              <div id="wizardDownloadPlatformChoices" class="platform-choice-grid"></div>
+            </div>
+            <label>渠道 <select id="wizardDownloadChannel"></select></label>
+            <label>版本 <input id="wizardDownloadVersion" /></label>
+            <label class="wide">下载地址来源 <select id="wizardDownloadUrlPreset"></select></label>
+            <label class="wide">下载地址 <input id="wizardDownloadUrl" placeholder="https://..." /></label>
+            <label class="check-row">
+              <input id="wizardDownloadForce" type="checkbox" />
+              <span>强制更新</span>
+            </label>
+            <label class="check-row">
+              <input id="wizardDownloadLegacySync" type="checkbox" />
+              <span>同步此下载链接到旧版 version_info</span>
+            </label>
+            <label class="wide">关联更新公告 <input id="wizardDownloadReleaseNoteId" placeholder="留空则发布时指向本次公告" /></label>
+            <label class="wide">发布时间 <input id="wizardDownloadPublishAt" /></label>
+            <label class="wide">过期时间 <input id="wizardDownloadExpireAt" /></label>
+            <div class="wide">
+              <span class="field-caption">受众平台</span>
+              <div id="wizardDownloadAudiencePlatforms" class="choice-grid"></div>
+            </div>
+            <div class="wide">
+              <span class="field-caption">受众渠道</span>
+              <div id="wizardDownloadAudienceChannels" class="choice-grid"></div>
+            </div>
+            <label>最低应用版本 <input id="wizardDownloadMinVersion" /></label>
+            <label>最高应用版本 <input id="wizardDownloadMaxVersion" /></label>
+          </div>
+          <div class="modal-actions split-actions">
+            <button type="button" id="wizardDownloadDeleteBtn" class="danger">删除下载链接</button>
+            <span class="inline-actions">
+              <button type="button" class="secondary" data-close-wizard-download-modal>取消</button>
+              <button type="button" id="wizardDownloadSaveBtn">保存下载链接</button>
+            </span>
+          </div>
+        </section>
+      </div>
+
+      <section id="panel-dashboard" class="panel active">
+        <div class="grid two">
+          <section class="surface">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">GitHub + Local Config</p>
+                <h3>发布数据面板</h3>
+              </div>
+              <button type="button" id="refreshDashboardBtn" class="secondary">刷新 GitHub 数据</button>
+            </div>
+            <div id="dashboardGithubState" class="refs"></div>
+            <div id="dashboardMetricCards" class="metric-grid"></div>
+            <div class="section-head compact-head">
+              <div>
+                <p class="eyebrow">Downloads</p>
+                <h3>版本下载量对比</h3>
+              </div>
+            </div>
+            <div id="dashboardDownloads" class="chart-list"></div>
+          </section>
+          <section class="surface">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Readiness</p>
+                <h3>配置状态</h3>
+              </div>
+            </div>
+            <div id="dashboardIssues" class="diagnostics"></div>
+            <div class="section-head compact-head">
+              <div>
+                <p class="eyebrow">Assets</p>
+                <h3>下载资源</h3>
+              </div>
+            </div>
+            <div id="dashboardAssets" class="list compact"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="panel-publish" class="panel">
+        <div class="grid two">
+          <section class="surface">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Release Draft</p>
+                <h3>添加更新版本</h3>
+              </div>
+              <div class="inline-actions">
+                <button type="button" id="wizardPrevBtn" class="secondary">上一步</button>
+                <button type="button" id="wizardNextBtn">下一步</button>
+              </div>
+            </div>
+            <div id="releaseWizardSteps" class="wizard-rail"></div>
+
+            <section class="wizard-step active" data-wizard-step="0">
+              <h4>1. 新建版本更新公告</h4>
+              <div class="form-grid">
+                <label class="wide">GitHub release <select id="wizardReleaseSelect" data-transient="true"></select></label>
+                <label>版本 <input id="wizardVersion" placeholder="1.0.34" /></label>
+                <label>发布标签 <input id="wizardReleaseTag" placeholder="v1.0.34" /></label>
+                <label>日期 <input id="wizardDate" type="date" /></label>
+                <label class="wide">标题 <input id="wizardTitle" placeholder="版本更新公告" /></label>
+                <label class="wide">
+                  <div class="label-row">
+                    <span>中文摘要</span>
+                    <span class="inline-actions">
+                      <span id="wizardSummaryCount" class="field-hint">0 / 50</span>
+                      <button type="button" id="wizardGenerateSummaryBtn" class="secondary compact">AI 生成摘要</button>
+                    </span>
+                  </div>
+                  <textarea id="wizardSummary" rows="4" placeholder="50 字以内，可由 AI 根据下方三类更新内容生成"></textarea>
+                </label>
+                <section class="field-panel wide">
+                  <div class="field-head">
+                    <div>
+                      <p class="eyebrow">内容块格式</p>
+                      <h4>固定三类：新增、优化、修复</h4>
+                    </div>
+                  </div>
+                  <div id="wizardItemsEditor" class="items-editor fixed-items"></div>
+                </section>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="1">
+              <h4>2. 选择是否添加捐赠者</h4>
+              <section class="field-panel">
+                <div class="field-head">
+                  <div>
+                    <p class="eyebrow">donors.json</p>
+                    <h4>选择本次公告新增捐赠者</h4>
+                  </div>
+                  <button type="button" id="wizardAddDonorBtn" class="secondary">新增捐赠者</button>
+                </div>
+                <div id="wizardDonors" class="dropdown-options static-options"></div>
+              </section>
+              <section class="field-panel">
+                <div class="field-head">
+                  <div>
+                    <p class="eyebrow">Donor Editor</p>
+                    <h4>头像、名称和 ID</h4>
+                  </div>
+                  <button type="button" id="wizardApplyDonorBtn">应用到捐赠者列表</button>
+                </div>
+                <div class="form-grid">
+                  <label>ID <input id="wizardDonorId" placeholder="唯一 ID，例如 github 用户名" /></label>
+                  <label>名称 <input id="wizardDonorName" /></label>
+                  <label class="wide">头像地址 <input id="wizardDonorAvatar" placeholder="上传后自动生成，也可以手动粘贴 URL" /></label>
+                  <label class="wide">
+                    复制头像到 update/assets
+                    <input id="wizardDonorAvatarFile" type="file" accept="image/*,.webp,.svg" />
+                    <span class="field-hint">上传会使用捐赠者名称、ID 和原文件名生成资源名。</span>
+                  </label>
+                </div>
+                <div class="inline-actions">
+                  <button type="button" id="wizardUploadDonorAvatarBtn" class="secondary">上传头像</button>
+                </div>
+                <div id="wizardDonorPreview" class="preview-box compact-preview"></div>
+              </section>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="2">
+              <h4>3. 本版本下载链接</h4>
+              <div class="form-grid">
+                <label class="check-row wide">
+                  <input id="wizardUpdateDownloads" type="checkbox" checked />
+                  <span>写入本版本下载链接和更新策略</span>
+                </label>
+              </div>
+              <div class="inline-actions">
+                <button type="button" id="wizardSeedUpdateCandidatesBtn" class="secondary">从 GitHub release 填充下载链接</button>
+                <button type="button" id="wizardAddUpdateCandidateBtn">新增下载链接</button>
+              </div>
+              <div id="wizardUpdateCandidates" class="wizard-update-list"></div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="3">
+              <h4>4. 是否翻译成多语言版本</h4>
+              <div class="form-grid">
+                <label class="check-row wide">
+                  <input id="wizardTranslate" type="checkbox" />
+                  <span>本次发布包含本地化文件</span>
+                </label>
+                <div class="field-label wide">
+                  <span>目标语言</span>
+                  <details id="wizardTargetLocalesPicker" class="dropdown-checklist">
+                    <summary><span id="wizardTargetLocalesSummary">未选择目标语言</span></summary>
+                    <div id="wizardTargetLocales" class="dropdown-options"></div>
+                  </details>
+                  <span class="field-hint">多选目标语言；实际 AI 翻译仍可在 AI 翻译工作台审核后写入。</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="4">
+              <h4>5. 预览和检查</h4>
+              <div class="inline-actions">
+                <button type="button" id="wizardPreviewBtn" class="secondary">生成预览并校验</button>
+              </div>
+              <div id="wizardPreview" class="preview-box"></div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="5">
+              <h4>6. 发布</h4>
+              <label class="check-row">
+                <input id="wizardBuildLatest" type="checkbox" />
+                <span>发布后构建 dist/update/latest.json</span>
+              </label>
+              <button type="button" id="wizardPublishBtn">发布到本地配置文件</button>
+              <div id="wizardPublishResult" class="preview-box"></div>
+            </section>
+          </section>
+
+          <section class="surface preview">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Draft</p>
+                <h3>发布草稿摘要</h3>
+              </div>
+            </div>
+            <div id="wizardDraftSummary" class="preview-box"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="panel-manage" class="panel">
+        <div class="grid two">
+          <section class="surface">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Grouped by version</p>
+                <h3>版本管理</h3>
+              </div>
+            </div>
+            <div id="releaseGroupList" class="list"></div>
+          </section>
+          <section class="surface preview">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Release Group</p>
+                <h3>版本详情</h3>
+              </div>
+              <div class="inline-actions">
+                <button type="button" id="manageEditAnnouncementBtn" class="secondary">编辑主公告</button>
+                <button type="button" id="manageSetLatestBtn">设为最新</button>
+                <button type="button" id="manageDeleteAnnouncementBtn" class="danger">删除主公告</button>
+              </div>
+            </div>
+            <div id="releaseGroupDetail" class="preview-box"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="panel-update" class="panel">
         <div class="grid two">
           <form id="announcementForm" class="surface">
             <div class="section-head">
@@ -424,7 +692,7 @@
             <div class="section-head">
               <div>
                 <p class="eyebrow">schema v3</p>
-                <h3>更新候选</h3>
+                <h3>下载链接</h3>
               </div>
               <div class="inline-actions">
                 <button id="addUpdateBtn" class="secondary">新增更新</button>
@@ -448,7 +716,7 @@
                 </label>
                 <label class="check-row">
                   <input id="updateLegacySync" type="checkbox" />
-                  <span>同步此候选到旧版 version_info</span>
+                  <span>同步此下载链接到旧版 version_info</span>
                 </label>
                 <label class="wide">下载地址来源 <select id="updateUrlPreset"></select></label>
                 <label class="wide">下载地址 <input id="updateUrl" readonly /></label>
@@ -473,7 +741,7 @@
             <div class="section-head">
               <div>
                 <p class="eyebrow">本地预览</p>
-                <h3>更新候选摘要</h3>
+                <h3>下载链接摘要</h3>
               </div>
             </div>
             <div id="updatePreview" class="preview-box"></div>
