@@ -2131,9 +2131,19 @@ function updateUrlOptions(update) {
     options.push({ value: legacyUrl, label: `使用 ${displayOption(platform)} 旧版配置地址` });
   }
   if (currentUrl && currentUrl !== legacyUrl) {
-    options.push({ value: currentUrl, label: "保留当前下载地址" });
+    options.push({ value: currentUrl, label: "保留手动下载地址" });
   }
   return options;
+}
+
+function syncUpdateUrlPreset() {
+  const currentUrl = $("updateUrl").value;
+  setSelectOptions("updateUrlPreset", updateUrlOptions({
+    platform: $("updatePlatform").value,
+    channel: $("updateChannel").value,
+    version: $("updateVersion").value,
+    download_url: currentUrl,
+  }), currentUrl);
 }
 
 function updatePublishOptions(update) {
@@ -2187,8 +2197,8 @@ function syncUpdateDerivedFields() {
     expire_at: $("updateExpireAt").value,
   };
   const previousUrl = $("updateUrl").value;
-  setSelectOptions("updateUrlPreset", updateUrlOptions(update), previousUrl);
-  $("updateUrl").value = $("updateUrlPreset").value;
+  syncUpdateUrlPreset();
+  $("updateUrl").value = previousUrl;
 
   const previousPublish = $("updatePublishAt").value;
   setSelectOptions("updatePublishPreset", updatePublishOptions(update), previousPublish);
@@ -2272,8 +2282,7 @@ function renderUpdateForm() {
   $("updateLegacySync").checked = false;
   setSelectOptions("updateReleaseNoteId", releaseOptions, selectedReleaseNote);
   $("updateUrl").value = update.download_url || update.url || "";
-  setSelectOptions("updateUrlPreset", updateUrlOptions(update), $("updateUrl").value);
-  $("updateUrl").value = $("updateUrlPreset").value;
+  syncUpdateUrlPreset();
   $("updatePublishAt").value = update.publish_at || "";
   setSelectOptions("updatePublishPreset", updatePublishOptions(update), $("updatePublishAt").value);
   $("updatePublishAt").value = $("updatePublishPreset").value;
@@ -3480,7 +3489,12 @@ function attachEvents() {
   });
   $("updateForm").addEventListener("change", (event) => {
     if (event.target.id === "updatePlatform") {
-      $("updateUrl").value = legacyVersionInfoForPlatform($("updatePlatform").value)?.url || "";
+      const previousPlatform = currentUpdate()?.platform || "";
+      const previousDefaultUrl = String(legacyVersionInfoForPlatform(previousPlatform)?.url || "").trim();
+      const currentUrl = $("updateUrl").value.trim();
+      if (!currentUrl || currentUrl === previousDefaultUrl) {
+        $("updateUrl").value = legacyVersionInfoForPlatform($("updatePlatform").value)?.url || "";
+      }
     }
     if (event.target.id === "updateReleaseNoteId") {
       const note = (state.data.history || []).find((item) => String(item.id) === String($("updateReleaseNoteId").value));
@@ -3499,6 +3513,11 @@ function attachEvents() {
     }
     setDirty(true);
     renderUpdatePreview();
+  });
+  $("updateForm").addEventListener("input", (event) => {
+    if (event.target.id === "updateUrl") {
+      syncUpdateUrlPreset();
+    }
   });
   $("donorList").addEventListener("click", (event) => {
     const button = event.target.closest("[data-donor-index]");

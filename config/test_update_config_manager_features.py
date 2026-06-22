@@ -1,4 +1,5 @@
 import base64
+from html.parser import HTMLParser
 import importlib.util
 import pathlib
 import re
@@ -11,9 +12,32 @@ spec = importlib.util.spec_from_file_location("manager_server", SERVER_PATH)
 manager_server = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
 spec.loader.exec_module(manager_server)
+MANAGER_HTML_PATH = pathlib.Path(__file__).resolve().parent / "manager.html"
+
+
+class InputParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.inputs: dict[str, dict[str, str | None]] = {}
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag != "input":
+            return
+        attr_map = dict(attrs)
+        input_id = attr_map.get("id")
+        if input_id:
+            self.inputs[input_id] = attr_map
 
 
 class ManagerFeatureTest(unittest.TestCase):
+    def test_update_download_url_input_is_user_editable(self) -> None:
+        parser = InputParser()
+        parser.feed(MANAGER_HTML_PATH.read_text(encoding="utf-8"))
+        attrs = parser.inputs["updateUrl"]
+
+        self.assertNotIn("readonly", attrs)
+        self.assertEqual(attrs.get("placeholder"), "https://...")
+
     def test_ai_summary_is_limited_to_50_characters(self) -> None:
         class FakeRepository(manager_server.ConfigRepository):
             def load_ai_settings(self) -> dict[str, str]:
