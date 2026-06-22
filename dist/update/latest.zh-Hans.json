@@ -78,11 +78,11 @@
   ],
   "announcement": {
     "id": "20260622145545451",
-    "title": "Version Update Announcement",
+    "title": "版本更新公告",
     "show_when_up_to_date": false,
     "contents": {
-      "en": [
-        "iOS Compatibility"
+      "zh": [
+        "适配iOS"
       ]
     },
     "new_donor_ids": [
@@ -225,9 +225,9 @@
           "category": "feature",
           "contents": {
             "zh-Hans": [
-              "Android quick recording feature",
-              "Pairing connection status page",
-              "Added iOS compatibility"
+              "Android 快速记录能力",
+              "配对连接状态页面",
+              "增加iOS适配"
             ]
           }
         },
@@ -235,8 +235,8 @@
           "category": "improvement",
           "contents": {
             "zh-Hans": [
-              "Optimized settings page controls, form experience, and support page donation flow",
-              "Improved note search, tag recognition, Markdown import, and memo operation entry points"
+              "优化设置页控件、表单体验和支持页捐赠流程",
+              "改进备忘搜索、标签识别、Markdown 导入和备忘录操作入口"
             ]
           }
         },
@@ -244,8 +244,8 @@
           "category": "fix",
           "contents": {
             "zh-Hans": [
-              "Fixed local database path, avatar handling, and residual configuration after deleting AI settings service",
-              "Fixed issues with settings window plugin registration, display of unavailable entries, and cleanup of old account status after reinstallation"
+              "修复本地资料库路径、头像处理和 AI 设置删除服务后的残留配置",
+              "修复设置窗口插件注册、不可用入口显示和重装后的旧账号状态清理问题"
             ]
           }
         }
