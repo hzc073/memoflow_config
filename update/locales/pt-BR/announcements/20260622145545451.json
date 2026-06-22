@@ -1,0 +1,37 @@
+{
+  "id": "20260622145545451",
+  "locale": "pt-BR",
+  "title": "Notas de atualização da versão",
+  "summary": [
+    "Adaptação para iOS"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Capacidade de registro rápido no Android",
+        "Página de status da conexão pareada",
+        "Adicionar adaptação para iOS"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Otimizar controles da página de configurações, experiência de formulário e processo de doação na página de suporte",
+        "Melhorar pesquisa de notas, reconhecimento de tags, importação Markdown e entrada de operação de memorando"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Corrigir caminho da biblioteca local, processamento de avatar e configurações residuais após excluir serviço de IA",
+        "Corrigir registro de plugin de janela de configurações, exibição de entrada indisponível e estado de conta antiga após reinstalação"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "22b5e35eecac29668fc09b6075711be743b342c9ad60d82586221861a302658a",
+    "status": "reviewed"
+  }
+}

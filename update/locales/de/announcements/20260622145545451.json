@@ -1,0 +1,37 @@
+{
+  "id": "20260622145545451",
+  "locale": "de",
+  "title": "Versionshinweise",
+  "summary": [
+    "Anpassung an iOS"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Schnelle Notizfunktion für Android",
+        "Seite für Pairing-Verbindungsstatus",
+        "iOS-Kompatibilität hinzugefügt"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Optimierung der Steuerelemente auf der Einstellungsseite, des Formularerlebnisses und des Spendenprozesses auf der Supportseite",
+        "Verbesserung der Notizsuche, der Erkennung von Tags, des Imports von Markdown und des Zugriffs auf Notizoperationen"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Behebung von Problemen mit dem lokalen Bibliothekspfad, der Avatar-Verarbeitung und verbleibenden Konfigurationen nach dem Löschen von KI-Einstellungsdiensten",
+        "Behebung von Problemen bei der Plugin-Registrierung im Einstellungsfenster, der Anzeige nicht verfügbarer Einstiege und der Bereinigung alter Kontostatus nach einer Neuinstallation"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "22b5e35eecac29668fc09b6075711be743b342c9ad60d82586221861a302658a",
+    "status": "reviewed"
+  }
+}

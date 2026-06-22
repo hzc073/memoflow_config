@@ -1,0 +1,37 @@
+{
+  "id": "20260622145545451",
+  "locale": "zh-Hant-TW",
+  "title": "版本更新公告",
+  "summary": [
+    "適配 iOS"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Android 快速記錄功能",
+        "配對連線狀態頁面",
+        "增加 iOS 適配"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "優化設定頁控制項、表單體驗和支援頁捐贈流程",
+        "改進備忘搜尋、標籤識別、Markdown 匯入和備忘錄操作入口"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "修復本機資料庫路徑、頭像處理和 AI 設定刪除服務後的殘留設定",
+        "修復設定視窗外掛程式註冊、不可用入口顯示和重裝後的舊帳號狀態清理問題"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "22b5e35eecac29668fc09b6075711be743b342c9ad60d82586221861a302658a",
+    "status": "reviewed"
+  }
+}

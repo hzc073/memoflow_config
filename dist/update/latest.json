@@ -30,17 +30,17 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.33",
+      "id": "update-android-full-1.0.34",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.33",
+      "version": "1.0.34",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
-      "release_note_id": "1.0.33",
-      "publish_at": "2026-06-09T15:04:02.592Z",
-      "expire_at": "2026-06-16T15:04:02.592Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34-full-arm64-v8a-release.apk",
+      "release_note_id": "20260622145545451",
+      "publish_at": "2026-06-22T00:00:00Z",
+      "expire_at": "2026-06-29T14:59:11.990Z",
       "audience": {
         "platforms": [
           "android"
@@ -53,37 +53,41 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.33",
+      "id": "update-windows-full-1.0.34",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.33",
+      "version": "1.0.34",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
-      "release_note_id": "1.0.33",
-      "publish_at": "2026-06-09T15:05:41.343Z",
-      "expire_at": "2026-06-16T15:05:41.343Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34_windows_x64_setup.exe",
+      "release_note_id": "20260622145545451",
+      "publish_at": "2026-06-22T15:13:32.369Z",
+      "expire_at": "2026-06-29T15:13:32.369Z",
       "audience": {
         "platforms": [
           "windows"
         ],
-        "channels": [],
+        "channels": [
+          "full"
+        ],
         "min_app_version": "",
         "max_app_version": ""
       }
     }
   ],
   "announcement": {
-    "id": "20260609221800000",
+    "id": "20260622145545451",
     "title": "版本更新公告",
     "show_when_up_to_date": false,
     "contents": {
       "zh": [
-        "适配mac桌面端并优化同步、搜索与布局体验。新增后端v0.29"
+        "适配iOS"
       ]
     },
-    "new_donor_ids": []
+    "new_donor_ids": [
+      "5219_yong"
+    ]
   },
   "donors": [
     {
@@ -205,9 +209,48 @@
       "id": "4943_ji",
       "name": "*骥",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260513204943_ji.webp"
+    },
+    {
+      "id": "5219_yong",
+      "name": "**勇",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260622143357_5219_yong.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.34",
+      "date": "2026-06-22",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh": [
+              "Android 快速记录能力",
+              "配对连接状态页面",
+              "增加iOS适配"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh": [
+              "优化设置页控件、表单体验和支持页捐赠流程",
+              "改进备忘搜索、标签识别、Markdown 导入和备忘录操作入口"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh": [
+              "修复本地资料库路径、头像处理和 AI 设置删除服务后的残留配置",
+              "修复设置窗口插件注册、不可用入口显示和重装后的旧账号状态清理问题"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.33",
       "date": "2026-06-09",

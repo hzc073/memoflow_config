@@ -30,17 +30,17 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.33",
+      "id": "update-android-full-1.0.34",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.33",
+      "version": "1.0.34",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
-      "release_note_id": "1.0.33",
-      "publish_at": "2026-06-09T15:04:02.592Z",
-      "expire_at": "2026-06-16T15:04:02.592Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34-full-arm64-v8a-release.apk",
+      "release_note_id": "20260622145545451",
+      "publish_at": "2026-06-22T00:00:00Z",
+      "expire_at": "2026-06-29T14:59:11.990Z",
       "audience": {
         "platforms": [
           "android"
@@ -53,37 +53,41 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.33",
+      "id": "update-windows-full-1.0.34",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.33",
+      "version": "1.0.34",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
-      "release_note_id": "1.0.33",
-      "publish_at": "2026-06-09T15:05:41.343Z",
-      "expire_at": "2026-06-16T15:05:41.343Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34_windows_x64_setup.exe",
+      "release_note_id": "20260622145545451",
+      "publish_at": "2026-06-22T15:13:32.369Z",
+      "expire_at": "2026-06-29T15:13:32.369Z",
       "audience": {
         "platforms": [
           "windows"
         ],
-        "channels": [],
+        "channels": [
+          "full"
+        ],
         "min_app_version": "",
         "max_app_version": ""
       }
     }
   ],
   "announcement": {
-    "id": "20260609221800000",
+    "id": "20260622145545451",
     "title": "Version Update Announcement",
     "show_when_up_to_date": false,
     "contents": {
       "en": [
-        "Adapted for the Mac desktop app and improved sync, search, and layout experiences. Added backend v0.29 support."
+        "iOS Compatibility"
       ]
     },
-    "new_donor_ids": []
+    "new_donor_ids": [
+      "5219_yong"
+    ]
   },
   "donors": [
     {
@@ -205,9 +209,48 @@
       "id": "4943_ji",
       "name": "*骥",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260513204943_ji.webp"
+    },
+    {
+      "id": "5219_yong",
+      "name": "**勇",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260622143357_5219_yong.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.34",
+      "date": "2026-06-22",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Android quick recording feature",
+              "Pairing connection status page",
+              "Added iOS compatibility"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Optimized settings page controls, form experience, and support page donation flow",
+              "Improved note search, tag recognition, Markdown import, and memo operation entry points"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed local database path, avatar handling, and residual configuration after deleting AI settings service",
+              "Fixed issues with settings window plugin registration, display of unavailable entries, and cleanup of old account status after reinstallation"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.33",
       "date": "2026-06-09",

@@ -53,7 +53,8 @@
     "v1.0.28": "20260422081516699",
     "v1.0.31": "20260503131125723",
     "v1.0.32": "20260513074902724",
-    "v1.0.33": "20260609221800000"
+    "v1.0.33": "20260609221800000",
+    "v1.0.34": "20260622145545451"
   },
   "announcement_ids": [
     "20260405171830",
@@ -80,23 +81,24 @@
     "20260422081516699",
     "20260503131125723",
     "20260513074902724",
-    "20260609221800000"
+    "20260609221800000",
+    "20260622145545451"
   ],
-  "latest_announcement_id": "20260609221800000",
+  "latest_announcement_id": "20260622145545451",
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.33",
+      "id": "update-android-full-1.0.34",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.33",
+      "version": "1.0.34",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33-full-arm64-v8a-release.apk",
-      "release_note_id": "1.0.33",
-      "publish_at": "2026-06-09T15:04:02.592Z",
-      "expire_at": "2026-06-16T15:04:02.592Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34-full-arm64-v8a-release.apk",
+      "release_note_id": "20260622145545451",
+      "publish_at": "2026-06-22T00:00:00Z",
+      "expire_at": "2026-06-29T14:59:11.990Z",
       "audience": {
         "platforms": [
           "android"
@@ -109,22 +111,24 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.33",
+      "id": "update-windows-full-1.0.34",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.33",
+      "version": "1.0.34",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.33/MemoFlow_v1.0.33_windows_x64_setup.exe",
-      "release_note_id": "1.0.33",
-      "publish_at": "2026-06-09T15:05:41.343Z",
-      "expire_at": "2026-06-16T15:05:41.343Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34_windows_x64_setup.exe",
+      "release_note_id": "20260622145545451",
+      "publish_at": "2026-06-22T15:13:32.369Z",
+      "expire_at": "2026-06-29T15:13:32.369Z",
       "audience": {
         "platforms": [
           "windows"
         ],
-        "channels": [],
+        "channels": [
+          "full"
+        ],
         "min_app_version": "",
         "max_app_version": ""
       }

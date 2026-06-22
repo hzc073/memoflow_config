@@ -1,0 +1,37 @@
+{
+  "id": "20260622145545451",
+  "locale": "ja",
+  "title": "バージョン更新のお知らせ",
+  "summary": [
+    "iOS対応"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Android クイックメモ機能",
+        "ペアリング接続状態ページ",
+        "iOS対応の追加"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "設定ページのコントロール、フォームの操作性、サポートページの寄付フローの最適化",
+        "メモ検索、タグ認識、Markdownインポート、メモ操作エントリの改善"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "ローカルデータベースパス、アバター処理、AI設定のサービス削除後の残留設定の修正",
+        "設定ウィンドウのプラグイン登録、利用不可エントリの表示、再インストール後の旧アカウント状態クリアの問題の修正"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "22b5e35eecac29668fc09b6075711be743b342c9ad60d82586221861a302658a",
+    "status": "reviewed"
+  }
+}

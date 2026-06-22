@@ -1,0 +1,37 @@
+{
+  "id": "20260622145545451",
+  "locale": "en",
+  "title": "Version Update Announcement",
+  "summary": [
+    "iOS Compatibility"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Android quick recording feature",
+        "Pairing connection status page",
+        "Added iOS compatibility"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Optimized settings page controls, form experience, and support page donation flow",
+        "Improved note search, tag recognition, Markdown import, and memo operation entry points"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Fixed local database path, avatar handling, and residual configuration after deleting AI settings service",
+        "Fixed issues with settings window plugin registration, display of unavailable entries, and cleanup of old account status after reinstallation"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "22b5e35eecac29668fc09b6075711be743b342c9ad60d82586221861a302658a",
+    "status": "reviewed"
+  }
+}

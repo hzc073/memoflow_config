@@ -1,0 +1,46 @@
+{
+  "id": "20260622145545451",
+  "release_tag": "v1.0.34",
+  "version": "1.0.34",
+  "date": "2026-06-22",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "适配iOS"
+    ]
+  },
+  "new_donor_ids": [
+    "5219_yong"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "Android 快速记录能力",
+          "配对连接状态页面",
+          "增加iOS适配"
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "优化设置页控件、表单体验和支持页捐赠流程",
+          "改进备忘搜索、标签识别、Markdown 导入和备忘录操作入口"
+        ]
+      }
+    },
+    {
+      "category": "fix",
+      "contents": {
+        "zh": [
+          "修复本地资料库路径、头像处理和 AI 设置删除服务后的残留配置",
+          "修复设置窗口插件注册、不可用入口显示和重装后的旧账号状态清理问题"
+        ]
+      }
+    }
+  ]
+}
