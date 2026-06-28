@@ -4,6 +4,7 @@ const state = {
   panel: "dashboard",
   dirty: false,
   wizardStep: 0,
+  wizardDraftRestored: false,
   wizardDonorsTouched: false,
   wizardUpdatesInitialized: false,
   wizardDownloadLinks: [],
@@ -46,6 +47,7 @@ const announcementCategoryOptions = [
   { value: "improvement", label: "优化" },
 ];
 const wizardAnnouncementCategoryOrder = ["feature", "improvement", "fix"];
+const wizardDraftStorageKey = "memoflow-config.release-wizard-draft.v1";
 const localeLabels = {
   "zh-Hans": "简体中文",
   "zh-Hant-TW": "繁体中文",
@@ -83,6 +85,35 @@ const optionLabels = {
   missing: "缺失",
   source: "源语言",
 };
+const contentPanels = ["manage", "update", "history", "localization", "updates", "donors"];
+const systemPanels = ["notices", "ops"];
+const panelTitles = {
+  dashboard: "数据面板",
+  publish: "版本发布",
+  manage: "内容维护",
+  update: "内容维护",
+  history: "内容维护",
+  localization: "内容维护",
+  updates: "内容维护",
+  donors: "内容维护",
+  notices: "系统设置",
+  ops: "系统设置",
+};
+const sectionTabGroups = {
+  content: [
+    { panel: "manage", label: "版本详情" },
+    { panel: "update", label: "公告编辑" },
+    { panel: "history", label: "历史公告" },
+    { panel: "localization", label: "AI 翻译" },
+    { panel: "updates", label: "下载链接" },
+    { panel: "donors", label: "捐赠者" },
+  ],
+  system: [
+    { panel: "notices", label: "通知公告" },
+    { panel: "ops", label: "检查和生成" },
+  ],
+};
+const allPanels = ["dashboard", "publish", ...contentPanels, ...systemPanels];
 
 const $ = (id) => document.getElementById(id);
 
@@ -445,6 +476,10 @@ async function loadConfig() {
   $("repoRoot").textContent = data.repoRoot;
   renderAll();
   setDirty(false);
+  const initialPanel = panelFromHash();
+  if (initialPanel && initialPanel !== state.panel) {
+    switchPanel(initialPanel);
+  }
   loadGitSelectors({ applyDefault: true }).catch((error) => {
     console.warn(error);
     const box = $("commitRangeSummary");
@@ -473,18 +508,110 @@ function renderAll() {
   renderDonorForm();
   renderDonorPreview();
   renderOps();
+  renderSectionTabs();
+  renderTopActions();
 }
 
 function formatNumber(value) {
   return new Intl.NumberFormat("zh-CN").format(Number(value || 0));
 }
 
+function normalizedVersion(value) {
+  return String(value || "").trim().replace(/^v/i, "");
+}
+
+function versionParts(value) {
+  return normalizedVersion(value)
+    .split(/[.-]/)
+    .map((part) => (/^\d+$/.test(part) ? Number(part) : part.toLowerCase()))
+    .filter((part) => part !== "");
+}
+
+function compareVersionsDesc(left, right) {
+  const a = versionParts(left);
+  const b = versionParts(right);
+  const length = Math.max(a.length, b.length);
+  for (let index = 0; index < length; index += 1) {
+    const av = a[index] ?? 0;
+    const bv = b[index] ?? 0;
+    if (av === bv) continue;
+    if (typeof av === "number" && typeof bv === "number") return bv - av;
+    return String(bv).localeCompare(String(av), "zh-CN", { numeric: true });
+  }
+  return 0;
+}
+
+function releaseVersionValue(item) {
+  return item?.version || item?.tag_name || "";
+}
+
+function sortedByVersionDesc(items) {
+  return [...(items || [])].sort((left, right) => compareVersionsDesc(releaseVersionValue(left), releaseVersionValue(right)));
+}
+
+function sidebarPanelFor(panel) {
+  if (contentPanels.includes(panel)) return "manage";
+  if (systemPanels.includes(panel)) return "ops";
+  return panel;
+}
+
+function sectionGroupFor(panel) {
+  if (contentPanels.includes(panel)) return "content";
+  if (systemPanels.includes(panel)) return "system";
+  return "";
+}
+
+function normalizePanelName(panel) {
+  const value = String(panel || "").replace(/^#/, "").trim();
+  if (value === "content") return "manage";
+  if (value === "system") return "ops";
+  return allPanels.includes(value) ? value : "";
+}
+
+function panelFromHash() {
+  return normalizePanelName(decodeURIComponent(window.location.hash || ""));
+}
+
+function renderSectionTabs() {
+  const root = $("sectionTabs");
+  if (!root) return;
+  const group = sectionGroupFor(state.panel);
+  const tabs = sectionTabGroups[group] || [];
+  root.classList.toggle("hidden", !tabs.length);
+  root.innerHTML = tabs.map((tab) => `
+    <button type="button" class="${tab.panel === state.panel ? "active" : ""}" data-section-panel="${escapeHtml(tab.panel)}">
+      ${escapeHtml(tab.label)}
+    </button>
+  `).join("");
+}
+
+function renderTopActions() {
+  const primary = $("topPrimaryBtn");
+  const secondary = $("topSecondaryBtn");
+  if (primary) {
+    primary.classList.toggle("hidden", state.panel === "publish");
+    primary.textContent = "添加更新版本";
+  }
+  if (!secondary) return;
+  if (state.panel === "dashboard") {
+    secondary.textContent = "数据已同步 · 点击刷新";
+    secondary.classList.remove("hidden");
+  } else if (state.panel === "ops") {
+    secondary.textContent = "检查配置有没有错误";
+    secondary.classList.remove("hidden");
+  } else {
+    secondary.classList.add("hidden");
+  }
+}
+
 function renderDashboard() {
   const dashboard = state.dashboard || {};
   const github = dashboard.github || {};
-  const releases = github.releases || [];
+  const releases = sortedByVersionDesc(github.releases || []);
+  const releaseGroups = sortedByVersionDesc(dashboard.release_groups || []);
   const local = dashboard.local || {};
-  const latest = dashboard.latest_github_release || releases[0] || {};
+  const latestGroup = releaseGroups[0] || null;
+  const latest = latestGroup?.github_release || dashboard.latest_github_release || releases[0] || {};
   const totalDownloads = releases.reduce((sum, item) => sum + Number(item.total_downloads || 0), 0);
   if ($("dashboardGithubState")) {
     const token = github.token_configured ? "已配置 GitHub token" : "未配置 GitHub token";
@@ -494,24 +621,29 @@ function renderDashboard() {
   }
   if ($("dashboardMetricCards")) {
     const latestVersions = local.latest_versions || {};
+    const latestVersion = latestGroup?.version || normalizedVersion(latest.tag_name || latest.version) || "暂无";
+    const configuredVersions = ["android", "windows"]
+      .map((platform) => latestVersions[platform])
+      .filter(Boolean);
     $("dashboardMetricCards").innerHTML = [
-      ["GitHub 最新版本", latest.tag_name || "暂无"],
+      ["最新版本", latestVersion === "暂无" ? latestVersion : `v${latestVersion}`],
       ["GitHub releases", releases.length],
       ["累计下载", formatNumber(totalDownloads)],
-      ["本地最新公告", local.latest_announcement_id || ""],
-      ["Android 配置版本", latestVersions.android || ""],
-      ["Windows 配置版本", latestVersions.windows || ""],
+      ["配置版本", configuredVersions.length ? configuredVersions.join(" / ") : ""],
     ]
       .map(([label, value]) => `<article class="metric-card"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></article>`)
       .join("");
   }
   if ($("dashboardDownloads")) {
-    const rows = dashboard.charts?.downloads_by_version || [];
+    const latestVersion = latestGroup?.version || normalizedVersion(latest.tag_name || latest.version);
+    const rows = sortedByVersionDesc(dashboard.charts?.downloads_by_version || []);
     const max = Math.max(1, ...rows.map((item) => Number(item.total_downloads || 0)));
     $("dashboardDownloads").innerHTML = rows.length
       ? rows.slice(0, 12).map((item) => {
+          const version = normalizedVersion(item.version || item.tag_name);
+          const isLatest = version && latestVersion && version === normalizedVersion(latestVersion);
           const pct = Math.max(4, Math.round((Number(item.total_downloads || 0) / max) * 100));
-          return `<div class="chart-row">
+          return `<div class="chart-row${isLatest ? " latest" : ""}">
             <span>${escapeHtml(item.tag_name || item.version || "")}</span>
             <div class="bar"><i style="width:${pct}%"></i></div>
             <strong>${escapeHtml(formatNumber(item.total_downloads))}</strong>
@@ -987,10 +1119,12 @@ function deleteWizardDownloadModal() {
 
 function applyWizardRelease(release) {
   if (!release) return;
+  const tag = release.tag_name || "";
+  const releaseName = String(release.name || "").trim();
   $("wizardVersion").value = release.version || "";
-  $("wizardReleaseTag").value = release.tag_name || "";
+  $("wizardReleaseTag").value = tag;
   $("wizardDate").value = String(release.published_at || release.created_at || "").slice(0, 10) || todayLocalDate();
-  $("wizardTitle").value = release.name || `版本更新公告`;
+  $("wizardTitle").value = releaseName && releaseName !== tag ? releaseName : "版本更新公告";
   seedWizardUpdateCandidatesFromRelease(release);
   renderWizardDraftSummary();
 }
@@ -1023,14 +1157,18 @@ function releaseDraftFromWizard() {
 
 function renderReleaseWizard() {
   if (!$("releaseWizardSteps")) return;
-  const releases = state.dashboard?.github?.releases || [];
+  const releases = sortedByVersionDesc(state.dashboard?.github?.releases || []);
   if ($("wizardReleaseSelect")) {
     const current = $("wizardReleaseSelect").value;
     const options = [{ value: "", label: "手动填写版本" }, ...releases.map((release) => ({
       value: release.tag_name,
-      label: `${release.tag_name || release.version} / ${release.published_at || ""} / ${formatNumber(release.total_downloads)} 下载`,
+      label: `${release.tag_name || release.version} / ${String(release.published_at || release.created_at || "").slice(0, 10)} / ${formatNumber(release.total_downloads)} 下载`,
     }))];
     setSelectOptions("wizardReleaseSelect", options, current);
+    if (!state.wizardDraftRestored && releases[0] && !current) {
+      $("wizardReleaseSelect").value = releases[0].tag_name || "";
+      applyWizardRelease(releases[0]);
+    }
   }
   if ($("wizardDate") && !$("wizardDate").value) $("wizardDate").value = todayLocalDate();
   renderWizardItems();
@@ -1051,7 +1189,7 @@ function renderReleaseWizard() {
     renderWizardUpdateCandidates(state.data?.manifest?.updates || []);
     state.wizardUpdatesInitialized = true;
   }
-  const labels = ["公告", "捐赠者", "下载链接", "多语言", "预览检查", "发布"];
+  const labels = ["公告", "捐赠者", "下载链接", "AI 翻译", "预览检查", "发布"];
   $("releaseWizardSteps").innerHTML = labels.map((label, index) => `
     <button type="button" class="wizard-dot${index === state.wizardStep ? " active" : ""}" data-wizard-index="${index}">
       <span>${index + 1}</span>${escapeHtml(label)}
@@ -1063,6 +1201,13 @@ function renderReleaseWizard() {
   if ($("wizardPrevBtn")) $("wizardPrevBtn").disabled = state.wizardStep <= 0;
   if ($("wizardNextBtn")) $("wizardNextBtn").disabled = state.wizardStep >= 5;
   updateWizardSummaryCount();
+  renderWizardTranslationStatus();
+  if (!state.wizardDraftRestored) {
+    state.wizardDraftRestored = true;
+    restoreWizardDraft();
+    renderReleaseWizard();
+    return;
+  }
   renderWizardDraftSummary();
 }
 
@@ -1085,6 +1230,117 @@ function renderWizardDraftSummary(result) {
       </div>
       ${renderAnnouncementItemsPreview(items) || "<p>暂无更新内容。</p>"}
       ${plan.length ? `<h5>写入计划</h5><ul>${plan.map((item) => `<li>${escapeHtml(item.path)}</li>`).join("")}</ul>` : ""}
+    </article>
+  `;
+}
+
+function wizardDraftSnapshot() {
+  return {
+    saved_at: new Date().toISOString(),
+    step: state.wizardStep,
+    release_select: $("wizardReleaseSelect")?.value || "",
+    version: $("wizardVersion")?.value || "",
+    release_tag: $("wizardReleaseTag")?.value || "",
+    date: $("wizardDate")?.value || "",
+    title: $("wizardTitle")?.value || "",
+    summary: $("wizardSummary")?.value || "",
+    items: wizardItemsFromEditor(),
+    selected_donor_ids: wizardSelectedDonorIds(),
+    donor: wizardDonorFromForm(),
+    update_downloads: Boolean($("wizardUpdateDownloads")?.checked),
+    download_links: wizardUpdateCandidatesFromEditor(),
+    translate: Boolean($("wizardTranslate")?.checked),
+    target_locales: selectedValues("wizardTargetLocales"),
+    build_latest: Boolean($("wizardBuildLatest")?.checked),
+  };
+}
+
+function saveWizardDraft() {
+  const snapshot = wizardDraftSnapshot();
+  window.localStorage.setItem(wizardDraftStorageKey, JSON.stringify(snapshot));
+  if ($("wizardDonorStatus")) {
+    $("wizardDonorStatus").textContent = `草稿已保存：${new Date(snapshot.saved_at).toLocaleString("zh-CN")}`;
+  }
+  showMessage("发布草稿已保存到本机。可以切换页面后再回来继续。", "ok");
+}
+
+function restoreWizardDraft() {
+  const raw = window.localStorage.getItem(wizardDraftStorageKey);
+  if (!raw) return;
+  let snapshot;
+  try {
+    snapshot = JSON.parse(raw);
+  } catch {
+    return;
+  }
+  if (!snapshot || typeof snapshot !== "object") return;
+  if ($("wizardReleaseSelect")) $("wizardReleaseSelect").value = snapshot.release_select || "";
+  if ($("wizardVersion")) $("wizardVersion").value = snapshot.version || "";
+  if ($("wizardReleaseTag")) $("wizardReleaseTag").value = snapshot.release_tag || "";
+  if ($("wizardDate")) $("wizardDate").value = snapshot.date || $("wizardDate").value;
+  if ($("wizardTitle")) $("wizardTitle").value = snapshot.title || "";
+  if ($("wizardSummary")) $("wizardSummary").value = snapshot.summary || "";
+  renderWizardItems(snapshot.items || []);
+  if (snapshot.donor) {
+    if ($("wizardDonorId")) $("wizardDonorId").value = snapshot.donor.id || "";
+    if ($("wizardDonorName")) $("wizardDonorName").value = snapshot.donor.name || "";
+    if ($("wizardDonorAvatar")) $("wizardDonorAvatar").value = snapshot.donor.avatar || "";
+    renderWizardDonorPreview();
+  }
+  renderWizardDonorControls(new Set(snapshot.selected_donor_ids || []));
+  if ($("wizardUpdateDownloads")) $("wizardUpdateDownloads").checked = snapshot.update_downloads !== false;
+  if (Array.isArray(snapshot.download_links)) {
+    renderWizardUpdateCandidates(snapshot.download_links);
+    state.wizardUpdatesInitialized = true;
+  }
+  if ($("wizardTranslate")) $("wizardTranslate").checked = Boolean(snapshot.translate);
+  if ($("wizardTargetLocales")) {
+    setChoiceChecklistOptions(
+      "wizardTargetLocales",
+      localizedAnnouncementLocales.map((locale) => ({ value: locale, label: displayLocale(locale) })),
+      snapshot.target_locales || localizedAnnouncementLocales,
+      "暂无目标语言",
+    );
+    $("wizardTargetLocales").dataset.initialized = "true";
+  }
+  if ($("wizardBuildLatest")) $("wizardBuildLatest").checked = Boolean(snapshot.build_latest);
+  state.wizardStep = Math.max(0, Math.min(5, Number(snapshot.step || state.wizardStep)));
+  updateWizardSummaryCount();
+  renderWizardTranslationStatus();
+}
+
+function matchingAnnouncementForWizard() {
+  const draft = wizardAnnouncementFromForm();
+  const version = normalizedVersion(draft.version || draft.release_tag);
+  const releaseTag = String(draft.release_tag || "").trim();
+  return (state.data?.history || []).find((item) => {
+    const sameVersion = version && normalizedVersion(item.version || item.release_tag) === version;
+    const sameTag = releaseTag && String(item.release_tag || "").trim() === releaseTag;
+    return sameVersion || sameTag;
+  }) || null;
+}
+
+function renderWizardTranslationStatus() {
+  const root = $("wizardTranslationStatus");
+  if (!root) return;
+  const targetLocales = selectedValues("wizardTargetLocales");
+  const existing = matchingAnnouncementForWizard();
+  const result = state.lastAiTranslation;
+  const resultLine = result
+    ? `<p>最近生成：${escapeHtml((result.created || []).length)} 个，跳过 ${escapeHtml((result.skipped || []).length)} 个。</p>`
+    : "";
+  root.innerHTML = `
+    <article class="preview-card soft-preview">
+      <h4>${existing ? "已找到可审核的公告" : "新公告发布后继续审核"}</h4>
+      <p>${existing
+        ? `将使用 ${escapeHtml(existing.version || existing.id)} 的公告文件生成或审核翻译。`
+        : "当前向导还是草稿，AI 翻译文件需要公告 ID。发布后可以回到本步骤或内容维护里继续审核。"
+      }</p>
+      <div class="pill-row">
+        <span class="pill">${escapeHtml(targetLocales.length || localizedAnnouncementLocales.length)} 个目标语言</span>
+        <span class="pill">${existing ? "可生成翻译" : "等待发布生成 ID"}</span>
+      </div>
+      ${resultLine}
     </article>
   `;
 }
@@ -2381,7 +2637,7 @@ function renderDonorPreview() {
 function renderOps(commandResult) {
   const generated = state.data.generated || {};
   $("generatedSummary").innerHTML = [
-    ["已生成 latest.json", generated.exists ? "是" : "否"],
+    ["已生成客户端文件", generated.exists ? "是" : "否"],
     ["路径", generated.path || ""],
     ["更新日志数量", generated.release_notes_count ?? ""],
     ["捐赠者数量", generated.donors_count ?? ""],
@@ -2407,7 +2663,7 @@ function renderDiagnostics(diagnostics) {
   const errors = diagnostics?.errors || [];
   const warnings = diagnostics?.warnings || [];
   if (!errors.length && !warnings.length) {
-    $("diagnostics").innerHTML = `<div class="diag">暂无 v3 诊断信息。</div>`;
+    $("diagnostics").innerHTML = `<div class="diag">配置检查没有发现问题。</div>`;
     return;
   }
   $("diagnostics").innerHTML = [
@@ -2417,22 +2673,19 @@ function renderDiagnostics(diagnostics) {
 }
 
 function switchPanel(panel) {
-  if (panel !== state.panel && !confirmDiscard()) return;
-  state.panel = panel;
-  document.querySelectorAll(".nav button").forEach((button) => button.classList.toggle("active", button.dataset.panel === panel));
-  document.querySelectorAll(".panel").forEach((section) => section.classList.toggle("active", section.id === `panel-${panel}`));
-  $("panelTitle").textContent = {
-    dashboard: "数据面板",
-    publish: "添加更新版本",
-    manage: "版本管理",
-    update: "更新公告",
-    history: "历史公告",
-    localization: "AI 翻译",
-    notices: "通知公告",
-    updates: "下载链接",
-    donors: "捐赠者",
-    ops: "校验与构建",
-  }[panel];
+  const nextPanel = normalizePanelName(panel);
+  if (!nextPanel) return;
+  if (nextPanel !== state.panel && !confirmDiscard()) return;
+  state.panel = nextPanel;
+  const activeSidebarPanel = sidebarPanelFor(nextPanel);
+  document.querySelectorAll(".nav button").forEach((button) => button.classList.toggle("active", button.dataset.panel === activeSidebarPanel));
+  document.querySelectorAll(".panel").forEach((section) => section.classList.toggle("active", section.id === `panel-${nextPanel}`));
+  $("panelTitle").textContent = panelTitles[nextPanel] || "配置管理器";
+  renderSectionTabs();
+  renderTopActions();
+  if (window.location.hash !== `#${nextPanel}`) {
+    window.history.replaceState(null, "", `#${nextPanel}`);
+  }
   setDirty(false);
 }
 
@@ -2724,6 +2977,7 @@ async function generateLocalizationTranslations() {
   const targetLocales = targetLocaleList($("localizationTargetLocales").value || localizedAnnouncementLocales.join(", "));
   if (!targetLocales.length) throw new Error("请至少填写一个目标语言。");
   if (!window.confirm("将调用本地 AI 服务生成翻译草稿。继续吗？")) return;
+  $("localizationRunSummary").innerHTML = `<span class="pill">正在生成翻译，请稍等...</span>`;
   const data = await api("/api/announcement/ai-translate", {
     announcement,
     target_locales: targetLocales,
@@ -2737,6 +2991,42 @@ async function generateLocalizationTranslations() {
   showMessage("AI 翻译任务完成，请在右侧审核后保存为 reviewed。", "ok");
 }
 
+function openWizardLocalizationReview() {
+  const existing = matchingAnnouncementForWizard();
+  if (existing?.id) {
+    state.selectedLocalizationAnnouncementId = existing.id;
+  }
+  if ($("localizationTargetLocales")) {
+    const locales = selectedValues("wizardTargetLocales");
+    $("localizationTargetLocales").value = (locales.length ? locales : localizedAnnouncementLocales).join(", ");
+  }
+  switchPanel("localization");
+  renderLocalizationPanel();
+}
+
+async function generateWizardLocalizationTranslations() {
+  const existing = matchingAnnouncementForWizard();
+  if (!existing?.id) {
+    throw new Error("当前版本还没有已保存公告。请先发布或保存公告后，再生成 AI 翻译草稿。");
+  }
+  const targetLocales = selectedValues("wizardTargetLocales");
+  if (!targetLocales.length) throw new Error("请先选择目标语言。");
+  if (!window.confirm("将为已保存公告生成 AI 翻译草稿。继续吗？")) return;
+  if ($("wizardTranslationStatus")) {
+    $("wizardTranslationStatus").innerHTML = `<div class="empty-state">正在生成翻译草稿，请稍等...</div>`;
+  }
+  const data = await api("/api/announcement/ai-translate", {
+    announcement: existing,
+    target_locales: targetLocales,
+    overwrite: false,
+  });
+  state.data = data;
+  state.lastAiTranslation = data.aiTranslation || null;
+  state.selectedLocalizationAnnouncementId = existing.id;
+  renderAll();
+  showMessage("AI 翻译草稿已生成，可继续人工审核。", "ok");
+}
+
 async function loadLocalizedEditor() {
   const annId = $("localizationAnnouncementId").value || state.selectedLocalizationAnnouncementId;
   const locale = $("localizedLocale").value || state.selectedLocalizationLocale;
@@ -2748,6 +3038,21 @@ async function loadLocalizedEditor() {
   renderLocalizedCoverage();
   renderLocalizedEditor();
   setDirty(false);
+}
+
+function localizedLocaleIndex() {
+  return localizedAnnouncementLocales.findIndex((locale) => locale === state.selectedLocalizationLocale);
+}
+
+function selectAdjacentLocalizedLocale(direction) {
+  const current = localizedLocaleIndex();
+  const fallback = current >= 0 ? current : 0;
+  const next = Math.max(0, Math.min(localizedAnnouncementLocales.length - 1, fallback + direction));
+  if (next === current) return;
+  if (!confirmDiscard()) return;
+  state.selectedLocalizationLocale = localizedAnnouncementLocales[next];
+  if ($("localizedLocale")) $("localizedLocale").value = state.selectedLocalizationLocale;
+  loadLocalizedEditor().catch(handleError);
 }
 
 async function saveLocalizedAnnouncement() {
@@ -3073,6 +3378,28 @@ function attachEvents() {
   document.querySelectorAll(".nav button").forEach((button) => {
     button.addEventListener("click", () => switchPanel(button.dataset.panel));
   });
+  if ($("sectionTabs")) {
+    $("sectionTabs").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-section-panel]");
+      if (!button) return;
+      switchPanel(button.dataset.sectionPanel);
+    });
+  }
+  document.querySelectorAll("[data-open-panel]").forEach((button) => {
+    button.addEventListener("click", () => switchPanel(button.dataset.openPanel));
+  });
+  if ($("topPrimaryBtn")) {
+    $("topPrimaryBtn").addEventListener("click", () => switchPanel("publish"));
+  }
+  if ($("topSecondaryBtn")) {
+    $("topSecondaryBtn").addEventListener("click", () => {
+      if (state.panel === "dashboard") {
+        $("refreshDashboardBtn")?.click();
+      } else if (state.panel === "ops") {
+        runCommand("/api/validate").catch(handleError);
+      }
+    });
+  }
   $("reloadBtn").addEventListener("click", () => {
     if (confirmDiscard()) loadConfig().catch(handleError);
   });
@@ -3104,6 +3431,9 @@ function attachEvents() {
       state.wizardStep = Math.min(5, state.wizardStep + 1);
       renderReleaseWizard();
     });
+  }
+  if ($("wizardSaveDraftBtn")) {
+    $("wizardSaveDraftBtn").addEventListener("click", saveWizardDraft);
   }
   if ($("wizardReleaseSelect")) {
     $("wizardReleaseSelect").addEventListener("change", () => applyWizardRelease(selectedWizardRelease()));
@@ -3178,6 +3508,8 @@ function attachEvents() {
   if ($("wizardApplyDonorBtn")) {
     $("wizardApplyDonorBtn").addEventListener("click", () => {
       applyWizardDonorFormToState();
+      if ($("wizardDonorStatus")) $("wizardDonorStatus").textContent = "捐赠者已应用到本次发布草稿。";
+      showMessage("捐赠者已应用到本次发布草稿。", "ok");
     });
   }
   if ($("wizardUploadDonorAvatarBtn")) {
@@ -3192,6 +3524,7 @@ function attachEvents() {
   if ($("wizardSeedUpdateCandidatesBtn")) {
     $("wizardSeedUpdateCandidatesBtn").addEventListener("click", () => {
       seedWizardUpdateCandidatesFromRelease(selectedWizardRelease());
+      showMessage("已根据当前 GitHub release 自动填充下载链接，请检查平台卡片。", "ok");
     });
   }
   if ($("wizardAddUpdateCandidateBtn")) {
@@ -3240,6 +3573,12 @@ function attachEvents() {
   }
   if ($("wizardPublishBtn")) {
     $("wizardPublishBtn").addEventListener("click", () => publishReleaseDraft().catch(handleError));
+  }
+  if ($("wizardOpenLocalizationBtn")) {
+    $("wizardOpenLocalizationBtn").addEventListener("click", openWizardLocalizationReview);
+  }
+  if ($("wizardGenerateLocalizationBtn")) {
+    $("wizardGenerateLocalizationBtn").addEventListener("click", () => generateWizardLocalizationTranslations().catch(handleError));
   }
   if ($("releaseGroupList")) {
     $("releaseGroupList").addEventListener("click", (event) => {
@@ -3343,6 +3682,12 @@ function attachEvents() {
   $("localizationTranslateBtn").addEventListener("click", () => generateLocalizationTranslations().catch(handleError));
   $("localizationReloadBtn").addEventListener("click", () => loadConfig().catch(handleError));
   $("loadLocalizedBtn").addEventListener("click", () => loadLocalizedEditor().catch(handleError));
+  if ($("prevLocalizedBtn")) {
+    $("prevLocalizedBtn").addEventListener("click", () => selectAdjacentLocalizedLocale(-1));
+  }
+  if ($("nextLocalizedBtn")) {
+    $("nextLocalizedBtn").addEventListener("click", () => selectAdjacentLocalizedLocale(1));
+  }
   $("saveLocalizedBtn").addEventListener("click", () => saveLocalizedAnnouncement().catch(handleError));
   $("deleteLocalizedBtn").addEventListener("click", () => deleteLocalizedAnnouncement().catch(handleError));
   $("newAnnouncementBtn").addEventListener("click", newAnnouncementDraft);
@@ -3371,8 +3716,8 @@ function attachEvents() {
   $("uploadAssetBtn").addEventListener("click", () => uploadAsset().catch(handleError));
   $("validateBtn").addEventListener("click", () => runCommand("/api/validate").catch(handleError));
   $("buildBtn").addEventListener("click", () => runCommand("/api/build").catch(handleError));
-  $("validateTopBtn").addEventListener("click", () => runCommand("/api/validate").catch(handleError));
-  $("buildTopBtn").addEventListener("click", () => runCommand("/api/build").catch(handleError));
+  if ($("validateTopBtn")) $("validateTopBtn").addEventListener("click", () => runCommand("/api/validate").catch(handleError));
+  if ($("buildTopBtn")) $("buildTopBtn").addEventListener("click", () => runCommand("/api/build").catch(handleError));
 
   $("historyList").addEventListener("click", (event) => {
     const button = event.target.closest("[data-history-id]");
@@ -3592,6 +3937,10 @@ function attachEvents() {
     if (!state.dirty) return;
     event.preventDefault();
     event.returnValue = "";
+  });
+  window.addEventListener("hashchange", () => {
+    const panel = panelFromHash();
+    if (panel) switchPanel(panel);
   });
 }
 

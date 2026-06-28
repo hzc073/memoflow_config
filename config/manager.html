@@ -17,15 +17,9 @@
       </div>
       <nav class="nav">
         <button data-panel="dashboard" class="active">数据面板</button>
-        <button data-panel="publish">添加更新版本</button>
-        <button data-panel="manage">版本管理</button>
-        <button data-panel="update">公告编辑</button>
-        <button data-panel="history">历史公告</button>
-        <button data-panel="localization">AI 翻译</button>
-        <button data-panel="notices">通知公告</button>
-        <button data-panel="updates">下载链接</button>
-        <button data-panel="donors">捐赠者</button>
-        <button data-panel="ops">校验与构建</button>
+        <button data-panel="publish">版本发布</button>
+        <button data-panel="manage">内容维护</button>
+        <button data-panel="ops">系统设置</button>
       </nav>
       <div class="sidebar-footer">
         <span id="dirtyBadge" class="badge hidden">未保存</span>
@@ -40,10 +34,11 @@
           <h2 id="panelTitle">数据面板</h2>
         </div>
         <div class="top-actions">
-          <button id="validateTopBtn" class="secondary">校验</button>
-          <button id="buildTopBtn">构建 latest.json</button>
+          <button id="topSecondaryBtn" class="text-button" type="button">数据已同步 · 点击刷新</button>
+          <button id="topPrimaryBtn" type="button">添加更新版本</button>
         </div>
       </header>
+      <div id="sectionTabs" class="section-tabs hidden"></div>
 
       <div id="messageModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="messageModalTitle">
         <div class="modal-backdrop" data-close-message-modal></div>
@@ -112,14 +107,15 @@
       </div>
 
       <section id="panel-dashboard" class="panel active">
-        <div class="grid two">
-          <section class="surface">
+        <div class="grid">
+          <section class="surface hero-surface">
             <div class="section-head">
               <div>
                 <p class="eyebrow">GitHub + Local Config</p>
-                <h3>发布数据面板</h3>
+                <h3>最新发布概览</h3>
+                <p class="section-note">只显示发布判断需要的信息，详细配置状态放到对应页面里处理。</p>
               </div>
-              <button type="button" id="refreshDashboardBtn" class="secondary">刷新 GitHub 数据</button>
+              <button type="button" id="refreshDashboardBtn" class="text-button">刷新数据</button>
             </div>
             <div id="dashboardGithubState" class="refs"></div>
             <div id="dashboardMetricCards" class="metric-grid"></div>
@@ -131,34 +127,43 @@
             </div>
             <div id="dashboardDownloads" class="chart-list"></div>
           </section>
-          <section class="surface">
+          <section class="surface quick-surface">
             <div class="section-head">
               <div>
-                <p class="eyebrow">Readiness</p>
-                <h3>配置状态</h3>
+                <p class="eyebrow">Quick Actions</p>
+                <h3>快速入口</h3>
+                <p class="section-note">不用在侧边栏堆按钮，常用入口放在当前上下文里。</p>
               </div>
             </div>
-            <div id="dashboardIssues" class="diagnostics"></div>
-            <div class="section-head compact-head">
-              <div>
-                <p class="eyebrow">Assets</p>
-                <h3>下载资源</h3>
-              </div>
+            <div class="quick-grid">
+              <button type="button" class="quick-card" data-open-panel="manage">
+                <strong>版本详情</strong>
+                <span>查看公告、下载链接和翻译状态</span>
+              </button>
+              <button type="button" class="quick-card" data-open-panel="updates">
+                <strong>下载链接</strong>
+                <span>维护已发布版本的下载地址</span>
+              </button>
+              <button type="button" class="quick-card" data-open-panel="ops">
+                <strong>检查和生成</strong>
+                <span>检查配置并生成客户端文件</span>
+              </button>
             </div>
-            <div id="dashboardAssets" class="list compact"></div>
           </section>
         </div>
       </section>
 
       <section id="panel-publish" class="panel">
-        <div class="grid two">
-          <section class="surface">
+        <div class="grid">
+          <section class="surface publish-surface">
             <div class="section-head">
               <div>
                 <p class="eyebrow">Release Draft</p>
                 <h3>添加更新版本</h3>
+                <p class="section-note">按默认路径走完即可。复杂选项收起，需要时再展开。</p>
               </div>
               <div class="inline-actions">
+                <button type="button" id="wizardSaveDraftBtn" class="secondary">保存草稿</button>
                 <button type="button" id="wizardPrevBtn" class="secondary">上一步</button>
                 <button type="button" id="wizardNextBtn">下一步</button>
               </div>
@@ -196,7 +201,7 @@
             </section>
 
             <section class="wizard-step" data-wizard-step="1">
-              <h4>2. 选择是否添加捐赠者</h4>
+              <h4>2. 捐赠者</h4>
               <section class="field-panel">
                 <div class="field-head">
                   <div>
@@ -215,6 +220,7 @@
                   </div>
                   <button type="button" id="wizardApplyDonorBtn">应用到捐赠者列表</button>
                 </div>
+                <div id="wizardDonorStatus" class="inline-status"></div>
                 <div class="form-grid">
                   <label>ID <input id="wizardDonorId" placeholder="唯一 ID，例如 github 用户名" /></label>
                   <label>名称 <input id="wizardDonorName" /></label>
@@ -234,6 +240,7 @@
 
             <section class="wizard-step" data-wizard-step="2">
               <h4>3. 本版本下载链接</h4>
+              <p class="step-note">系统优先根据当前版本和 GitHub release 自动填充，发布前你只需要确认平台和地址。</p>
               <div class="form-grid">
                 <label class="check-row wide">
                   <input id="wizardUpdateDownloads" type="checkbox" checked />
@@ -241,14 +248,16 @@
                 </label>
               </div>
               <div class="inline-actions">
-                <button type="button" id="wizardSeedUpdateCandidatesBtn" class="secondary">从 GitHub release 填充下载链接</button>
-                <button type="button" id="wizardAddUpdateCandidateBtn">新增下载链接</button>
+                <button type="button" id="wizardSeedUpdateCandidatesBtn">自动生成下载链接</button>
+                <button type="button" id="wizardAddUpdateCandidateBtn" class="secondary">新增平台</button>
               </div>
+              <p class="section-note">平台卡片可点击编辑，默认只显示需要确认的内容。</p>
               <div id="wizardUpdateCandidates" class="wizard-update-list"></div>
             </section>
 
             <section class="wizard-step" data-wizard-step="3">
-              <h4>4. 是否翻译成多语言版本</h4>
+              <h4>4. AI 翻译与人工审核</h4>
+              <p class="step-note">选择需要的语言后生成翻译草稿；已有公告可在这里直接进入审核，新公告发布后可继续审核。</p>
               <div class="form-grid">
                 <label class="check-row wide">
                   <input id="wizardTranslate" type="checkbox" />
@@ -260,16 +269,23 @@
                     <summary><span id="wizardTargetLocalesSummary">未选择目标语言</span></summary>
                     <div id="wizardTargetLocales" class="dropdown-options"></div>
                   </details>
-                  <span class="field-hint">多选目标语言；实际 AI 翻译仍可在 AI 翻译工作台审核后写入。</span>
+                  <span class="field-hint">多选目标语言；翻译文件会在人工审核后写入本地配置。</span>
                 </div>
               </div>
+              <div class="inline-actions">
+                <button type="button" id="wizardOpenLocalizationBtn">打开翻译审核</button>
+                <button type="button" id="wizardGenerateLocalizationBtn" class="secondary">为已保存公告生成翻译</button>
+              </div>
+              <div id="wizardTranslationStatus" class="preview-box compact-preview"></div>
             </section>
 
             <section class="wizard-step" data-wizard-step="4">
               <h4>5. 预览和检查</h4>
+              <p class="step-note">所有写入计划、检查结果和最终确认都集中到这里。</p>
               <div class="inline-actions">
-                <button type="button" id="wizardPreviewBtn" class="secondary">生成预览并校验</button>
+                <button type="button" id="wizardPreviewBtn" class="secondary">检查配置是否有错误</button>
               </div>
+              <div id="wizardDraftSummary" class="preview-box"></div>
               <div id="wizardPreview" class="preview-box"></div>
             </section>
 
@@ -277,21 +293,11 @@
               <h4>6. 发布</h4>
               <label class="check-row">
                 <input id="wizardBuildLatest" type="checkbox" />
-                <span>发布后构建 dist/update/latest.json</span>
+                <span>发布后生成给客户端读取的更新文件</span>
               </label>
               <button type="button" id="wizardPublishBtn">发布到本地配置文件</button>
               <div id="wizardPublishResult" class="preview-box"></div>
             </section>
-          </section>
-
-          <section class="surface preview">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">Draft</p>
-                <h3>发布草稿摘要</h3>
-              </div>
-            </div>
-            <div id="wizardDraftSummary" class="preview-box"></div>
           </section>
         </div>
       </section>
@@ -536,6 +542,8 @@
                 <h3>翻译草稿</h3>
               </div>
               <div class="inline-actions">
+                <button type="button" id="prevLocalizedBtn" class="secondary">上一个语言</button>
+                <button type="button" id="nextLocalizedBtn" class="secondary">下一个语言</button>
                 <button type="button" id="loadLocalizedBtn" class="secondary">加载</button>
                 <button type="button" id="saveLocalizedBtn">保存审核</button>
                 <button type="button" id="deleteLocalizedBtn" class="danger">删除翻译</button>
@@ -794,12 +802,13 @@
           <section class="surface">
             <div class="section-head">
               <div>
-                <p class="eyebrow">固定命令</p>
-                <h3>校验与构建</h3>
+                <p class="eyebrow">本地工具</p>
+                <h3>检查与生成</h3>
+                <p class="section-note">检查配置有没有错误；生成给 MemoFlow 客户端读取的更新文件。</p>
               </div>
               <div class="inline-actions">
-                <button id="validateBtn" class="secondary">校验源配置</button>
-                <button id="buildBtn">构建 latest.json</button>
+                <button id="validateBtn" class="secondary">检查配置</button>
+                <button id="buildBtn">生成客户端文件</button>
               </div>
             </div>
             <div id="generatedSummary" class="summary"></div>
@@ -809,7 +818,7 @@
             <div class="section-head">
               <div>
                 <p class="eyebrow">输出</p>
-                <h3>命令结果</h3>
+                <h3>执行结果</h3>
               </div>
             </div>
             <pre id="commandOutput"></pre>
