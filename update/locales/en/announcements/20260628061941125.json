@@ -1,0 +1,29 @@
+{
+  "id": "20260628061941125",
+  "locale": "en",
+  "title": "Release Notes",
+  "summary": [
+    "Added quick record via Android floating window",
+    "Added sticky notes on desktop"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Android floating window quick record",
+        "Desktop sticky note feature"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Attachments can be opened with other apps"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "310b48b69da84dcf007a939956b98b226adcffe30b5bac6af11b1fc465dbc59b",
+    "status": "reviewed"
+  }
+}

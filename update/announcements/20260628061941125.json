@@ -1,0 +1,36 @@
+{
+  "id": "20260628061941125",
+  "release_tag": "v1.0.35",
+  "version": "1.0.35",
+  "date": "2026-06-28",
+  "title": "版本更新公告",
+  "show_when_up_to_date": false,
+  "contents": {
+    "zh": [
+      "新增安卓悬浮窗快速记录",
+      "新增桌面端 便签功能"
+    ]
+  },
+  "new_donor_ids": [
+    "1712_kan"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": {
+        "zh": [
+          "安卓悬浮窗快速记录",
+          "桌面端 便签功能"
+        ]
+      }
+    },
+    {
+      "category": "improvement",
+      "contents": {
+        "zh": [
+          "附件可选择其他应用打开"
+        ]
+      }
+    }
+  ]
+}

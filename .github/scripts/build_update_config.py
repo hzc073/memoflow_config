@@ -27,6 +27,7 @@ from typing import Any, Dict, List, Tuple
 
 
 SUPPORTED_LOCALES = ("zh-Hans", "zh-Hant-TW", "en", "ja", "de", "pt-BR", "ko")
+SOURCE_LOCALE = "zh-Hans"
 FALLBACK_LOCALE = "en"
 V2_COMPAT_LOCALES = ("zh", "en")
 LOCALE_ALIAS_KEYS = {
@@ -438,6 +439,14 @@ def _locale_content_summary(
         values = _read_text_list(localized_item.get("summary") or localized_item.get("contents"))
         if values:
             return values, locale
+    if _normalize_locale_tag(locale) == SOURCE_LOCALE:
+        values, content_locale = _select_localized_values(
+            announcement.get("contents"),
+            SOURCE_LOCALE,
+            fallback_locale=SOURCE_LOCALE,
+        )
+        if values:
+            return values, content_locale
     english_item = localized.get(FALLBACK_LOCALE, {}).get(ann_id)
     if english_item is not None:
         values = _read_text_list(english_item.get("summary") or english_item.get("contents"))
@@ -455,6 +464,14 @@ def _locale_content_title(
     localized_item = localized.get(locale, {}).get(ann_id)
     if localized_item is not None:
         title = _read_string(localized_item.get("title"))
+        if title:
+            return title
+    if _normalize_locale_tag(locale) == SOURCE_LOCALE:
+        title, _ = _select_localized_text(
+            announcement.get("title"),
+            SOURCE_LOCALE,
+            fallback_locale=SOURCE_LOCALE,
+        )
         if title:
             return title
     english_item = localized.get(FALLBACK_LOCALE, {}).get(ann_id)
@@ -482,6 +499,28 @@ def _locale_content_items(
             values = _read_text_list(raw_item.get("contents"))
             if category or values:
                 out.append({"category": category, "contents": values})
+        if any(item["contents"] for item in out):
+            return out
+
+    if _normalize_locale_tag(locale) == SOURCE_LOCALE:
+        out = []
+        for raw_item in announcement.get("items") if isinstance(announcement.get("items"), list) else []:
+            if not isinstance(raw_item, dict):
+                continue
+            values, content_locale = _select_localized_values(
+                raw_item.get("contents"),
+                SOURCE_LOCALE,
+                fallback_locale=SOURCE_LOCALE,
+            )
+            category = _read_string(raw_item.get("category"))
+            if category or values:
+                out.append(
+                    {
+                        "category": category,
+                        "contents": values,
+                        "_content_locale": content_locale,
+                    }
+                )
         if any(item["contents"] for item in out):
             return out
 

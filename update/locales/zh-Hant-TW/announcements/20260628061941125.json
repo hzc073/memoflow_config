@@ -1,0 +1,29 @@
+{
+  "id": "20260628061941125",
+  "locale": "zh-Hant-TW",
+  "title": "版本更新公告",
+  "summary": [
+    "新增Android懸浮窗快速記錄",
+    "新增桌面端 便籤功能"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Android懸浮窗快速記錄",
+        "桌面端 便籤功能"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "附件可選擇其他應用程式打開"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "310b48b69da84dcf007a939956b98b226adcffe30b5bac6af11b1fc465dbc59b",
+    "status": "reviewed"
+  }
+}

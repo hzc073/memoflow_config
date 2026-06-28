@@ -1,0 +1,29 @@
+{
+  "id": "20260628061941125",
+  "locale": "ko",
+  "title": "버전 업데이트 공지",
+  "summary": [
+    "Android 플로팅 창 빠른 기록 추가",
+    "데스크탑 스티커 메모 기능 추가"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Android 플로팅 창 빠른 기록",
+        "데스크탑 스티커 메모 기능"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "첨부 파일을 다른 앱으로 열기 선택 가능"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "310b48b69da84dcf007a939956b98b226adcffe30b5bac6af11b1fc465dbc59b",
+    "status": "reviewed"
+  }
+}

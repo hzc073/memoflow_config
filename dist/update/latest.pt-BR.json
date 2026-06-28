@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.34",
+      "latest_version": "1.0.35",
       "force_update": false,
-      "update_source": "google_play",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34-full-arm64-v8a-release.apk",
-      "publish_at": "2026-06-22T00:00:00Z"
+      "update_source": "full",
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
+      "publish_at": "2026-06-28T06:17:37.047Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.34",
+      "latest_version": "1.0.35",
       "force_update": false,
-      "update_source": "windows_installer",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34_windows_x64_setup.exe",
-      "publish_at": "2026-06-22T15:13:32.369Z"
+      "update_source": "full",
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
+      "publish_at": "2026-06-28T06:17:37.047Z"
     }
   },
   "notice_enabled": false,
@@ -30,17 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.34",
+      "id": "update-android-full-1.0.35",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.34",
+      "version": "1.0.35",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34-full-arm64-v8a-release.apk",
-      "release_note_id": "20260622145545451",
-      "publish_at": "2026-06-22T00:00:00Z",
-      "expire_at": "2026-06-29T14:59:11.990Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
+      "release_note_id": "20260628061941125",
+      "publish_at": "2026-06-28T06:17:37.047Z",
       "audience": {
         "platforms": [
           "android"
@@ -53,40 +52,38 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.34",
+      "id": "update-windows-full-1.0.35",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.34",
+      "version": "1.0.35",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.34/MemoFlow_v1.0.34_windows_x64_setup.exe",
-      "release_note_id": "20260622145545451",
-      "publish_at": "2026-06-22T15:13:32.369Z",
-      "expire_at": "2026-06-29T15:13:32.369Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
+      "release_note_id": "20260628061941125",
+      "publish_at": "2026-06-28T06:17:37.047Z",
       "audience": {
         "platforms": [
           "windows"
         ],
-        "channels": [
-          "full"
-        ],
+        "channels": [],
         "min_app_version": "",
         "max_app_version": ""
       }
     }
   ],
   "announcement": {
-    "id": "20260622145545451",
-    "title": "Notas de atualização da versão",
+    "id": "20260628061941125",
+    "title": "Notas da versão",
     "show_when_up_to_date": false,
     "contents": {
       "pt-BR": [
-        "Adaptação para iOS"
+        "Novo registro rápido com janela flutuante no Android",
+        "Nova funcionalidade de notas no desktop"
       ]
     },
     "new_donor_ids": [
-      "5219_yong"
+      "1712_kan"
     ]
   },
   "donors": [
@@ -214,9 +211,37 @@
       "id": "5219_yong",
       "name": "**勇",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260622143357_5219_yong.webp"
+    },
+    {
+      "id": "1712_kan",
+      "name": "**侃",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260628061657_1712_kan.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.35",
+      "date": "2026-06-28",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "pt-BR": [
+              "Registro rápido com janela flutuante no Android",
+              "Funcionalidade de notas no desktop"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Anexos podem ser abertos com outros aplicativos"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.34",
       "date": "2026-06-22",

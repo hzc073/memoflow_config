@@ -30,6 +30,25 @@ class UpdateConfigLocalizationTest(unittest.TestCase):
             )
             self.assertEqual(summary["localized_outputs"], list(build_update_config.SUPPORTED_LOCALES))
 
+    def test_source_locale_prefers_source_content_over_english_translation(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            self._write_minimal_source(root)
+            self._write_english_translation(root)
+
+            _legacy, localized, _summary = build_update_config.compile_update_bundle(root)
+
+            self.assertEqual(localized["zh-Hans"]["announcement"]["title"], "v1.0.0")
+            self.assertEqual(
+                localized["zh-Hans"]["announcement"]["contents"],
+                {"zh-Hans": ["Chinese summary"]},
+            )
+            self.assertEqual(
+                localized["zh-Hans"]["release_notes"][0]["items"][0]["contents"],
+                {"zh-Hans": ["Chinese feature"]},
+            )
+            self.assertEqual(localized["en"]["announcement"]["title"], "Release Notes")
+
     def test_rejects_v1_manifest_for_localized_pipeline(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp)
@@ -94,6 +113,28 @@ class UpdateConfigLocalizationTest(unittest.TestCase):
                             },
                         }
                     ],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+    def _write_english_translation(self, root: pathlib.Path) -> None:
+        localized = root / "locales" / "en" / "announcements"
+        localized.mkdir(parents=True)
+        (localized / "20260511.json").write_text(
+            json.dumps(
+                {
+                    "id": "20260511",
+                    "locale": "en",
+                    "title": "Release Notes",
+                    "summary": ["Translated English summary"],
+                    "items": [
+                        {
+                            "category": "feature",
+                            "contents": ["Translated English feature"],
+                        }
+                    ],
+                    "translation": {"status": "reviewed"},
                 }
             ),
             encoding="utf-8",

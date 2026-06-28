@@ -1,0 +1,29 @@
+{
+  "id": "20260628061941125",
+  "locale": "pt-BR",
+  "title": "Notas da versão",
+  "summary": [
+    "Novo registro rápido com janela flutuante no Android",
+    "Nova funcionalidade de notas no desktop"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Registro rápido com janela flutuante no Android",
+        "Funcionalidade de notas no desktop"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Anexos podem ser abertos com outros aplicativos"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "310b48b69da84dcf007a939956b98b226adcffe30b5bac6af11b1fc465dbc59b",
+    "status": "reviewed"
+  }
+}

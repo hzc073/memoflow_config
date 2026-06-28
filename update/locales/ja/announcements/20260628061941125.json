@@ -1,0 +1,29 @@
+{
+  "id": "20260628061941125",
+  "locale": "ja",
+  "title": "バージョン更新のお知らせ",
+  "summary": [
+    "Androidフローティングウィンドウのクイック記録を追加",
+    "デスクトップ版のメモ機能を追加"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Androidフローティングウィンドウのクイック記録を追加",
+        "デスクトップ版のメモ機能を追加"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "添付ファイルを他のアプリで開くことが可能"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "310b48b69da84dcf007a939956b98b226adcffe30b5bac6af11b1fc465dbc59b",
+    "status": "reviewed"
+  }
+}

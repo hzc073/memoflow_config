@@ -1,0 +1,29 @@
+{
+  "id": "20260628061941125",
+  "locale": "de",
+  "title": "Versionshinweise",
+  "summary": [
+    "Neue Schnellnotiz-Funktion für Android-Schwebefenster",
+    "Neue Haftnotiz-Funktion für Desktop"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Android-Schwebefenster für schnelle Notizen",
+        "Desktop-Haftnotiz-Funktion"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Anhänge können mit anderen Apps geöffnet werden"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "310b48b69da84dcf007a939956b98b226adcffe30b5bac6af11b1fc465dbc59b",
+    "status": "reviewed"
+  }
+}
