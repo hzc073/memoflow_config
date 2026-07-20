@@ -1,0 +1,42 @@
+{
+  "id": "20260720143841730",
+  "locale": "en",
+  "title": "Release Notes",
+  "summary": [
+    "Added Footprints, LAN sync for local mode, waterfall view, and a writing-mode editor.",
+    "Improved sticky notes, login, editing, advanced search, and the feedback channel.",
+    "Fixed parent tag statistics and filtering errors."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Footprints can show notes on the map",
+        "Local mode now supports LAN sync",
+        "Added waterfall view",
+        "Added a writing-mode editor for long-form writing"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Improved sticky notes with a toolbar, note management, source display, attachment uploads, and notification reminders",
+        "Improved login with an option to ignore certificate validation",
+        "Improved editing with support for hiding the voice entry point",
+        "Improved advanced search with filters for note source and content identifiers",
+        "Unified the feedback channel to a Feishu form"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Fixed incorrect parent tag statistics and filtering"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "9cc32460c9420142a532446a3c236cc7bae5d336dcd085aac36eebd7831f690c",
+    "status": "reviewed"
+  }
+}

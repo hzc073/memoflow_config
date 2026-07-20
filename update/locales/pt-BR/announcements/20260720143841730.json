@@ -1,0 +1,42 @@
+{
+  "id": "20260720143841730",
+  "locale": "pt-BR",
+  "title": "Notas da versão",
+  "summary": [
+    "Adicionados Pegadas, sincronização em LAN no modo local, visualização em cascata e editor em modo de escrita.",
+    "Melhorias em notas adesivas, login, edição, busca avançada e canal de feedback.",
+    "Corrigidos erros de estatísticas e filtragem de tags principais."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Pegadas agora pode mostrar notas no mapa",
+        "Modo local agora suporta sincronização em LAN",
+        "Nova visualização em cascata",
+        "Novo editor em modo de escrita para textos longos"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Notas adesivas aprimoradas com barra de ferramentas, gerenciamento de notas, exibição do código-fonte, upload de anexos e lembretes de notificação",
+        "Login aprimorado com opção para ignorar a validação de certificado",
+        "Edição aprimorada com suporte para ocultar a entrada de voz",
+        "Busca avançada aprimorada com filtros por origem da nota e identificadores de conteúdo",
+        "Canal de feedback unificado em um formulário do Feishu"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Corrigidos erros de estatísticas e filtragem de tags principais"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "9cc32460c9420142a532446a3c236cc7bae5d336dcd085aac36eebd7831f690c",
+    "status": "reviewed"
+  }
+}

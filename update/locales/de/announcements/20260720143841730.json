@@ -1,0 +1,42 @@
+{
+  "id": "20260720143841730",
+  "locale": "de",
+  "title": "Versionshinweise",
+  "summary": [
+    "Neu: Footprints, LAN-Synchronisierung im lokalen Modus, Wasserfallansicht und Schreibmodus-Editor.",
+    "Verbesserungen bei Haftnotizen, Login, Bearbeitung, erweiterter Suche und Feedback-Kanal.",
+    "Fehler bei Statistik und Filterung von übergeordneten Tags behoben."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Footprints kann Notizen auf der Karte anzeigen",
+        "Der lokale Modus unterstützt jetzt LAN-Synchronisierung",
+        "Neue Wasserfallansicht",
+        "Neuer Schreibmodus-Editor für längere Texte"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Haftnotizen verbessert: Toolbar, Notizverwaltung, Quelltextanzeige, Anhang-Uploads und Benachrichtigungen",
+        "Login verbessert: Option zum Ignorieren der Zertifikatsprüfung hinzugefügt",
+        "Bearbeitung verbessert: Spracheingabe-Einstieg kann ausgeblendet werden",
+        "Erweiterte Suche verbessert: Filter nach Notizquelle und Inhaltskennzeichnung",
+        "Feedback-Kanal auf ein Feishu-Formular vereinheitlicht"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Fehler bei Statistik und Filterung von übergeordneten Tags behoben"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "9cc32460c9420142a532446a3c236cc7bae5d336dcd085aac36eebd7831f690c",
+    "status": "reviewed"
+  }
+}
