@@ -1,0 +1,40 @@
+{
+  "id": "20260814114322000",
+  "locale": "zh-Hant-TW",
+  "title": "版本更新公告",
+  "summary": [
+    "新增筆記左滑自訂操作、0.30 API 適配、登入頁面日誌匯出入口與開源應用程式字型。",
+    "最佳化 Memo 卡片標籤顯示與經典編輯器的文字選取互動。",
+    "修復錄音期間螢幕自動關閉與 WebDAV 伺服器位址版面配置問題。"
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "新增筆記左滑操作，可在實驗室中自訂操作功能",
+        "適配 0.30 API",
+        "登入頁面新增日誌匯出入口",
+        "新增開源應用程式字型"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "最佳化 Memo 卡片標籤顯示",
+        "最佳化經典編輯器的文字選取互動"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "修復錄音期間螢幕自動關閉的問題",
+        "修復 WebDAV 伺服器位址版面配置問題"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "9b0e2c4e6080f039ced6d3fd68753bc1b600e86fddc57bc7a1f58b3d7acc38b6",
+    "status": "reviewed"
+  }
+}

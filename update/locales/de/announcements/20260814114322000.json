@@ -1,0 +1,40 @@
+{
+  "id": "20260814114322000",
+  "locale": "de",
+  "title": "Versionshinweise",
+  "summary": [
+    "Neu: anpassbare Wischaktionen nach links für Notizen, Unterstützung für die 0.30-API, Protokollexport auf der Anmeldeseite und eine Open-Source-App-Schriftart.",
+    "Die Tag-Darstellung auf Memo-Karten und die Textauswahl im klassischen Editor wurden verbessert.",
+    "Die automatische Bildschirmabschaltung während der Aufnahme und das Layout der WebDAV-Serveradresse wurden korrigiert."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Wischaktionen nach links für Notizen hinzugefügt; die Aktionen können im Labor angepasst werden",
+        "Unterstützung für die 0.30-API hinzugefügt",
+        "Protokollexport auf der Anmeldeseite hinzugefügt",
+        "Eine Open-Source-Schriftart für die App hinzugefügt"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Tag-Darstellung auf Memo-Karten verbessert",
+        "Textauswahl im klassischen Editor verbessert"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Automatische Bildschirmabschaltung während der Aufnahme behoben",
+        "Layout der WebDAV-Serveradresse korrigiert"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "9b0e2c4e6080f039ced6d3fd68753bc1b600e86fddc57bc7a1f58b3d7acc38b6",
+    "status": "reviewed"
+  }
+}

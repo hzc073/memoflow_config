@@ -1,0 +1,40 @@
+{
+  "id": "20260814114322000",
+  "locale": "en",
+  "title": "Release Notes",
+  "summary": [
+    "Added customizable swipe-left actions for notes, support for the 0.30 API, log export on the login page, and an open-source app font.",
+    "Improved tag display on Memo cards and text selection in the classic editor.",
+    "Fixed the screen turning off during recording and the WebDAV server address layout."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Added swipe-left actions for notes, customizable in Labs",
+        "Added support for the 0.30 API",
+        "Added a log export entry point to the login page",
+        "Added an open-source font for the app"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Improved tag display on Memo cards",
+        "Improved text-selection interactions in the classic editor"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Fixed the screen turning off automatically during recording",
+        "Fixed the WebDAV server address layout"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "9b0e2c4e6080f039ced6d3fd68753bc1b600e86fddc57bc7a1f58b3d7acc38b6",
+    "status": "reviewed"
+  }
+}

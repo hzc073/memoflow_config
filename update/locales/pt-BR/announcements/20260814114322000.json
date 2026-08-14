@@ -1,0 +1,40 @@
+{
+  "id": "20260814114322000",
+  "locale": "pt-BR",
+  "title": "Notas da versão",
+  "summary": [
+    "Adicionadas ações personalizáveis de deslizar para a esquerda nas notas, compatibilidade com a API 0.30, exportação de logs na tela de login e uma fonte de código aberto para o app.",
+    "Aprimoradas a exibição de tags nos cartões Memo e a seleção de texto no editor clássico.",
+    "Corrigidos o desligamento automático da tela durante gravações e o layout do endereço do servidor WebDAV."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Adicionadas ações de deslizar para a esquerda nas notas, personalizáveis no Laboratório",
+        "Adicionada compatibilidade com a API 0.30",
+        "Adicionada uma opção para exportar logs na tela de login",
+        "Adicionada uma fonte de código aberto para o app"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Aprimorada a exibição de tags nos cartões Memo",
+        "Aprimorada a seleção de texto no editor clássico"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Corrigido o desligamento automático da tela durante gravações",
+        "Corrigido o layout do endereço do servidor WebDAV"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "9b0e2c4e6080f039ced6d3fd68753bc1b600e86fddc57bc7a1f58b3d7acc38b6",
+    "status": "reviewed"
+  }
+}
