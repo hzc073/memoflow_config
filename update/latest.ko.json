@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.39",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39-full-arm64-v8a-release.apk",
-      "publish_at": "2026-08-14T11:43:22Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.39",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39_windows_x64_setup.exe",
-      "publish_at": "2026-08-14T11:43:22Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
     }
   },
   "notice_enabled": false,
@@ -30,16 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.39",
+      "id": "update-android-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.39",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39-full-arm64-v8a-release.apk",
-      "release_note_id": "20260814114322000",
-      "publish_at": "2026-08-14T11:43:22Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "android"
@@ -52,16 +52,16 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.39",
+      "id": "update-windows-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.39",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39_windows_x64_setup.exe",
-      "release_note_id": "20260814114322000",
-      "publish_at": "2026-08-14T11:43:22Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "windows"
@@ -73,14 +73,14 @@
     }
   ],
   "announcement": {
-    "id": "20260814114322000",
-    "title": "버전 업데이트 공지",
+    "id": "20261116133350000",
+    "title": "업데이트 안내",
     "show_when_up_to_date": false,
     "contents": {
       "ko": [
-        "노트 왼쪽 스와이프 사용자 지정 동작, 0.30 API 지원, 로그인 화면 로그 내보내기, 오픈 소스 앱 글꼴을 추가했습니다.",
-        "Memo 카드의 태그 표시와 클래식 편집기의 텍스트 선택 동작을 개선했습니다.",
-        "녹음 중 화면이 자동으로 꺼지는 문제와 WebDAV 서버 주소 레이아웃 문제를 수정했습니다."
+        "Memos 0.31 지원, 노트 고정 및 위젯 상호작용을 추가하고 목록, 공유, 화면 표시를 개선했습니다.",
+        "알려진 문제: 앱 잠금이 정상적으로 작동하지 않습니다!",
+        "macOS 버전은 심사를 통과하지 못했습니다. Apple 플랫폼용 설치 파일이 필요한 사용자는 QQ 그룹에 참여하여 받을 수 있습니다."
       ]
     },
     "new_donor_ids": []
@@ -223,6 +223,47 @@
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "Memos 0.31을 지원하여 스페이스 탐색, 생성 및 검색 기능 추가",
+              "선택한 노트를 모바일 기기의 홈 화면과 잠금 화면에 표시하는 노트 고정 기능 추가",
+              "Android 홈 화면 위젯에서 직접 할 일을 완료 처리하는 기능과 iOS 잠금 화면의 실시간 현황 추가",
+              "모바일 기기의 생체 인증 잠금 해제 기능 추가(알려진 문제: 앱 잠금이 정상적으로 작동하지 않음)",
+              "태그 페이지 기억 기능 추가: 태그 내에서 새 노트를 만들면 해당 태그가 자동으로 적용됨"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "긴 노트가 있는 목록의 로딩을 개선하고 전체 및 빠른 Markdown 미리보기 모드 추가",
+              "노트 목록의 증분 새로 고침을 개선하여 전체 화면 깜빡임 감소",
+              "편집 중인 초안을 보호하고 활성화 안내를 제공하도록 타사 앱 공유 개선",
+              "탐색 화면 렌더링 개선",
+              "왼쪽으로 밀기 빠른 작업을 개선하고 더 보기 메뉴에 모든 작업 유지",
+              "고밀도 디스플레이에서 Windows 빠른 입력 창의 배율 조정 개선"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "Android 위젯의 야간 모드 수정",
+              "Apple 플랫폼에서 미리 알림 알림의 권한 요청 및 로컬 예약 처리 수정",
+              "WebDAV 연결 호환성과 로컬 라이브러리 백업 검색 문제 수정"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.39",
       "date": "2026-08-14",

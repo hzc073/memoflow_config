@@ -1,0 +1,1385 @@
+{
+  "schema_version": 3,
+  "version_info": {
+    "android": {
+      "latest_version": "1.0.41",
+      "force_update": false,
+      "update_source": "full",
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
+    },
+    "ios": {
+      "latest_version": "1.0.14",
+      "force_update": false,
+      "update_source": "app_store",
+      "url": "",
+      "publish_at": "2026-02-21T00:00:00Z"
+    },
+    "windows": {
+      "latest_version": "1.0.41",
+      "force_update": false,
+      "update_source": "full",
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
+    }
+  },
+  "notice_enabled": false,
+  "notice": null,
+  "debug_announcement_source": "release_notes",
+  "debug_announcement": null,
+  "notices": [],
+  "updates": [
+    {
+      "id": "update-android-full-1.0.41",
+      "status": "public",
+      "priority": 0,
+      "platform": "android",
+      "channel": "full",
+      "version": "1.0.41",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
+      "audience": {
+        "platforms": [
+          "android"
+        ],
+        "channels": [
+          "full"
+        ],
+        "min_app_version": "",
+        "max_app_version": ""
+      }
+    },
+    {
+      "id": "update-windows-full-1.0.41",
+      "status": "public",
+      "priority": 0,
+      "platform": "windows",
+      "channel": "full",
+      "version": "1.0.41",
+      "force": false,
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
+      "audience": {
+        "platforms": [
+          "windows"
+        ],
+        "channels": [],
+        "min_app_version": "",
+        "max_app_version": ""
+      }
+    }
+  ],
+  "announcement": {
+    "id": "20261116133350000",
+    "title": "업데이트 안내",
+    "show_when_up_to_date": false,
+    "contents": {
+      "ko": [
+        "Memos 0.31 지원, 노트 고정 및 위젯 상호작용을 추가하고 목록, 공유, 화면 표시를 개선했습니다.",
+        "알려진 문제: 앱 잠금이 정상적으로 작동하지 않습니다!",
+        "macOS 버전은 심사를 통과하지 못했습니다. Apple 플랫폼용 설치 파일이 필요한 사용자는 QQ 그룹에 참여하여 받을 수 있습니다."
+      ]
+    },
+    "new_donor_ids": []
+  },
+  "donors": [
+    {
+      "id": "qing",
+      "name": "**青",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260127%20111528_qing.webp"
+    },
+    {
+      "id": "yang",
+      "name": "**洋",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260127%20111601_yang.webp"
+    },
+    {
+      "id": "Mashiro_Sorata",
+      "name": "Mashiro_Sorata",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260127235921_Mashiro_Sorata.webp"
+    },
+    {
+      "id": "tian",
+      "name": "**天",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260203100512_tian.webp"
+    },
+    {
+      "id": "lin",
+      "name": "**林",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260201124540_lin.webp"
+    },
+    {
+      "id": "jun",
+      "name": "**军",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260209170152_jun.webp"
+    },
+    {
+      "id": "kai",
+      "name": "*凯",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260219182803_kai.webp"
+    },
+    {
+      "id": "guang",
+      "name": "**光",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260221183428_guang.webp"
+    },
+    {
+      "id": "gao",
+      "name": "**高",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260304002228_gao.webp"
+    },
+    {
+      "id": "da",
+      "name": "**达",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260304175258_da.webp"
+    },
+    {
+      "id": "jie",
+      "name": "*杰",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260308225729_jie.webp"
+    },
+    {
+      "id": "liang",
+      "name": "*亮",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260312142046_liang.webp"
+    },
+    {
+      "id": "1334_liu",
+      "name": "*欢",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260321151334_liu.webp"
+    },
+    {
+      "id": "3653_yao",
+      "name": "**遥",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260323013653_yao.webp"
+    },
+    {
+      "id": "3106_chen",
+      "name": "*晨",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260327163106_chen.webp"
+    },
+    {
+      "id": "4000_xiong",
+      "name": "**雄",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260327214000_xiong.webp"
+    },
+    {
+      "id": "5505_yu",
+      "name": "**宇",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260403025505_yu.webp"
+    },
+    {
+      "id": "5932_lin",
+      "name": "**琳",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260406095932_lin.webp"
+    },
+    {
+      "id": "5401_tao",
+      "name": "*滔",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260406215401_tao.webp"
+    },
+    {
+      "id": "0348_yi",
+      "name": "**屹",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260411140348_yi.webp"
+    },
+    {
+      "id": "3744_zhou",
+      "name": "**周",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260416083744_zhou.webp"
+    },
+    {
+      "id": "2910_an",
+      "name": "**安",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260430152910_an.webp"
+    },
+    {
+      "id": "3418_ji",
+      "name": "**稽",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260510123418_ji.webp"
+    },
+    {
+      "id": "4943_ji",
+      "name": "*骥",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260513204943_ji.webp"
+    },
+    {
+      "id": "5219_yong",
+      "name": "**勇",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260622143357_5219_yong.webp"
+    },
+    {
+      "id": "1712_kan",
+      "name": "**侃",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260628061657_1712_kan.webp"
+    },
+    {
+      "id": "5124_yuan",
+      "name": "*圆",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260720222055_5124_yuan.webp"
+    }
+  ],
+  "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "Memos 0.31을 지원하여 스페이스 탐색, 생성 및 검색 기능 추가",
+              "선택한 노트를 모바일 기기의 홈 화면과 잠금 화면에 표시하는 노트 고정 기능 추가",
+              "Android 홈 화면 위젯에서 직접 할 일을 완료 처리하는 기능과 iOS 잠금 화면의 실시간 현황 추가",
+              "모바일 기기의 생체 인증 잠금 해제 기능 추가(알려진 문제: 앱 잠금이 정상적으로 작동하지 않음)",
+              "태그 페이지 기억 기능 추가: 태그 내에서 새 노트를 만들면 해당 태그가 자동으로 적용됨"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "긴 노트가 있는 목록의 로딩을 개선하고 전체 및 빠른 Markdown 미리보기 모드 추가",
+              "노트 목록의 증분 새로 고침을 개선하여 전체 화면 깜빡임 감소",
+              "편집 중인 초안을 보호하고 활성화 안내를 제공하도록 타사 앱 공유 개선",
+              "탐색 화면 렌더링 개선",
+              "왼쪽으로 밀기 빠른 작업을 개선하고 더 보기 메뉴에 모든 작업 유지",
+              "고밀도 디스플레이에서 Windows 빠른 입력 창의 배율 조정 개선"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "Android 위젯의 야간 모드 수정",
+              "Apple 플랫폼에서 미리 알림 알림의 권한 요청 및 로컬 예약 처리 수정",
+              "WebDAV 연결 호환성과 로컬 라이브러리 백업 검색 문제 수정"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.39",
+      "date": "2026-08-14",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "노트 왼쪽 스와이프 동작을 추가했으며 실험실에서 동작을 사용자 지정할 수 있습니다",
+              "0.30 API 지원을 추가했습니다",
+              "로그인 화면에 로그 내보내기 진입점을 추가했습니다",
+              "오픈 소스 앱 글꼴을 추가했습니다"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "Memo 카드의 태그 표시를 개선했습니다",
+              "클래식 편집기의 텍스트 선택 동작을 개선했습니다"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "녹음 중 화면이 자동으로 꺼지는 문제를 수정했습니다",
+              "WebDAV 서버 주소 레이아웃 문제를 수정했습니다"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.38",
+      "date": "2026-07-20",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "발자국에서 지도에 노트를 표시할 수 있습니다",
+              "로컬 모드에서 LAN 동기화를 지원합니다",
+              "워터폴 보기를 추가했습니다",
+              "긴 글 작성에 적합한 쓰기 모드 편집기를 추가했습니다"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "스티커 메모를 개선해 도구 모음, 메모 관리, 소스 표시, 첨부 파일 업로드, 알림 리마인더를 지원합니다",
+              "로그인 경험을 개선해 인증서 검증 무시 옵션을 추가했습니다",
+              "편집 경험을 개선해 음성 입력 진입점 숨기기를 지원합니다",
+              "고급 검색을 개선해 노트 출처와 콘텐츠 식별자로 필터링할 수 있습니다",
+              "피드백 채널을 Feishu 양식으로 통합했습니다"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "상위 태그 통계 및 필터링 오류를 수정했습니다"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.35",
+      "date": "2026-06-28",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "Android 플로팅 창 빠른 기록",
+              "데스크탑 스티커 메모 기능"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "첨부 파일을 다른 앱으로 열기 선택 가능"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.34",
+      "date": "2026-06-22",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "Android 빠른 기록 기능",
+              "페어링 연결 상태 페이지",
+              "iOS 지원 추가"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "설정 페이지 컨트롤, 폼 경험 및 지원 페이지 기부 프로세스 최적화",
+              "메모 검색, 태그 인식, Markdown 가져오기 및 메모 작업 진입점 개선"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "로컬 데이터베이스 경로, 프로필 이미지 처리 및 AI 설정에서 서비스 삭제 후 남은 구성 수정",
+              "설정 창 플러그인 등록, 사용 불가 진입점 표시 및 재설치 후 이전 계정 상태 정리 문제 수정"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.33",
+      "date": "2026-06-09",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "macOS 데스크톱 지원: 이제 Mac에서 MemoFlow를 바로 사용할 수 있습니다."
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "저장 공간이 추가되어 캐시를 더 편리하게 확인하고 정리할 수 있습니다."
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "Memos 0.29 기본 API에 대응했습니다."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "데스크톱 레이아웃을 최적화하여 화면 혼잡과 콘텐츠 넘침을 줄였습니다."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "데스크톱 내비게이션, 설정 페이지, 하위 페이지 상호작용을 조정해 컴퓨터 환경에 더 익숙한 사용감을 제공합니다."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "여러 기기에서의 페이지 밀도를 최적화하여 휴대폰, 태블릿, 데스크톱 경험을 더 일관되게 만들었습니다."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "서버 주소 입력을 개선하여 자체 구축한 Memos에 더 편하게 로그인할 수 있습니다."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "Memo 0.27+에서 좋아요, 댓글 등 상호작용 정보의 실시간 새로고침을 지원합니다."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "일부 Memo의 업데이트 시간 동기화가 정확하지 않던 문제를 수정하여 목록 정렬이 더 안정적으로 동작합니다."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "홈 화면 검색 로직을 개선하여 검색 상태와 결과 범위가 더 명확해졌습니다."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "태그 인식 규칙을 조정하여 본문 내용이 태그로 잘못 인식되는 경우를 줄였습니다."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.32",
+      "date": "2026-05-13",
+      "items": [
+        {
+          "category": "improvement",
+          "contents": {
+            "ko": [
+              "더보기 메뉴 스타일 조정",
+              "홈 화면에 좋아요 및 댓글 추가(show-home-memo-engagement)",
+              "사이드바 제스처 최적화",
+              "글에 이미지 링크 추가 지원",
+              "시스템 안정성 조정",
+              "데스크톱 메모 목록/미리보기 상호작용 최적화",
+              "업데이트 공지 및 알림 공지 푸시 로직 최적화"
+            ]
+          }
+        },
+        {
+          "category": "feature",
+          "contents": {
+            "ko": [
+              "임시 보관함 및 컬렉션 화면에 메인 화면으로 돌아가기 기능 추가",
+              "0.28 대응",
+              "편집 중인 글을 임시 보관함에 넣을 수 있도록 추가",
+              "임시 보관함 진입 경로 추가",
+              "전체 화면 모드 추가"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ko": [
+              "화면 전환 시 키보드가 자동으로 표시되지 않는 문제 수정",
+              "태그를 닫을 수 없는 문제 수정(fix-tag-autocomplete-overlay-picker-lifecycle)",
+              "샤오홍슈 클리핑이 되지 않는 문제 수정"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.31",
+      "date": "2026-05-03",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added AI semantic search.",
+              "Added Brazilian Portuguese language support."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed an issue where navigation bar mode could exit unexpectedly.",
+              "Fixed local mode clipping images not being viewable inline.",
+              "Fixed thumbnail distortion.",
+              "Fixed AI summaries sometimes becoming unresponsive.",
+              "Fixed a possible tag fetching issue in version 0.27.",
+              "Refactored the image compression flow.",
+              "Fixed search button rendering issues.",
+              "Added lazy loading for clipped images.",
+              "Fixed unreliable search results.",
+              "Fixed startup screen issues."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Polished details across the app.",
+              "Replaced logo assets.",
+              "Improved the desktop UI.",
+              "Improved animations.",
+              "Optimized AI screens to avoid regressions.",
+              "Improved the AI summary screen and increased the number of custom templates."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.28",
+      "date": "2026-04-22",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added a dedicated HeMi build.",
+              "Added compatibility with API 0.27.0.",
+              "Added a calendar view.",
+              "Added collections."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Improved the image compression pipeline and related performance.",
+              "Optimized clipping and added top platform detection.",
+              "Refined navigation and gesture interactions.",
+              "Removed Apple platform scaffolding."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed distorted image previews while editing.",
+              "Fixed tag sorting not being saved.",
+              "Fixed desktop multi-account switching failures."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.26",
+      "date": "2026-04-05",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Gallery picking now supports original-image selection."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Improved AI service compatibility."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.24",
+      "date": "2026-04-05",
+      "items": [
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Unified attachment picking across the editor, quick input, and inline compose.",
+              "Extracted camera attachment capture logic and improved missing-file handling."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed the media picking and attachment add flow behind issue #141."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.23",
+      "date": "2026-04-05",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added reminder badges to the drawer menu."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Added resolution caps for draft images.",
+              "Further strengthened export and local-library sync flows."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed exports missing location information.",
+              "Fixed memo relation metadata and local relation fragments not being preserved.",
+              "Fixed desktop child-window sync and database write issues."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.22",
+      "date": "2026-04-02",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added quick voice input.",
+              "Drafts can now be opened directly from the toolbar.",
+              "Local library names can now be edited.",
+              "Added a notification menu and drawer badge reminders."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Continued refining UI details.",
+              "Improved quick voice and voice input screens.",
+              "Optimized recording routing and sync queue behavior.",
+              "Removed the forced lowercase tag rule to preserve original casing."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed attachment export failures.",
+              "Fixed file-lock conflicts.",
+              "Fixed local-only memo state getting lost."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.21",
+      "date": "2026-03-28",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added LAN sync.",
+              "Search now supports filtering by attachments, location, backlinks, and time.",
+              "Added startup mode and preference options."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Improved the WebDAV UI and sync flow.",
+              "Added Nutstore WebDAV compatibility.",
+              "Optimized attachment upload logic and attachment categorization.",
+              "Adjusted the lab layout.",
+              "Refined the desktop exit experience."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed the toolbar insertion issue for unordered lists, ordered lists, and todo items."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.20",
+      "date": "2026-03-25",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Third-party sharing now supports direct content clipping.",
+              "Added Xiaohongshu video clipping.",
+              "Enhanced share clipping and article cleanup for WeChat content.",
+              "Added more toolbar options.",
+              "Double-tap note details to enter editing."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Random Walk now carries location information.",
+              "Further improved article cleanup for public account content.",
+              "Optimized long-form reading."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed the image preview black screen.",
+              "Fixed the missing input field on the Explore screen.",
+              "Prevented AI summary crashes on misaligned embedded blobs.",
+              "Fixed attachment sync issues."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.19",
+      "date": "2026-03-21",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added image compression support on Windows."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Mobile can now keep the original image even when compression is enabled.",
+              "Attachment viewing now supports type-based grouping.",
+              "The first failed handshake can now retry over HTTP.",
+              "Rendering has been decoupled and blank-line rendering is more complete.",
+              "Improved Android widgets and expanded localization support.",
+              "Shared content can now capture page titles and insert them as Markdown automatically."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.18",
+      "date": "2026-03-18",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Random Walk now supports exploration notes and AI summaries.",
+              "Added proxy configuration in AI settings."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "AI summaries now require a chat model while keeping the vector model optional.",
+              "Image previews are capped at 1080px.",
+              "Auto-sync success toasts are now disabled by default.",
+              "Further improved log redaction and private app storage paths."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed inconsistent MySQL timestamp handling with Memos 0.26.2.",
+              "Fixed the database creation failure on Android 10."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.17",
+      "date": "2026-03-14",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Login screen now supports quicker server address entry and HTTP/HTTPS switching.",
+              "Added a customizable toolbar with tool sorting and hiding.",
+              "Added scenario micro-guidance.",
+              "Enhanced desktop shortcuts and page turning for media browsing.",
+              "Added nine AI summary templates and support for multiple providers with custom model settings."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Refined the login screen interaction.",
+              "Refactored the AI summary and AI settings modules.",
+              "Added resizable Windows desktop support.",
+              "Improved location features.",
+              "Optimized the sidebar and all-tags layouts.",
+              "Added last-used timestamps for tags and enabled sorting."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed several known issues and stability problems.",
+              "Fixed the startup flow, login detection, and task list display.",
+              "Fixed random walk rendering issues and improved the filter dialog.",
+              "Fixed the issue where uploading offline notes to the server reset created timestamps."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.16",
+      "date": "2026-03-07",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added Windows tray support.",
+              "Added image compression.",
+              "Added log submission support."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Tidied the repository and maintained selected copy.",
+              "Decoupled app files and completed multiple architecture adjustments.",
+              "Refactored the Windows architecture.",
+              "Optimized the Windows UI and interaction experience.",
+              "Allowed the use of system fonts.",
+              "Added pagination to improve browsing smoothness.",
+              "Optimized the local import flow.",
+              "Optimized data cards on the statistics page.",
+              "Relaxed third-party sharing formats.",
+              "Refactored the startup flow.",
+              "Unified the splash animation and startup UI.",
+              "Improved log output and switched to zip export.",
+              "Optimized WebDAV sync logic.",
+              "Optimized the tag system.",
+              "Localized desktop and UI copy."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed several general issues.",
+              "Fixed saving issues in debug mode.",
+              "Fixed local mode import failures.",
+              "Fixed blank-line rendering issues.",
+              "Fixed rendering overflow issues.",
+              "Fixed notes not syncing correctly.",
+              "Fixed occasional blur when returning to Home from Settings.",
+              "Fixed cross-window sync errors.",
+              "Fixed local libraries failing to sync through WebDAV.",
+              "Fixed the issue where first-time WebDAV sync required manual triggering.",
+              "Fixed desktop session stability issues.",
+              "Fixed database context binding issues in WebDAV backup.",
+              "Fixed sync and API compatibility issues."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.15",
+      "date": "2026-02-21",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added Windows-side codebase.",
+              "Added template variables and multi-map location support.",
+              "Added Windows installer packaging build.",
+              "Added Windows desktop client.",
+              "Added Obsidian sync support.",
+              "Updated the About page.",
+              "Added quick search.",
+              "Added WebDAV backup password recovery.",
+              "Added WebDAV backup in server mode.",
+              "Added recycle bin and memo history versions.",
+              "Added F-Droid build support.",
+              "Added CI/CD automated checks.",
+              "Added screenshot capture in debug mode.",
+              "Added new templates.",
+              "Added Windows deployment resources."
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Optimized the desktop settings page.",
+              "Warmed and reused desktop child windows to speed up settings and quick-input wake-up.",
+              "Updated multilingual copy in sync.",
+              "Enhanced log collection with location privacy masking.",
+              "Updated README documentation.",
+              "Improved announcement delivery workflow."
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed interaction issues on Home/Editor/Stats pages.",
+              "Fixed several bugs.",
+              "Fixed overflow in the AI summary button component.",
+              "Updated bug templates."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.14",
+      "date": "2026-02-14",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "html折叠渲染",
+              "随机漫步卡片筛选",
+              "同步队列任务进度条",
+              "Memos 多版本路由画像与兼容回退策略",
+              "版本路由与 URL 工具测试",
+              "实验室更换API入口"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "兼容模式改成手动选择服务器版本",
+              "登录/账户清理流程并补充 API 调试信息展示",
+              "按 版本 拆分 API 门面并锁定路由"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "部分乱码",
+              "用户名登录失败",
+              "标签筛选渲染溢出",
+              "随机漫步乱码",
+              "0.21-0.24版本无法使用用户名登录",
+              "0.22无法加载图片",
+              "0.21版本无法导入",
+              "修复 v0.24 媒体地址鉴权并增强同步重试与进度",
+              "用户登录顺序与版本校验流程",
+              "搜索历史长列表滚动容器"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.13",
+      "date": "2026-02-11",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "视频预览和播放",
+              "语言中国台湾、德语、日语",
+              "GitHub blob 转换",
+              "memo 旧接口回退门控与日志",
+              "SVG 渲染分支",
+              "偏好设置-全部笔记点赞评论显示开关"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "视频缩略图",
+              "语言选择",
+              "图片渲染日志"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "html渲染错误",
+              "应用锁错误",
+              "侧面栏展开时掉帧",
+              "图文混合附件切换避免滑动在视频节点中断",
+              "md语法渲染错误",
+              "搜索结果不全并增强兼容性"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.12",
+      "date": "2026-02-09",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "手势动作-列表界面右滑打开侧边栏"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "文字与图片之间的间距",
+              "图片与图片之间的间距",
+              "通知样式",
+              "统一通知样式和位置",
+              "API路由选择"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "密码错误无法复位",
+              "探索界面点赞和评论错误",
+              "语言选择界面偶尔多次提出",
+              "0.21.0无法正确使用api"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.11",
+      "date": "2026-02-08",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "LaTeX公式渲染",
+              "本地模式，支持webdav加密备份",
+              "自动分页查询"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "笔记更多菜单弹出时间",
+              "webdav可记住密码"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "用户名密码登录错误",
+              "添加本地库错误"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.10",
+      "date": "2026-02-03",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "用户名密码登录",
+              "回到顶部按钮"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "标签跟随后端统一转成小写",
+              "应用锁自动对焦光标",
+              "取消笔记详情页中的展开",
+              "笔记双链关系缓存本地"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.9",
+      "date": "2026-02-01",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "快速记录",
+              "附件显示"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "html渲染高亮效果",
+              "删除队列任务不删笔记"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "更多按钮不显示",
+              "随机漫步无法显示音频",
+              "在个别情况掉帧的问题",
+              "代码块渲染溢出",
+              "附件名称显示错误",
+              "#36,fix: #35,fix: #34,fix: #33,fix: #32,fix: #31 v1.0.9"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.8",
+      "date": "2026-01-31",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "定位功能",
+              "归档入口",
+              "排序功能"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "搜索支持全文搜索",
+              "定位显示位置",
+              "笔记布局",
+              "语音笔记发送方式"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "语言选择不会保存",
+              "双链无法编辑",
+              "热力图渲染错误",
+              "搜索界面无法修改待办事项"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "date": "2026-01-29",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "增加长按笔记时复制",
+              "webdav备份配置"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "笔记界面单击查看详情，双击进入编辑",
+              "版本更新采用在线检测",
+              "导出时增加附件，更新导入"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "笔记提醒无法设置",
+              "搜索结果无法勾选待办事项 ，快捷筛选界面无法新建 (本功能由 【Mashiro_Sorata】 赞助支持)",
+              "语言选择界面语言跟按钮不联动"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "date": "2026-01-27",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "自动上传图床功能",
+              "自定义主题（本功能由【青】赞赏加速实现）",
+              "笔记提醒"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "图片编辑和查看",
+              "同步方式"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "搜索时输入法闪退",
+              "笔记图床渲染"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.5",
+      "date": "2026-01-26",
+      "items": [
+        {
+          "category": "新增",
+          "contents": {
+            "en": [
+              "第三方分享接入",
+              "功能组件和赞赏"
+            ]
+          }
+        },
+        {
+          "category": "修复",
+          "contents": {
+            "en": [
+              "编辑时图片无法加载",
+              "链接过长无法渲染"
+            ]
+          }
+        },
+        {
+          "category": "优化",
+          "contents": {
+            "en": [
+              "进入笔记详情自动展开",
+              "AI 设置持久化保存本地"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "locale": "ko",
+  "fallback_locale": "en"
+}

@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.39",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39-full-arm64-v8a-release.apk",
-      "publish_at": "2026-08-14T11:43:22Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.39",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39_windows_x64_setup.exe",
-      "publish_at": "2026-08-14T11:43:22Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
     }
   },
   "notice_enabled": false,
@@ -30,16 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.39",
+      "id": "update-android-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.39",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39-full-arm64-v8a-release.apk",
-      "release_note_id": "20260814114322000",
-      "publish_at": "2026-08-14T11:43:22Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "android"
@@ -52,16 +52,16 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.39",
+      "id": "update-windows-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.39",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.39/MemoFlow_v1.0.39_windows_x64_setup.exe",
-      "release_note_id": "20260814114322000",
-      "publish_at": "2026-08-14T11:43:22Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "windows"
@@ -73,14 +73,14 @@
     }
   ],
   "announcement": {
-    "id": "20260814114322000",
+    "id": "20261116133350000",
     "title": "版本更新公告",
     "show_when_up_to_date": false,
     "contents": {
       "zh-Hant-TW": [
-        "新增筆記左滑自訂操作、0.30 API 適配、登入頁面日誌匯出入口與開源應用程式字型。",
-        "最佳化 Memo 卡片標籤顯示與經典編輯器的文字選取互動。",
-        "修復錄音期間螢幕自動關閉與 WebDAV 伺服器位址版面配置問題。"
+        "新增 Memos 0.31 適配、筆記釘選與桌面小工具互動，改善列表、分享及顯示體驗。",
+        "已知問題：應用程式鎖無法正常使用！！",
+        "由於 macOS 版本未通過審核，需要 Apple 平台安裝套件的使用者請加入 QQ 群取得。"
       ]
     },
     "new_donor_ids": []
@@ -223,6 +223,47 @@
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh-Hant-TW": [
+              "新增 Memos 0.31 適配，支援瀏覽、建立及搜尋空間",
+              "新增筆記釘選功能，可在行動裝置主畫面與鎖定畫面顯示指定筆記",
+              "新增 Android 桌面小工具直接勾選待辦事項、iOS 鎖定畫面即時動態",
+              "新增行動裝置生物辨識解鎖（已知問題：應用程式鎖無法正常使用）",
+              "新增標籤頁記憶，在標籤下建立筆記時會自動加上該標籤"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh-Hant-TW": [
+              "改善長篇筆記的列表載入，新增完整與快速 Markdown 預覽模式",
+              "改善筆記列表增量更新，減少整頁閃爍",
+              "改善第三方分享，保護編輯中的草稿，並提供啟用引導",
+              "改善探索頁面的顯示效果",
+              "改善左滑快捷操作，「更多」選單保留完整操作",
+              "改善 Windows 快速輸入視窗在高 DPI 螢幕上的縮放"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh-Hant-TW": [
+              "修復 Android 小工具的夜間模式",
+              "修復 Apple 平台提醒通知的權限申請與本機排程",
+              "修復 WebDAV 連線相容性與本機資料庫備份偵測問題"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.39",
       "date": "2026-08-14",
