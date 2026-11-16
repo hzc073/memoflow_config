@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
     }
   },
   "notice_enabled": false,
@@ -30,16 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.35",
+      "id": "update-android-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "android"
@@ -52,16 +52,16 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.35",
+      "id": "update-windows-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "windows"
@@ -73,18 +73,17 @@
     }
   ],
   "announcement": {
-    "id": "20260628061941125",
+    "id": "20261116133350000",
     "title": "版本更新公告",
     "show_when_up_to_date": false,
     "contents": {
       "zh-Hans": [
-        "新增安卓悬浮窗快速记录",
-        "新增桌面端 便签功能"
+        "新增 Memos 0.31 适配、笔记钉住和桌面组件交互，优化列表、分享及显示体验。",
+        "已知问题：应用锁无法正常使用！！",
+        "由于 macOS 版本未通过审核，需要苹果安装包的用户请加入 QQ 群获取。"
       ]
     },
-    "new_donor_ids": [
-      "1712_kan"
-    ]
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -216,9 +215,127 @@
       "id": "1712_kan",
       "name": "**侃",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260628061657_1712_kan.webp"
+    },
+    {
+      "id": "5124_yuan",
+      "name": "*圆",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260720222055_5124_yuan.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh-Hans": [
+              "新增 Memos 0.31 适配，支持空间浏览、创建、搜索",
+              "新增笔记钉住功能，可在移动端桌面和锁屏展示指定笔记",
+              "新增 Android 桌面组件直接勾选待办、iOS 锁屏实时活动",
+              "新增移动端生物识别解锁（已知问题：应用锁无法正常使用）",
+              "新增标签页记忆，在标签下新建笔记会自动带上标签"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh-Hans": [
+              "优化长正文列表加载，增加完整和快速 Markdown 预览模式",
+              "优化笔记列表增量刷新，减少整页闪烁",
+              "优化第三方分享，保护编辑草稿，并提供开启引导",
+              "优化探索界面渲染效果",
+              "优化左滑快捷操作，“更多”菜单保留完整操作",
+              "优化 Windows 快速输入窗口在高 DPI 屏幕上的缩放"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh-Hans": [
+              "修复 Android 小组件夜间模式",
+              "修复 Apple 平台提醒通知的权限申请与本地调度",
+              "修复 WebDAV 连接兼容性及本地资料库备份发现问题"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.39",
+      "date": "2026-08-14",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh-Hans": [
+              "新增笔记左滑操作，可在实验室中自定义操作功能",
+              "适配 0.30 API",
+              "登录页增加日志导出入口",
+              "新增开源应用字体"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh-Hans": [
+              "优化 Memo 卡片标签展示",
+              "优化经典编辑器文本选取交互"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh-Hans": [
+              "修复录音过程屏幕自动熄灭问题",
+              "修复 WebDAV 服务器地址布局问题"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.38",
+      "date": "2026-07-20",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "zh-Hans": [
+              "足迹可在地图中显示笔记",
+              "本地模式支持局域网同步",
+              "新增瀑布流视图",
+              "新增写作模式编辑器，适合长文书写"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "zh-Hans": [
+              "优化便签，增加工具栏、便签管理、源码展示、支持附件上传、通知提醒",
+              "优化登录体验，增加忽略证书校验",
+              "优化编辑体验，支持关闭语音入口",
+              "优化高级搜索，支持根据笔记来源、内容标识筛选",
+              "反馈渠道统一改为飞书表单"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "zh-Hans": [
+              "修复父标签统计和筛选错误"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.35",
       "date": "2026-06-28",

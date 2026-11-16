@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
     }
   },
   "notice_enabled": false,
@@ -30,16 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.35",
+      "id": "update-android-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "android"
@@ -52,16 +52,16 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.35",
+      "id": "update-windows-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "windows"
@@ -73,18 +73,17 @@
     }
   ],
   "announcement": {
-    "id": "20260628061941125",
-    "title": "バージョン更新のお知らせ",
+    "id": "20261116133350000",
+    "title": "アップデートのお知らせ",
     "show_when_up_to_date": false,
     "contents": {
       "ja": [
-        "Androidフローティングウィンドウのクイック記録を追加",
-        "デスクトップ版のメモ機能を追加"
+        "Memos 0.31 への対応、ノートの固定、ウィジェット操作を追加し、一覧・共有・表示を改善しました。",
+        "既知の問題：アプリロックが正常に動作しません！",
+        "macOS 版は審査に通過していません。Apple プラットフォーム向けのインストーラーが必要な方は、QQ グループに参加して入手してください。"
       ]
     },
-    "new_donor_ids": [
-      "1712_kan"
-    ]
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -216,9 +215,127 @@
       "id": "1712_kan",
       "name": "**侃",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260628061657_1712_kan.webp"
+    },
+    {
+      "id": "5124_yuan",
+      "name": "*圆",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260720222055_5124_yuan.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ja": [
+              "Memos 0.31 に対応し、スペースの閲覧・作成・検索をサポート",
+              "指定したノートをモバイル端末のホーム画面やロック画面に表示する固定機能を追加",
+              "Android のホーム画面ウィジェットから直接タスクを完了にする操作と、iOS のロック画面のライブアクティビティを追加",
+              "モバイル端末の生体認証によるロック解除を追加（既知の問題：アプリロックが正常に動作しません）",
+              "タグページの記憶機能を追加し、タグ内で作成した新規ノートにそのタグを自動で付与"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "長文ノートの一覧読み込みを改善し、完全版と高速版の Markdown プレビューモードを追加",
+              "ノート一覧の差分更新を改善し、ページ全体のちらつきを軽減",
+              "編集中の下書きを保護し、有効化の案内を追加するなど、外部アプリからの共有を改善",
+              "探索画面の描画を改善",
+              "左スワイプのショートカットを改善し、「その他」メニューにはすべての操作を維持",
+              "高 DPI ディスプレイでの Windows クイック入力ウィンドウの拡大縮小を改善"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ja": [
+              "Android ウィジェットのナイトモードを修正",
+              "Apple プラットフォームでのリマインダー通知の権限リクエストとローカルスケジュール処理を修正",
+              "WebDAV 接続の互換性と、ローカルライブラリのバックアップを検出できない問題を修正"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.39",
+      "date": "2026-08-14",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ja": [
+              "ノートの左スワイプ操作を追加し、ラボで操作内容をカスタマイズできるようにしました",
+              "0.30 APIに対応しました",
+              "ログイン画面にログ出力の入口を追加しました",
+              "オープンソースのアプリ用フォントを追加しました"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "Memoカードのタグ表示を改善しました",
+              "クラシックエディターのテキスト選択操作を改善しました"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ja": [
+              "録音中に画面が自動で消灯する問題を修正しました",
+              "WebDAVサーバーアドレスのレイアウト問題を修正しました"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.38",
+      "date": "2026-07-20",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "ja": [
+              "足跡で地図上にノートを表示できるようになりました",
+              "ローカルモードでLAN同期に対応しました",
+              "ウォーターフォール表示を追加しました",
+              "長文作成向けの執筆モードエディターを追加しました"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "ja": [
+              "付箋を改善し、ツールバー、付箋管理、ソース表示、添付ファイルのアップロード、通知リマインダーに対応しました",
+              "ログイン体験を改善し、証明書検証を無視するオプションを追加しました",
+              "編集体験を改善し、音声入力入口を非表示にできるようにしました",
+              "高度な検索を改善し、ノートのソースとコンテンツ識別子で絞り込めるようにしました",
+              "フィードバック窓口をFeishuフォームに統一しました"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "ja": [
+              "親タグの統計とフィルターのエラーを修正しました"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.35",
       "date": "2026-06-28",

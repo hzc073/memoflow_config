@@ -1,0 +1,46 @@
+{
+  "id": "20261116133350000",
+  "locale": "pt-BR",
+  "title": "Notas da versão",
+  "summary": [
+    "Adicionado suporte ao Memos 0.31, fixação de notas e interações com widgets, com melhorias nas listas, no compartilhamento e na exibição.",
+    "Problema conhecido: o bloqueio do aplicativo não funciona corretamente!",
+    "A versão para macOS não foi aprovada na análise. Quem precisar dos instaladores para plataformas Apple pode obtê-los entrando no grupo do QQ."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Adicionado suporte ao Memos 0.31 para navegar, criar e pesquisar espaços",
+        "Adicionada a fixação de notas para exibir notas selecionadas nas telas inicial e de bloqueio de dispositivos móveis",
+        "Adicionada a opção de marcar tarefas como concluídas diretamente nos widgets da tela inicial do Android e suporte a Atividades ao Vivo na tela bloqueada do iOS",
+        "Adicionado desbloqueio biométrico em dispositivos móveis (problema conhecido: o bloqueio do aplicativo não funciona corretamente)",
+        "Adicionada memória da página de etiquetas: novas notas criadas em uma etiqueta recebem essa etiqueta automaticamente"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Melhorado o carregamento de listas com notas longas e adicionados modos de pré-visualização Markdown completo e rápido",
+        "Melhorada a atualização incremental da lista de notas para reduzir a cintilação da página inteira",
+        "Melhorado o compartilhamento por aplicativos de terceiros, com proteção dos rascunhos em edição e orientações para ativação",
+        "Melhorada a renderização da tela Explorar",
+        "Melhorados os atalhos ao deslizar para a esquerda, mantendo todas as ações no menu Mais",
+        "Melhorado o dimensionamento da janela de entrada rápida do Windows em telas de alta DPI"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Corrigido o modo noturno dos widgets do Android",
+        "Corrigidas as solicitações de permissão e o agendamento local de notificações de lembrete nas plataformas Apple",
+        "Corrigidos problemas de compatibilidade de conexão WebDAV e de detecção de backups de bibliotecas locais"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "a20091268318c265e5ab45fb8be2cac82da83e016c250ae8b41058ec3071af42",
+    "status": "reviewed"
+  }
+}

@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
     }
   },
   "notice_enabled": false,
@@ -30,16 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.35",
+      "id": "update-android-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "android"
@@ -52,16 +52,16 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.35",
+      "id": "update-windows-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "windows"
@@ -73,18 +73,17 @@
     }
   ],
   "announcement": {
-    "id": "20260628061941125",
+    "id": "20261116133350000",
     "title": "Notas da versão",
     "show_when_up_to_date": false,
     "contents": {
       "pt-BR": [
-        "Novo registro rápido com janela flutuante no Android",
-        "Nova funcionalidade de notas no desktop"
+        "Adicionado suporte ao Memos 0.31, fixação de notas e interações com widgets, com melhorias nas listas, no compartilhamento e na exibição.",
+        "Problema conhecido: o bloqueio do aplicativo não funciona corretamente!",
+        "A versão para macOS não foi aprovada na análise. Quem precisar dos instaladores para plataformas Apple pode obtê-los entrando no grupo do QQ."
       ]
     },
-    "new_donor_ids": [
-      "1712_kan"
-    ]
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -216,9 +215,127 @@
       "id": "1712_kan",
       "name": "**侃",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260628061657_1712_kan.webp"
+    },
+    {
+      "id": "5124_yuan",
+      "name": "*圆",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260720222055_5124_yuan.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "pt-BR": [
+              "Adicionado suporte ao Memos 0.31 para navegar, criar e pesquisar espaços",
+              "Adicionada a fixação de notas para exibir notas selecionadas nas telas inicial e de bloqueio de dispositivos móveis",
+              "Adicionada a opção de marcar tarefas como concluídas diretamente nos widgets da tela inicial do Android e suporte a Atividades ao Vivo na tela bloqueada do iOS",
+              "Adicionado desbloqueio biométrico em dispositivos móveis (problema conhecido: o bloqueio do aplicativo não funciona corretamente)",
+              "Adicionada memória da página de etiquetas: novas notas criadas em uma etiqueta recebem essa etiqueta automaticamente"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Melhorado o carregamento de listas com notas longas e adicionados modos de pré-visualização Markdown completo e rápido",
+              "Melhorada a atualização incremental da lista de notas para reduzir a cintilação da página inteira",
+              "Melhorado o compartilhamento por aplicativos de terceiros, com proteção dos rascunhos em edição e orientações para ativação",
+              "Melhorada a renderização da tela Explorar",
+              "Melhorados os atalhos ao deslizar para a esquerda, mantendo todas as ações no menu Mais",
+              "Melhorado o dimensionamento da janela de entrada rápida do Windows em telas de alta DPI"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "pt-BR": [
+              "Corrigido o modo noturno dos widgets do Android",
+              "Corrigidas as solicitações de permissão e o agendamento local de notificações de lembrete nas plataformas Apple",
+              "Corrigidos problemas de compatibilidade de conexão WebDAV e de detecção de backups de bibliotecas locais"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.39",
+      "date": "2026-08-14",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "pt-BR": [
+              "Adicionadas ações de deslizar para a esquerda nas notas, personalizáveis no Laboratório",
+              "Adicionada compatibilidade com a API 0.30",
+              "Adicionada uma opção para exportar logs na tela de login",
+              "Adicionada uma fonte de código aberto para o app"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Aprimorada a exibição de tags nos cartões Memo",
+              "Aprimorada a seleção de texto no editor clássico"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "pt-BR": [
+              "Corrigido o desligamento automático da tela durante gravações",
+              "Corrigido o layout do endereço do servidor WebDAV"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.38",
+      "date": "2026-07-20",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "pt-BR": [
+              "Pegadas agora pode mostrar notas no mapa",
+              "Modo local agora suporta sincronização em LAN",
+              "Nova visualização em cascata",
+              "Novo editor em modo de escrita para textos longos"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "pt-BR": [
+              "Notas adesivas aprimoradas com barra de ferramentas, gerenciamento de notas, exibição do código-fonte, upload de anexos e lembretes de notificação",
+              "Login aprimorado com opção para ignorar a validação de certificado",
+              "Edição aprimorada com suporte para ocultar a entrada de voz",
+              "Busca avançada aprimorada com filtros por origem da nota e identificadores de conteúdo",
+              "Canal de feedback unificado em um formulário do Feishu"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "pt-BR": [
+              "Corrigidos erros de estatísticas e filtragem de tags principais"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.35",
       "date": "2026-06-28",

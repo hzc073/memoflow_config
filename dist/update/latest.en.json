@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
     }
   },
   "notice_enabled": false,
@@ -30,16 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.35",
+      "id": "update-android-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "android"
@@ -52,16 +52,16 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.35",
+      "id": "update-windows-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "windows"
@@ -73,18 +73,17 @@
     }
   ],
   "announcement": {
-    "id": "20260628061941125",
+    "id": "20261116133350000",
     "title": "Release Notes",
     "show_when_up_to_date": false,
     "contents": {
       "en": [
-        "Added quick record via Android floating window",
-        "Added sticky notes on desktop"
+        "Added Memos 0.31 support, note pinning, and widget interactions, with improvements to lists, sharing, and display.",
+        "Known issue: App Lock does not work properly!",
+        "The macOS version has not passed review. Users who need installers for Apple platforms can obtain them by joining the QQ group."
       ]
     },
-    "new_donor_ids": [
-      "1712_kan"
-    ]
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -216,9 +215,127 @@
       "id": "1712_kan",
       "name": "**侃",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260628061657_1712_kan.webp"
+    },
+    {
+      "id": "5124_yuan",
+      "name": "*圆",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260720222055_5124_yuan.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added Memos 0.31 support for browsing, creating, and searching spaces",
+              "Added note pinning to display selected notes on mobile home and lock screens",
+              "Added support for checking off tasks directly in Android home screen widgets and for iOS Lock Screen Live Activities",
+              "Added biometric unlock on mobile devices (known issue: App Lock does not work properly)",
+              "Added tag-page memory: new notes created under a tag automatically include that tag"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Improved list loading for long notes and added full and quick Markdown preview modes",
+              "Improved incremental note-list refreshes to reduce full-page flickering",
+              "Improved third-party sharing to protect editing drafts and provide setup guidance",
+              "Improved rendering on the Explore screen",
+              "Improved swipe-left shortcuts while keeping all actions in the More menu",
+              "Improved scaling of the Windows quick-input window on high-DPI displays"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed night mode in Android widgets",
+              "Fixed permission requests and local scheduling for reminder notifications on Apple platforms",
+              "Fixed WebDAV connection compatibility and discovery of local-library backups"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.39",
+      "date": "2026-08-14",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Added swipe-left actions for notes, customizable in Labs",
+              "Added support for the 0.30 API",
+              "Added a log export entry point to the login page",
+              "Added an open-source font for the app"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Improved tag display on Memo cards",
+              "Improved text-selection interactions in the classic editor"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed the screen turning off automatically during recording",
+              "Fixed the WebDAV server address layout"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.38",
+      "date": "2026-07-20",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "en": [
+              "Footprints can show notes on the map",
+              "Local mode now supports LAN sync",
+              "Added waterfall view",
+              "Added a writing-mode editor for long-form writing"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "en": [
+              "Improved sticky notes with a toolbar, note management, source display, attachment uploads, and notification reminders",
+              "Improved login with an option to ignore certificate validation",
+              "Improved editing with support for hiding the voice entry point",
+              "Improved advanced search with filters for note source and content identifiers",
+              "Unified the feedback channel to a Feishu form"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "en": [
+              "Fixed incorrect parent tag statistics and filtering"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.35",
       "date": "2026-06-28",

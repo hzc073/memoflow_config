@@ -1,0 +1,46 @@
+{
+  "id": "20261116133350000",
+  "locale": "en",
+  "title": "Release Notes",
+  "summary": [
+    "Added Memos 0.31 support, note pinning, and widget interactions, with improvements to lists, sharing, and display.",
+    "Known issue: App Lock does not work properly!",
+    "The macOS version has not passed review. Users who need installers for Apple platforms can obtain them by joining the QQ group."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Added Memos 0.31 support for browsing, creating, and searching spaces",
+        "Added note pinning to display selected notes on mobile home and lock screens",
+        "Added support for checking off tasks directly in Android home screen widgets and for iOS Lock Screen Live Activities",
+        "Added biometric unlock on mobile devices (known issue: App Lock does not work properly)",
+        "Added tag-page memory: new notes created under a tag automatically include that tag"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Improved list loading for long notes and added full and quick Markdown preview modes",
+        "Improved incremental note-list refreshes to reduce full-page flickering",
+        "Improved third-party sharing to protect editing drafts and provide setup guidance",
+        "Improved rendering on the Explore screen",
+        "Improved swipe-left shortcuts while keeping all actions in the More menu",
+        "Improved scaling of the Windows quick-input window on high-DPI displays"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Fixed night mode in Android widgets",
+        "Fixed permission requests and local scheduling for reminder notifications on Apple platforms",
+        "Fixed WebDAV connection compatibility and discovery of local-library backups"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "a20091268318c265e5ab45fb8be2cac82da83e016c250ae8b41058ec3071af42",
+    "status": "reviewed"
+  }
+}

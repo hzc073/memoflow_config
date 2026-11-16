@@ -1,0 +1,46 @@
+{
+  "id": "20261116133350000",
+  "locale": "de",
+  "title": "Versionshinweise",
+  "summary": [
+    "Unterstützung für Memos 0.31, das Anheften von Notizen und Widget-Aktionen hinzugefügt sowie Listen, Teilen und Darstellung verbessert.",
+    "Bekanntes Problem: Die App-Sperre funktioniert nicht richtig!",
+    "Die macOS-Version hat die Prüfung nicht bestanden. Installationspakete für Apple-Plattformen sind über die QQ-Gruppe erhältlich."
+  ],
+  "items": [
+    {
+      "category": "feature",
+      "contents": [
+        "Unterstützung für Memos 0.31 zum Durchsuchen, Erstellen und Suchen von Spaces hinzugefügt",
+        "Anheften von Notizen hinzugefügt, um ausgewählte Notizen auf dem Start- und Sperrbildschirm mobiler Geräte anzuzeigen",
+        "Direktes Abhaken von Aufgaben in Android-Startbildschirm-Widgets und Live-Aktivitäten auf dem iOS-Sperrbildschirm hinzugefügt",
+        "Biometrisches Entsperren auf Mobilgeräten hinzugefügt (bekanntes Problem: Die App-Sperre funktioniert nicht richtig)",
+        "Merken der Tag-Seite hinzugefügt: Neue Notizen, die unter einem Tag erstellt werden, erhalten diesen Tag automatisch"
+      ]
+    },
+    {
+      "category": "improvement",
+      "contents": [
+        "Laden von Listen mit langen Notizen verbessert und vollständige sowie schnelle Markdown-Vorschaumodi hinzugefügt",
+        "Inkrementelle Aktualisierung der Notizliste verbessert, um das Flackern der gesamten Seite zu reduzieren",
+        "Teilen über Drittanbieter-Apps verbessert, Entwürfe während der Bearbeitung geschützt und eine Anleitung zur Aktivierung hinzugefügt",
+        "Darstellung der Entdecken-Ansicht verbessert",
+        "Schnellaktionen beim Wischen nach links verbessert; alle Aktionen bleiben im Menü „Mehr“ verfügbar",
+        "Skalierung des Windows-Schnelleingabefensters auf Displays mit hoher DPI verbessert"
+      ]
+    },
+    {
+      "category": "fix",
+      "contents": [
+        "Nachtmodus der Android-Widgets korrigiert",
+        "Berechtigungsanfragen und lokale Planung von Erinnerungsbenachrichtigungen auf Apple-Plattformen korrigiert",
+        "Probleme mit der WebDAV-Verbindungskompatibilität und dem Auffinden von Sicherungen lokaler Bibliotheken behoben"
+      ]
+    }
+  ],
+  "translation": {
+    "source_locale": "zh-Hans",
+    "source_hash": "a20091268318c265e5ab45fb8be2cac82da83e016c250ae8b41058ec3071af42",
+    "status": "reviewed"
+  }
+}

@@ -2,11 +2,11 @@
   "schema_version": 3,
   "version_info": {
     "android": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "publish_at": "2026-11-16T13:33:50Z"
     },
     "ios": {
       "latest_version": "1.0.14",
@@ -16,11 +16,11 @@
       "publish_at": "2026-02-21T00:00:00Z"
     },
     "windows": {
-      "latest_version": "1.0.35",
+      "latest_version": "1.0.41",
       "force_update": false,
       "update_source": "full",
-      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "publish_at": "2026-06-28T06:17:37.047Z"
+      "url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "publish_at": "2026-11-16T13:33:50Z"
     }
   },
   "notice_enabled": false,
@@ -30,16 +30,16 @@
   "notices": [],
   "updates": [
     {
-      "id": "update-android-full-1.0.35",
+      "id": "update-android-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "android",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35-full-arm64-v8a-release.apk",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41-full-arm64-v8a-release.apk",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "android"
@@ -52,16 +52,16 @@
       }
     },
     {
-      "id": "update-windows-full-1.0.35",
+      "id": "update-windows-full-1.0.41",
       "status": "public",
       "priority": 0,
       "platform": "windows",
       "channel": "full",
-      "version": "1.0.35",
+      "version": "1.0.41",
       "force": false,
-      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.35/MemoFlow_v1.0.35_windows_x64_setup.exe",
-      "release_note_id": "20260628061941125",
-      "publish_at": "2026-06-28T06:17:37.047Z",
+      "download_url": "https://github.com/hzc073/memoflow/releases/download/v1.0.41/MemoFlow_v1.0.41_windows_x64_setup.exe",
+      "release_note_id": "20261116133350000",
+      "publish_at": "2026-11-16T13:33:50Z",
       "audience": {
         "platforms": [
           "windows"
@@ -73,18 +73,17 @@
     }
   ],
   "announcement": {
-    "id": "20260628061941125",
+    "id": "20261116133350000",
     "title": "Versionshinweise",
     "show_when_up_to_date": false,
     "contents": {
       "de": [
-        "Neue Schnellnotiz-Funktion für Android-Schwebefenster",
-        "Neue Haftnotiz-Funktion für Desktop"
+        "Unterstützung für Memos 0.31, das Anheften von Notizen und Widget-Aktionen hinzugefügt sowie Listen, Teilen und Darstellung verbessert.",
+        "Bekanntes Problem: Die App-Sperre funktioniert nicht richtig!",
+        "Die macOS-Version hat die Prüfung nicht bestanden. Installationspakete für Apple-Plattformen sind über die QQ-Gruppe erhältlich."
       ]
     },
-    "new_donor_ids": [
-      "1712_kan"
-    ]
+    "new_donor_ids": []
   },
   "donors": [
     {
@@ -216,9 +215,127 @@
       "id": "1712_kan",
       "name": "**侃",
       "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260628061657_1712_kan.webp"
+    },
+    {
+      "id": "5124_yuan",
+      "name": "*圆",
+      "avatar": "https://juanzeng.hzc073.com/memoflow/assets/20260720222055_5124_yuan.webp"
     }
   ],
   "release_notes": [
+    {
+      "version": "1.0.41",
+      "date": "2026-11-16",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "de": [
+              "Unterstützung für Memos 0.31 zum Durchsuchen, Erstellen und Suchen von Spaces hinzugefügt",
+              "Anheften von Notizen hinzugefügt, um ausgewählte Notizen auf dem Start- und Sperrbildschirm mobiler Geräte anzuzeigen",
+              "Direktes Abhaken von Aufgaben in Android-Startbildschirm-Widgets und Live-Aktivitäten auf dem iOS-Sperrbildschirm hinzugefügt",
+              "Biometrisches Entsperren auf Mobilgeräten hinzugefügt (bekanntes Problem: Die App-Sperre funktioniert nicht richtig)",
+              "Merken der Tag-Seite hinzugefügt: Neue Notizen, die unter einem Tag erstellt werden, erhalten diesen Tag automatisch"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "de": [
+              "Laden von Listen mit langen Notizen verbessert und vollständige sowie schnelle Markdown-Vorschaumodi hinzugefügt",
+              "Inkrementelle Aktualisierung der Notizliste verbessert, um das Flackern der gesamten Seite zu reduzieren",
+              "Teilen über Drittanbieter-Apps verbessert, Entwürfe während der Bearbeitung geschützt und eine Anleitung zur Aktivierung hinzugefügt",
+              "Darstellung der Entdecken-Ansicht verbessert",
+              "Schnellaktionen beim Wischen nach links verbessert; alle Aktionen bleiben im Menü „Mehr“ verfügbar",
+              "Skalierung des Windows-Schnelleingabefensters auf Displays mit hoher DPI verbessert"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "de": [
+              "Nachtmodus der Android-Widgets korrigiert",
+              "Berechtigungsanfragen und lokale Planung von Erinnerungsbenachrichtigungen auf Apple-Plattformen korrigiert",
+              "Probleme mit der WebDAV-Verbindungskompatibilität und dem Auffinden von Sicherungen lokaler Bibliotheken behoben"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.39",
+      "date": "2026-08-14",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "de": [
+              "Wischaktionen nach links für Notizen hinzugefügt; die Aktionen können im Labor angepasst werden",
+              "Unterstützung für die 0.30-API hinzugefügt",
+              "Protokollexport auf der Anmeldeseite hinzugefügt",
+              "Eine Open-Source-Schriftart für die App hinzugefügt"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "de": [
+              "Tag-Darstellung auf Memo-Karten verbessert",
+              "Textauswahl im klassischen Editor verbessert"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "de": [
+              "Automatische Bildschirmabschaltung während der Aufnahme behoben",
+              "Layout der WebDAV-Serveradresse korrigiert"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0.38",
+      "date": "2026-07-20",
+      "items": [
+        {
+          "category": "feature",
+          "contents": {
+            "de": [
+              "Footprints kann Notizen auf der Karte anzeigen",
+              "Der lokale Modus unterstützt jetzt LAN-Synchronisierung",
+              "Neue Wasserfallansicht",
+              "Neuer Schreibmodus-Editor für längere Texte"
+            ]
+          }
+        },
+        {
+          "category": "improvement",
+          "contents": {
+            "de": [
+              "Haftnotizen verbessert: Toolbar, Notizverwaltung, Quelltextanzeige, Anhang-Uploads und Benachrichtigungen",
+              "Login verbessert: Option zum Ignorieren der Zertifikatsprüfung hinzugefügt",
+              "Bearbeitung verbessert: Spracheingabe-Einstieg kann ausgeblendet werden",
+              "Erweiterte Suche verbessert: Filter nach Notizquelle und Inhaltskennzeichnung",
+              "Feedback-Kanal auf ein Feishu-Formular vereinheitlicht"
+            ]
+          }
+        },
+        {
+          "category": "fix",
+          "contents": {
+            "de": [
+              "Fehler bei Statistik und Filterung von übergeordneten Tags behoben"
+            ]
+          }
+        }
+      ]
+    },
     {
       "version": "1.0.35",
       "date": "2026-06-28",
